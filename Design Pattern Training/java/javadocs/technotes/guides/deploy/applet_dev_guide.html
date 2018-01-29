@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta content="text/html; charset=us-ascii" http-equiv="Content-Type"/>
+<meta content="text/css" http-equiv="Content-Style-Type"/>
+<meta content="text/javascript" http-equiv="Content-Script-Type"/>
+<title>Applet Development Guide</title>
+<meta content="Oracle DARB XHTML Converter (Mode = document) - Version 1.0.24" name="generator"/>
+<meta content="2014-08-01T17:38:36Z" name="date"/>
+<meta content="This topic provides information about developing and deploying Java applets. Java applets use Java Plug-in technology to run in a browser." name="description"/>
+<meta content="noarchive" name="robots"/>
+<meta content="Applet Development Guide" name="doctitle"/>
+<meta content="Release 8u20" name="relnum"/>
+<meta content="E50259-01" name="partnum"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="../../../technotes/css/guide.css" />
+</head>
+<body>
+<!-- STATIC HEADER -->
+
+<!-- header start -->
+<div id="javaseheader">
+<div id="javaseheaderlogo">
+<img src="../../../images/javalogo.gif"
+alt="Java logo" />
+</div>
+<div id="javaseheaderindex">
+
+<a href=
+"../../../index.html">Documentation Contents</a>
+</div>
+<div class="clear"></div>
+</div>
+
+<!-- header end -->
+
+
+<b>Java Platform, Standard Edition Deployment Guide</b><br/>
+
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="part_develop.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="preloaders.html">
+                Next</a><hr/><a id="CIACGFAJ" name="CIACGFAJ"/><a id="JSDPG696" name="JSDPG696"/>
+<h1><span>11</span> Applet Development Guide</h1>
+<a id="JSDPG697" name="JSDPG697"/>
+<p>This topic provides information about developing and deploying Java applets. Java applets use Java Plug-in technology to run in a browser.</p>
+<p>This topic contains the following sections:</p>
+<ul>
+<li>
+<p><a href="#A998882">Section 11.1, "Overview"</a></p>
+</li>
+<li>
+<p><a href="#A1148524">Section 11.2, "Java Plug-In and Applet Architecture"</a></p>
+</li>
+<li>
+<p><a href="#A1149935">Section 11.3, "Applet Deployment Parameters"</a></p>
+</li>
+<li>
+<p><a href="#A998778">Section 11.4, "Applet Status And Event Handlers"</a></p>
+</li>
+</ul>
+<a id="A998882" name="A998882"/><a id="JSDPG698" name="JSDPG698"/>
+<div>
+<h2><span>11.1</span> Overview</h2>
+<p>Java Plug-in technology (hereafter the "Java Plug-in"), which is included in the Java Runtime Environment (JRE), enables Java applets to run in web browsers on the desktop. The Java Plug-in provides powerful capabilities to applets in the web browser, while improving the overall reliability and functionality of applets in a backward-compatible manner.</p>
+<p>The Java Plug-in runs one or more Java virtual machine instances (JVMs) that connect back to the browser for full interoperability with the surrounding web page. This architectural change offers many advantages and features:</p>
+<ul>
+<li>
+<p>The JVM running the applet is isolated from the web browser at the operating system level. If something should go wrong while running the applet, or if an uncooperative applet refuses to shut down, the Java Plug-in detects and handles the error condition gracefully; the web browser is unaffected.</p>
+<p>The Java Plug-in starts applets in the background, so the web browser always remains responsive. Applets appear on the web page as they become ready to run.</p>
+</li>
+<li>
+<p>The Java Plug-in offers the capability to launch applets directly from JNLP files, unifying deployment of Java content both in the browser and out of the browser (via Java Web Start). Developers can reuse JNLP extensions for advanced functionality. Applets can access JNLP APIs for persistent data storage, local file system access, and other useful functionality from sandboxed code.</p>
+</li>
+<li>
+<p>The bridge between the JavaScript engine in the web browser and the Java programming language is backward-compatible and features reliability, performance, and cross-browser portability for both Java applets calling JavaScript code as well as JavaScript code calling Java applets.</p>
+</li>
+<li>
+<p>Applets can utilize as much heap space as command-line applications.</p>
+</li>
+<li>
+<p>JVM command-line arguments may be specified in the HTML of the web page on a per-applet basis, providing fine-grained control over options such as the heap size and Java 2D hardware acceleration features.</p>
+</li>
+<li>
+<p>Each applet instance can request a different JRE version on which to run. Both selection of a specific JRE version, or any in a particular family, are supported in the Java Plug-in.</p>
+</li>
+</ul>
+<p>See the <a href="http://docs.oracle.com/javase/tutorial/deployment/applet/index.html">Applet Development Tutorial</a>, a comprehensive Java Tutorial that explains various aspects of applet development and deployment.</p>
+</div>
+
+<a id="A1148524" name="A1148524"/><a id="JSDPG699" name="JSDPG699"/>
+<div>
+<h2><span>11.2</span> Java Plug-In and Applet Architecture</h2>
+<p>This section describes how the Java Plug-in controls the execution of applets and interactions between applets and the browser.</p>
+<a id="JSDPG700" name="JSDPG700"/>
+<div><a id="sthref240" name="sthref240"/>
+<h3><span>11.2.1</span> Java Runtime Environment</h3>
+<p>With the Java Plug-in, applets are not run in the JVM inside the browser. Instead, they are executed in a separate process. The same JVM process can be shared between multiple applets, or applets can be placed into different processes depending on whether the existing JVMs match the applet requirements and have enough resources to execute the applet. An applet can request a specific version of the JRE to be used and can specify what options to pass to the JVM. An applet can also request to be executed in the separate JVM.</p>
+<p>The browser and the applet can still communicate with one another, however. Existing APIs have been re-engineered to use process sockets, so everything continues to work as it did before, only better. This architecture provides a number of benefits:</p>
+<ul>
+<li>
+<p>Applets that require different versions of the JRE can run simultaneously.</p>
+</li>
+<li>
+<p>Applets can specify JRE start-up parameters such as heap size. (A new applet uses an existing JRE if it's requirements are a subset of an existing JRE, otherwise, a new JRE instance is launched.);</p>
+</li>
+<li>
+<p>The message-passing interfaces are written in Java, so they run on all supported platforms, in the same way, so cross-browser compatibility is enhanced.</p>
+</li>
+</ul>
+<p>With that architecture, a new JRE can be launched whenever it is needed. However, an applet runs in an existing JRE when the following conditions are met:</p>
+<ol>
+<li>
+<p>The JRE version required by the applet matches an existing JRE.</p>
+</li>
+<li>
+<p>The launch parameters for the JRE satisfy the applet's requirements.</p>
+</li>
+</ol>
+<div align="center">
+<div><br/>
+<table border="1" cellpadding="3" cellspacing="0" frame="hsides" rules="groups" summary="" width="80%">
+<tbody>
+<tr>
+<td align="left">
+<p><b>Note:</b></p>
+<ul>
+<li>
+<p>If two applets each require a large amount of memory, they might both run in the same JRE, causing one of them to run out of memory. But that's only a concern when you have multiple applets running simultaneously.</p>
+</li>
+<li>
+<p>Particular versions of JRE can be marked as unavailable to the plugin by disabling them in the Java Control Panel.</p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+</div>
+</div>
+
+<a id="JSDPG701" name="JSDPG701"/>
+<div><a id="sthref241" name="sthref241"/>
+<h3><span>11.2.2</span> Java Runtime Environment Version Selection</h3>
+<p>On all platforms, the Java Plug-in locates JREs to use from the entries listed in the Java Control Panel ("Java" tab, "View" button). The available JREs in this list are encoded in the <code>deployment.properties</code> file whose location is platform-dependent. On the Windows platform, it is generally located in <code>C:\Users\[username]\AppData\LocalLow\Sun\Java\Deployment</code>. On Solaris, Linux, and OS X platforms, it is generally located in <code>~/.java/deployment/deployment.properties</code>.</p>
+<p>On Windows platforms, both the Java Control Panel and the Java Plug-in automatically detect the installed JREs and add them to the available set. On Solaris, Linux, and OS X platforms, auto-detection of installed JREs is not supported. The Java Runtime Environment Settings dialog, which is accessed by clicking View in the Java tab of the Java Control Panel, can be used to manually add JREs to the known list for the Java Plug-in.</p>
+<p>By default, the Java Plug-in executes all applets in the latest JRE version named in this list. The Java Plug-in executes an applet on an earlier JRE version only if explicitly requested.</p>
+<p>When considering a request to launch an applet on a specific JRE version (for example, a particular update release like "1.5.0_11"):</p>
+<ol>
+<li>
+<p>The list of available JREs is consulted. If there is an exact match of the version string, that JRE version is selected. Otherwise, if there are one or more installed JREs in the same family, the latest version is selected. Otherwise, the latest available JRE on the machine is selected.</p>
+</li>
+<li>
+<p>The selected JRE version is compared against the security baseline for the family. (See <a href="http://www.oracle.com/technetwork/java/javase/family-clsid-140615.html">Deploying Java Applets With Family JRE Versions in Java Plug-in for Internet Explorer</a> for more information.) If it is equal to or more recent than that version, no further prompting is done and the applet is launched.</p>
+</li>
+<li>
+<p>Otherwise, the code for the applet is downloaded in a JVM instance of the selected JRE version. If the applet is signed and the user accepts the security dialog for the applet (or the code source has already been trusted), no further prompting is done and the applet is launched.</p>
+</li>
+<li>
+<p>Otherwise, we are dealing with an unsigned applet on an "older" JRE version. A dialog box is presented indicating that this applet is requesting to run on top of an older JRE release, and asks the user whether he or she wants to allow it to. If the user clicks "yes", the applet is launched. If the user clicks "no", the applet is re-launched on top of the latest available JRE version.</p>
+</li>
+</ol>
+<p>When considering a request to launch an applet on a particular family, the most recent JRE from that family will be selected and the above steps starting from (2) will be followed.</p>
+<p>When considering a request to launch an applet on a particular family or any later family, the latest available JRE will be used to launch the applet.</p>
+</div>
+
+<a id="JSDPG702" name="JSDPG702"/>
+<div><a id="sthref242" name="sthref242"/>
+<h3><span>11.2.3</span> Thread Considerations</h3>
+<p>A web browser's JavaScript interpreter engine is single thread. The Java Plug-in is capable of managing multiple threads. The Java Plug-in creates a separate worker thread for every applet. Applets themselves may be multi-threaded. Applets making JavaScript to Java calls and vice versa should be designed with the thread related issues in mind.</p>
+<p>The following figure shows the thread interactions between the JavaScript Interpreter, Java Plug-in, and an applet.</p>
+<div><a id="JSDPG703" name="JSDPG703"/><a id="sthref243" name="sthref243"/>
+<p><b><i>Figure 11-1 Thread Interactions</i></b></p>
+<img alt="Description of Figure 11-1 follows" longdesc="img_text/thread_interaction.htm" src="img/thread_interaction.jpg" title="Description of Figure 11-1 follows"/><br/>
+<a href="img_text/thread_interaction.html" id="sthref244" name="sthref244">Description of "Figure 11-1 Thread Interactions"</a><br/>
+<br/></div>
+
+<p>When the JavaScript interpreter is idle, the Java Plug-in executes a JavaScript to Java call on the per applet worker thread (JavaScript Interpreter Not Busy scenario).</p>
+<p>When a Java to Javascript call is in progress and a JavaScript to Java call is made, the latter is executed on the same thread that made the Java to JavaScript call (Round Trip scenario).</p>
+<p>When a thread is executing a Java to JavaScript call, another thread wanting to do the same will be blocked till the first thread has received its result and is done (JavaScript Interpreter Busy scenario)</p>
+<p>In order to avoid thread related issues especially when multiple applets are running simultaneously, keep both Java to JavaScript and JavaScript to Java calls short and avoid round trips, if possible.</p>
+</div>
+
+<a id="JSDPG704" name="JSDPG704"/>
+<div><a id="sthref245" name="sthref245"/>
+<h3><span>11.2.4</span> Classloader Cache and Interaction between Applets</h3>
+<p>Normally, if two applets have the same <code>codebase</code> and <code>archive</code> parameters, they will be loaded by the same class loader instance. This behavior is required for backward compatibility, and is relied on by several real-world applications. The result is that multiple applets on the same web page may access each others' static variables at the Java language level, effectively allowing the multiple applets to be written as though they comprised a single application.</p>
+<p>While this feature enables certain kinds of applications to be conveniently written, it has certain drawbacks. It interferes with termination of applets, in particular when multiple instances of the same applet are active. It makes the programming model for applets more complex, since it is under specified exactly when the static fields of an applet will be re-initialized, and when they will be maintained from run to run of the same applet. It causes imprecise behavior of certain user interface operations within the Java Plug-in due to the inability to identify exactly which applet initiated a particular request.</p>
+<p>For this reason, the Java Plug-in provides a way to opt out of the use of the <a href="#CIAFHACG">Section 11.3.5, "Class Loader Caching"</a> on an applet by applet basis.</p>
+</div>
+
+<a id="JSDPG705" name="JSDPG705"/>
+<div><a id="sthref246" name="sthref246"/>
+<h3><span>11.2.5</span> Applet Garbage Collection</h3>
+<p>Garbage collection occurs on an applet instance immediately after the <code>destroy</code> method finishes. The garbage collection applies to all memory acquired by the applet, <i>except for static variables</i>. Statics are preserved in the classloader cache, along with the classes themselves, for as long as the class loader is present.</p>
+<p>So when does the class loader go away? That behavior is not specified. It's up to the implementation of the Java virtual machine and its interactions with the operating system. You can expect it be retained for as long as possible, but to be discarded when the memory is needed for other purposes.</p>
+</div>
+
+<a id="JSDPG706" name="JSDPG706"/>
+<div><a id="sthref247" name="sthref247"/>
+<h3><span>11.2.6</span> Applet Privileges</h3>
+<p>Sign all applets with a valid certificate from a recognized certificate authority to provide a better user experience. An applet runs in a secure sandbox that prevents it from interacting with the user's system, unless authorized. To obtain that authorization, the applet must request permissions when it is launched and the user must agree to run the applet. Permissions are needed to:</p>
+<ul>
+<li>
+<p>Print</p>
+</li>
+<li>
+<p>Access the file system</p>
+</li>
+<li>
+<p>Access browser cookies</p>
+</li>
+<li>
+<p>Access other system resources</p>
+</li>
+</ul>
+<p>The basic applet security model is an all or nothing proposition. An applet with permissions has full access to the user's system. Without permissions, the applet has virtually no access at all.</p>
+<p>Deployment of applets using JNLP gives the applets access to JNLP APIs similar to Java Web Start applications, which gives the applet controlled access to a user's system, under control of the user. For example, using JNLP provides the ability to save or open a file selected by the user and the ability to print.</p>
+</div>
+
+<a id="JSDPG707" name="JSDPG707"/>
+<div><a id="sthref248" name="sthref248"/>
+<h3><span>11.2.7</span> Proxy Configuration</h3>
+<p>See <a href="deployment_networking.html#CHDDJFFF">Section 28.1, "Proxy Configuration"</a> for details.</p>
+</div>
+
+<a id="JSDPG708" name="JSDPG708"/>
+<div><a id="sthref249" name="sthref249"/>
+<h3><span>11.2.8</span> Security</h3>
+<p>See <a href="client-security.html#BGBGDABB">Chapter 21, "Setting the Security Level of the Java Client"</a> for details.</p>
+</div>
+</div>
+
+<a id="A1149935" name="A1149935"/><a id="JSDPG709" name="JSDPG709"/>
+<div>
+<h2><span>11.3</span> Applet Deployment Parameters</h2>
+<p>Applets can be deployed by hand-coding the <code>applet</code>, <code>object</code> or <code>embed</code> tags with the required parameters. This section describes these parameters. However, to assure cross-browser compatibility, it is recommended that the Deployment Toolkit be used to deploy applets. See <a href="deployment_toolkit.html#BABJHEJA">Chapter 17, "Deployment in the Browser"</a> for information on using the Deployment Toolkit.</p>
+<a id="JSDPG710" name="JSDPG710"/>
+<div><a id="sthref250" name="sthref250"/>
+<h3><span>11.3.1</span> Deployment using JNLP</h3>
+<dl>
+<dt>jnlp_href</dt>
+<dd>
+<p>The file containing information for the plug-in to use to launch the applet.</p>
+</dd>
+</dl>
+</div>
+
+<a id="JSDPG711" name="JSDPG711"/>
+<div><a id="sthref251" name="sthref251"/>
+<h3><span>11.3.2</span> Loading Screen</h3>
+<p>The Java Plug-in offers better customization of the image that is displayed before the applet is loaded. Animated GIFs are supported as the target of the <code>image</code> parameter. Additionally, the following parameters are supported:</p>
+<dl>
+<dt>boxborder</dt>
+<dd>
+<p>A boolean parameter indicating whether a one-pixel border should be drawn around the edge of the applet's area while displaying the image shown before the applet is loaded. Defaults to <code>true</code>. We recommend setting this value to <code>false</code>, in particular when using an animated GIF as the loading image, to avoid the possibility of flicker.</p>
+</dd>
+<dt>centerimage</dt>
+<dd>
+<p>A boolean parameter indicating whether the loading image should be centered within the area of the applet instead of originating at the upper left corner. Defaults to <code>false</code>.</p>
+<p>Example using the <code>boxborder</code> and <code>centerimage</code> parameters:</p>
+<pre xml:space="preserve">
+&lt;APPLET archive="large_archive.jar"
+ code="MyApplet"
+ width="300" height="300"&gt;
+ &lt;!-- Use an animated GIF as an indeterminate progress bar
+ while the applet is loading --&gt;
+ &lt;PARAM NAME="image" VALUE="animated_gif.gif"&gt;
+ &lt;!-- Turn off the box border for better blending with the
+ surrounding web page --&gt;
+ &lt;PARAM NAME="boxborder" VALUE="false"&gt;
+ &lt;!-- Center the image in the applet's area --&gt;
+ &lt;PARAM NAME="centerimage" VALUE="true"&gt;
+ &lt;/APPLET&gt;
+ 
+</pre></dd>
+</dl>
+</div>
+
+<a id="JSDPG712" name="JSDPG712"/>
+<div><a id="sthref252" name="sthref252"/>
+<h3><span>11.3.3</span> Command-line Arguments</h3>
+<dl>
+<dt>java-vm-args</dt>
+<dd>
+<p>Specifies an additional set of standard and non-standard virtual machine arguments that the application prefers the JNLP client to use when launching Java. When both <code>java_arguments</code> and <code>java-vm-args</code> are present, the <code>java-vm-args</code> arguments take precedence.</p>
+</dd>
+<dt>java_arguments</dt>
+<dd>
+<p>Specifies JVM command-line arguments to be used when executing this applet instance. Nearly all JVM command-line arguments are supported, though there are certain rules and restrictions. When both <code>java_arguments</code> and <code>java-vm-args</code> are present, the <code>java-vm-args</code> arguments take precedence.</p>
+<p>The <code>java_arguments</code> option is primarily for the purpose of avoiding a client Java VM relaunch during applet startup. As a good practice, if both <code>java_arguments</code> and <code>java-vm-args</code> are specified, they should contain the same values.</p>
+</dd>
+<dd><a id="CIAJJJCJ" name="CIAJJJCJ"/></dd>
+<dt>separate_jvm</dt>
+<dd>
+<p>A boolean parameter specifying that a particular applet should run in its own JVM instance. This supports certain powerful desktop applets which can not tolerate any interference from other applets running in the same JVM and potentially consuming heap space or other resources.</p>
+<pre xml:space="preserve">
+&lt;APPLET archive="my_applet.jar" code="MyApplet" width="300" height="300"&gt;
+ &lt;PARAM name="java_arguments" value="..."&gt;
+ &lt;PARAM name="separate_jvm" value="true"&gt;
+&lt;/APPLET&gt;
+</pre></dd>
+</dl>
+<a id="JSDPG713" name="JSDPG713"/>
+<div><a id="sthref253" name="sthref253"/>
+<h4><span>11.3.3.1</span> Examples Illustrating the Relationship Between java_arguments and java-vm-args</h4>
+<p><b>Scenario 1:</b>: Both parameters are defined and their values are different.</p>
+<pre xml:space="preserve">
+java_arguments = -Xmx256m
+java-vm-args = -verbose
+</pre>
+<p>Expected behavior on all platforms: <code>-verbose</code>The JVM first launches using the value specified by the <code>java_arguments</code> tag. The client JVM detects the mismatch and relaunches with <code>-verbose</code> only. A warning is printed to the Java console.</p>
+<p><b>Scenario 2</b>: Both parameters are defined, and the values specified in <code>java-vm-args</code> are a subset of those specified in <code>java_arguments</code>.</p>
+<pre xml:space="preserve">
+java_argument = -Xmx256m -verbose
+java-vm-args = -verbose
+</pre>
+<p>Expected behavior on all platforms: <code>-verbose</code>The JVM first launches with the full set of arguments as specified by <code>java_arguments</code>. The client JVM detects the mismatch, and relaunches the smaller set of argument as specified by <code>java-vm-args</code> only. A warning about the parameter mismatch is printed in the Java console.</p>
+<p><b>Scenario 3</b>: The <code>java_arguments</code> tag is defined in the HTML file, but the <code>java-vm-args</code> tag is <i>not</i> defined in the JNLP file.</p>
+<pre xml:space="preserve">
+java_arguments = -Xmx256m
+java-vm-args = [not defined]
+</pre>
+<p>Expected behavior on all platforms: <code>[no jvm params]</code>The JVM first launches with the values specified in <code>java_arguments</code>. The client JVM detects the mismatch and relaunches the JVM with no params. A warning about the parameter mismatch is printed in the Java console.</p>
+<p><b>Scenario 4</b>: The <code>java_arguments</code> tag is not defined in the HTML file, but the <code>java-vm-args</code> tag <i>is</i> defined in the JNLP file.</p>
+<pre xml:space="preserve">
+java_arguments = [not defined]
+java-vm-args = -Xmx256m
+</pre>
+<p>Expected behavior on all platforms: <code>-Xmx256m</code>The JVM first launches with no JVM arguments, as there are none specified in the <code>java_arguments</code> tag. The client JVM detects the mismatch and relaunches the JVM using the values specified in <code>java-vm-args</code>.</p>
+</div>
+
+<a id="JSDPG714" name="JSDPG714"/>
+<div><a id="sthref254" name="sthref254"/>
+<h4><span>11.3.3.2</span> Other Examples</h4>
+<ol>
+<li>
+<p>Specifying a larger-than-default maximum heap size:</p>
+<pre xml:space="preserve">
+&lt;APPLET archive="my_applet.jar" code="MyApplet" width="300" height="300"&gt;
+ &lt;PARAM name="java_arguments" value="-Xmx128m"&gt;
+&lt;/APPLET&gt;
+ 
+</pre></li>
+<li>
+<p>Specifying a non-default heap size and a Java 2D hardware acceleration option typically used for applets using <a href="http://www.opengl.org/">OpenGL</a> via <a href="http://jogamp.org/jogl/www/">Java Binding for the OpenGL API (JOGL)</a>:</p>
+<pre xml:space="preserve">
+&lt;APPLET archive="my_applet.jar" code="MyApplet" width="300" height="300"&gt;
+ &lt;PARAM name="java_arguments" value="-Xmx256m -Dsun.java2d.noddraw=true"&gt;
+&lt;/APPLET&gt;
+ 
+</pre></li>
+<li>
+<p>Enabling verbose output of the garbage collector, and the assertion facility in the Java programming language:</p>
+<pre xml:space="preserve">
+&lt;APPLET archive="my_applet.jar" code="MyApplet" width="300" height="300"&gt;
+ &lt;PARAM name="java_arguments" value="-verbose:gc -ea:MyApplet"&gt;
+&lt;/APPLET&gt;
+ 
+</pre></li>
+</ol>
+<p>A set of "secure" JVM command-line arguments and system properties is defined in the <a href="../javaws/developersguide/syntax.html#resources">JNLP File Syntax</a> section of the <a href="../javaws/developersguide/contents.html">Java Web Start Developers' Guide</a>. In the Java Plug-in, as long as all of the JVM command-line arguments specified via the <code>java_arguments</code> parameter are secure, then the applet, or any classes it loads, may run without permissions.</p>
+<p>Insecure JVM command-line arguments (in other words, those not on the secure list) may also be specified via the <code>java_arguments</code> parameter. In this case, there is the potential for a security risk, so the Java Plug-In enforces the rule that <i>no unsigned classes may be loaded</i>. In other words, only trusted code, for which the user has accepted the security dialog, may be loaded by such a JVM instance. If an attempt is made to load an unsigned or untrusted class in a JVM instance for which insecure system properties have been specified, a <code>ClassNotFoundException</code> will be thrown indicating that the given class could not be loaded because it was not signed.</p>
+<p>There are relatively few restrictions on what command-line arguments may be passed via the <code>java_arguments</code> parameter. In general, the <code>-Xbootclasspath</code> argument is forbidden, as well as any command-line argument used to specify a path, such as <code>-classpath</code> or <code>-jar</code>. All other command-line arguments, present and future, should be supported, with the caveat about secure and insecure command-line arguments described above.</p>
+<p>The command-line arguments passed via the <code>java_arguments</code> parameter are added to any specified via the Java Runtime Environment Settings dialog in the Java Control Panel. The command-line arguments from the control panel are used for all JVM instances of the version for which they are specified; the <code>java_arguments</code> parameters do not completely replace them.</p>
+<p>When JVM command-line arguments are specified, it is likely that the Java Plug-in will need to launch another JVM instance in order to satisfy them. In other words, it is unlikely that a preexisting JVM instance will have been started with the correct set of command-line arguments to satisfy the request. The rules for exactly when a new JVM instance is launched to start a given applet are deliberately left unspecified and may need to change in subsequent releases. Here is a rough set of guidelines for the sharing and creation of new JVM instances:</p>
+<ul>
+<li>
+<p>If the command-line arguments used to start a preexisting JVM instance are a superset of the requested arguments, the preexisting JVM instance will be used.</p>
+</li>
+<li>
+<p>If a JVM instance is launched for the "default" set of command-line arguments (i.e., those specified in the Java Control Panel, with no <code>java_arguments</code> specified), then this JVM instance will <i>never</i> be used to launch any applet that has even one command-line argument specified via <code>java_arguments</code>.</p>
+</li>
+<li>
+<p><code>-Xmx</code> is handled specially: if a preexisting JVM instance was started with for example <code>-Xmx256m</code> via <code>java_arguments</code>, and a new applet requests <code>-Xmx128m</code>, then new applet will very likely be run in the preexisting JVM instance. In other words, <code>-Xmx</code> specifications are matched with a greater-than-or-equal test.</p>
+</li>
+</ul>
+<p>There is no way to "name" a JVM instance used to launch a particular applet and "force" subsequent applets into that JVM instance.</p>
+<p>See the section on the <code><a href="#CIAJJJCJ">separate_jvm</a></code> parameter to isolate a particular applet in its own JVM instance, separate from all other applets.</p>
+</div>
+</div>
+
+<a id="JSDPG715" name="JSDPG715"/>
+<div><a id="sthref255" name="sthref255"/>
+<h3><span>11.3.4</span> JRE Version Selection</h3>
+<dl>
+<dt>java_version</dt>
+<dd>
+<p>Specifies a JRE version upon which to launch a particular applet.</p>
+<p>Use the Deployment Toolkit to specify an older version of the JRE, if needed. In an enterprise environment, the preferred method of requesting an older version of the JRE is to use the Deployment Rule Set feature.</p>
+</dd>
+</dl>
+</div>
+
+<a id="CIAFHACG" name="CIAFHACG"/><a id="JSDPG716" name="JSDPG716"/>
+<div>
+<h3><span>11.3.5</span> Class Loader Caching</h3>
+<dl>
+<dt>classloader_cache</dt>
+<dd>
+<p>The Java Plug-in provides a way to opt out of the use of the class loader cache on an applet by applet basis.</p>
+<pre xml:space="preserve">
+&lt;APPLET archive="my_applet.jar" code="MyApplet" width="300" height="300"&gt;
+ &lt;PARAM name="classloader_cache" value="false"&gt;
+&lt;/APPLET&gt;
+</pre>
+<p>For applets, the default value of the <code>classloader_cache</code> parameter is <code>true</code>; which indicates that class loader caching is enabled. For JNLP applets, class loader caching is disabled.</p>
+</dd>
+</dl>
+</div>
+
+<a id="JSDPG717" name="JSDPG717"/>
+<div><a id="sthref256" name="sthref256"/>
+<h3><span>11.3.6</span> Security</h3>
+<dl>
+<dt>permissions</dt>
+<dd>
+<p>Specifies the level of permissions that the applet needs to run. The following values are valid:</p>
+<ul>
+<li>
+<p><code>sandbox</code> - The applet runs in the security sandbox.</p>
+</li>
+<li>
+<p><code>all-permissions</code> - The applet requires access to resources on the user's system.</p>
+</li>
+<li>
+<p><code>default</code> - The level of permissions is determined by the <code>Permissions</code> attribute in the manifest for the main JAR file.</p>
+</li>
+</ul>
+<pre xml:space="preserve">
+&lt;APPLET archive="my_applet.jar" code="MyApplet" width="300" height="300"&gt;
+ &lt;PARAM name="permissions" value="sandbox" /&gt;
+ &lt;/APPLET&gt;
+</pre>
+<p>If this parameter is omitted, <code>default</code> is assumed. If the parameter is present and not set to <code>default</code>, the value must match the value of the <code>Permissions</code> attribute in the manifest for any JAR file that has the <code>Permissions</code> attribute, otherwise the applet is blocked.</p>
+</dd>
+</dl>
+</div>
+
+<a id="JSDPG718" name="JSDPG718"/>
+<div><a id="sthref257" name="sthref257"/>
+<h3><span>11.3.7</span> Java Cache</h3>
+<p>Files you use in Java applications are stored in a special folder for quick execution later; this folder is also called the Java cache. The subpanel Temporary Internet Files in the General tab of the Java Contro Panel, which is described in <a href="jcp.html#A1152512">Section 18.1, "General,"</a> enables you to view which files are stored in the Java cache and control how much disk space the cache can take up in your computer.</p>
+<dl>
+<dt>cache_archive</dt>
+<dd>
+<p>The <code>cache_archive</code> attribute contains a list of the files to be cached:</p>
+<pre xml:space="preserve">
+&lt;param name="cache_archive" VALUE="a.jar,b.jar,c.jar"&gt;
+</pre>
+<p>Like the archive attribute in the applet tag, the list of jar files in the cache_archive attribute do not contain the full URL, but are always downloaded from the codebase specified in the <code>embed</code> or <code>object</code> tag.</p>
+</dd>
+</dl>
+</div>
+</div>
+
+<a id="A998778" name="A998778"/><a id="JSDPG719" name="JSDPG719"/>
+<div>
+<h2><span>11.4</span> Applet Status And Event Handlers</h2>
+<p>Beginning in the Java SE 7 release, you can check the value of the <code>status</code> variable of an applet while it is being initialized. This check is non-blocking and immediately returns the status of the applet. You can explicitly check the status of the applet while it is loading and perform relevant actions or register event handlers that are automatically invoked during various stages of applet initialization. To use this functionality, deploy the applet with the <code>java_status_events</code> parameter set to <code>true</code>. See the <a href="http://docs.oracle.com/javase/tutorial/deployment/applet/appletStatus.html">Handling Initialization Status With Event Handlers</a> lesson in the Java Tutorials for step by step instructions and an example.</p>
+<a id="JSDPG720" name="JSDPG720"/>
+<div><a id="sthref258" name="sthref258"/>
+<h3><span>11.4.1</span> Applet Status</h3>
+<p><a href="#CIADCBHA">Table 11-1</a> explains the meaning of values returned by the <code>status</code> method of the applet.</p>
+<div><a id="JSDPG721" name="JSDPG721"/><a id="sthref259" name="sthref259"/><a id="CIADCBHA" name="CIADCBHA"/>
+<p>Table 11-1 Applet Status Values and Meaning</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="rows" summary="Meaningof the status values for applets." title="Applet Status Values and Meaning" width="100%">
+<col width="17%"/>
+<col width="18%"/>
+<col width="*"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t3" valign="bottom">Applet Status</th>
+<th align="left" id="r1c2-t3" valign="bottom">Applet Status Variable Value</th>
+<th align="left" id="r1c3-t3" valign="bottom">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t3" id="r2c1-t3">
+<p>LOADING</p>
+</td>
+<td align="left" headers="r2c1-t3 r1c2-t3">
+<p>1</p>
+</td>
+<td align="left" headers="r2c1-t3 r1c3-t3">
+<p>Applet is loading</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t3" id="r3c1-t3">
+<p>READY</p>
+</td>
+<td align="left" headers="r3c1-t3 r1c2-t3">
+<p>2</p>
+</td>
+<td align="left" headers="r3c1-t3 r1c3-t3">
+<p>Applet has loaded completely and is ready to receive JavaScript calls</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t3" id="r4c1-t3">
+<p>ERROR</p>
+</td>
+<td align="left" headers="r4c1-t3 r1c2-t3">
+<p>3</p>
+</td>
+<td align="left" headers="r4c1-t3 r1c3-t3">
+<p>Error while loading applet</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+</div>
+
+<a id="JSDPG722" name="JSDPG722"/>
+<div><a id="sthref260" name="sthref260"/>
+<h3><span>11.4.2</span> Applet Event Handlers</h3>
+<p>You can register event handlers for various events. The Java Plug-in software invokes these event handlers at various stages of the applet loading process. <a href="#CIAHACID">Table 11-2</a> describes applet events for which event handlers can be registered.</p>
+<div><a id="JSDPG723" name="JSDPG723"/><a id="sthref261" name="sthref261"/><a id="CIAHACID" name="CIAHACID"/>
+<p>Table 11-2 Applet Events</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="rows" summary="Applet events and when the even occurs" title="Applet Events" width="100%">
+<col width="31%"/>
+<col width="*"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t4" valign="bottom">Applet Event</th>
+<th align="left" id="r1c2-t4" valign="bottom">When Event Occurs</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r2c1-t4">
+<p><code>onLoad</code></p>
+</td>
+<td align="left" headers="r2c1-t4 r1c2-t4">
+<p>Applet status is READY. Applet has finished loading and is ready to receive JavaScript calls.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r3c1-t4">
+<p><code>onStop</code></p>
+</td>
+<td align="left" headers="r3c1-t4 r1c2-t4">
+<p>Applet has stopped.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r4c1-t4">
+<p><code>onError</code></p>
+</td>
+<td align="left" headers="r4c1-t4 r1c2-t4">
+<p>Applet status is ERROR. An error has occurred while loading the applet.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<p>You can register or determine an event handler in the JavaScript code of a web page as shown in the following code examples:</p>
+<pre xml:space="preserve">
+// use an anonymous function
+applet.onLoad(function() {
+ //event handler for ready state
+}
+
+// use a regular function
+function onLoadHandler() {
+ // event handler for ready state
+}
+
+// Use method form
+applet.onLoad(onLoadHandler);
+
+// Use attribute form
+applet.onLoad = onLoadHandler;
+
+// get current event handler
+var handler = applet.onLoad
+</pre></div>
+</div>
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="part_develop.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="preloaders.html">
+                Next</a><hr/>
+
+
+
+
+
+<!--  footer start -->
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<img id="oraclelogofooter" src=
+"../../../images/oraclelogo.gif" alt="Oracle and/or its affiliates"
+border="0" width="100" height="29" name=
+"oraclelogofooter" />
+
+<a href="../../../legal/cpyr.html">Copyright
+&#169;</a> 1993, 2014, Oracle and/or its affiliates. All rights
+reserved.</div>
+<div id="javasecontactus">
+<a href=
+"http://docs.oracle.com/javase/feedback.html">Contact
+Us</a>
+</div>
+</div>
+<!-- footer end -->
+
+<!-- STATIC FOOTER -->
+
+</body>
+</html>

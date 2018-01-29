@@ -1,0 +1,3035 @@
+============================================================
+./Q01.java
+============================================================
+//Improve the code
+class Order {
+    ...
+    boolean IsSameString(String s1, String s2){
+        if(s1==s2) return true;
+        if(s1==null) return false;
+        return(s1.equals(s2));
+    }
+}
+class Mail {
+    ...
+    static boolean IsSameString(String s1, String s2) {
+        if (s1 == s2)
+            return true;
+        if (s1 == null)
+            return false;
+        return (s1.equals(s2));
+    }
+} 
+============================================================
+./Q011.java
+============================================================
+//Improve the code
+class FoodDB {
+    //find all foods whose names contain both the keywords. returns
+    //an iterator on these foods.
+    public Iterator srchFood(String cName, String eName){
+        //it contains all the foods to be returned.
+        TreeMap foodTree = new TreeMap();
+        Iterator foodList;
+        Food food;
+        foodList = getAllRecords();
+        while (foodList.hasNext()){
+            food = (Food) foodList.next();
+            //do its names contain both keywords?
+            if ((cName==null || //null or "" means no key is specified
+                    cName.equals("") ||
+                    food.getCName().indexOf(cName)!=-1)
+                    &&
+                    (eName==null || //null or "" means no key is specified
+                    eName.equals("") ||
+                    food.getEName().indexOf(eName)!=-1)){
+                foodTree.put(food.getFoodKey(),food);
+            }
+        }
+        return foodTree.values().iterator();
+    }
+} 
+============================================================
+./Q021.java
+============================================================
+class BookRental {
+    String id;
+    String customerName;
+    ...
+}
+class BookRentals {
+    private ArrayList<BookRental> rentals;
+    public String getCustomerName(String rentalId) {
+        for (int i = 0; i < rentals.size(); i++) {
+            BookRental rental = rentals.get(i);
+            if (rental.getId().equals(rentalId)) {
+                return rental.getCustomerName();
+            }
+        }
+        throw new RentalNotFoundException();
+    }
+    public void deleteRental(String rentalId) {
+        for (int i = 0; i < rentals.size(); i++) {
+            BookRental rental = rentals.get(i);
+            if (rental.getId().equals(rentalId)) {
+                rentals.remove(i);
+                return;
+            }
+        }
+        throw new RentalNotFoundException();
+    }
+}
+class RentalNotFoundException extends RuntimeException {
+    ...
+}
+ 
+============================================================
+./Q022.java
+============================================================
+//Improve code
+class Organization {
+    String id;
+    String eName; //English name
+    String cName; //Chinese name
+    String telCountryCode;
+    String telAreaCode;
+    String telLocalNumber;
+    String faxCountryCode;
+    String faxAreaCode;
+    String faxLocalNumber;
+    String contactPersonEFirstName; //First name and last name in English
+    String contactPersonELastName;
+    String contactPersonCFirstName; //First name and last name in Chinese
+    String contactPersonCLastName;
+    String contactPersonTelCountryCode;
+    String contactPersonTelAreaCode;
+    String contactPersonTelNumber;
+    String contactPersonFaxCountryCode;
+    String contactPersonFaxAreaCode;
+    String contactPersonFaxLocalNumber;
+    String contactPersonMobileCountryCode;
+    String contactPersonMobileAreaCode;
+    String contactPersonMobileLocalNumber;
+    ...
+}
+ 
+============================================================
+./Q03.java
+============================================================
+//Improve code
+class ParticipantsInDB {
+    Connection db;
+    ParticipantsInDB(){
+        Class.forName("org.postgresql.Driver");
+        db = DriverManager.getConnection(
+                "jdbc:postgresql://myhost/ConferenceDB",
+                "PaulChan",
+                "myP@ssword");
+    }
+    void addParticipant(Participant part) {
+        PreparedStatement st = db.prepareStatement(
+            "INSERT INTO participants VALUES (?,?,?,?,?,?,?)");
+        try {
+            st.setString(1, part.getId());
+            st.setString(2, part.getEFirstName());
+            st.setString(3, part.getELastName());
+            ...
+            st.executeUpdate();
+        } finally {
+            st.close();
+        }
+    }
+}
+class OrganizationsInDB {
+    Connection db;
+    OrganizationsInDB() {
+        Class.forName("org.postgresql.Driver");
+        db = DriverManager.getConnection(
+            "jdbc:postgresql://myhost/ConferenceDB",
+            "PaulChan",
+            "myP@ssword");
+    }
+    void addOrganization(Organization o) {
+        PreparedStatement st = db.prepareStatement(
+            "INSERT INTO organizations VALUES (?,?,?,?,?,?,?,?,?,?,)");
+        try {
+            st.setString(1, o.getId());
+            st.setString(2, o.getEName());
+            st.setString(3, o.getCName());
+            ...
+            st.executeUpdate();
+        } finally {
+            st.close();
+        }
+    }
+}
+ 
+============================================================
+./Q04.java
+============================================================
+//Improve code
+class ParticipantsInDB {
+    Connection db;
+    void addParticipant(Participant part) {
+        PreparedStatement st = db.prepareStatement(
+            "INSERT INTO participants VALUES (?,?,?,?,?,?,?)");
+        try {
+            st.setString(1, part.getId());
+            ...
+            st.executeUpdate();
+        } finally {
+            st.close();
+        }
+    }
+    void deleteAllParticipants() {
+        PreparedStatement st = db.prepareStatement(
+            "DELETE FROM participants");
+        try {
+            st.executeUpdate();
+        } finally {
+            st.close();
+        }
+    }
+    int getCount() {
+        PreparedStatement st = db.prepareStatement(
+            "SELECT COUNT(*) FROM participants");
+        try {
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } finally {
+            st.close();
+        }
+    }
+}
+ 
+============================================================
+./Q06.java
+============================================================
+//improve code
+class ReportCatalogueIndexCommandParser {
+    final String NO_GROUPING = "orgNoGrouping";
+    static final int ORG_CATALOG = 0;
+    static final int PART_CATALOG = 1;
+    //.... other codes
+    int getGroupingType(String grouping) {
+        if (grouping.equals(NO_GROUPING)) {
+            return ORG_CATALOG;
+        } else if (grouping.equals("orgGroupByCountry")) {
+            return ORG_CATALOG;
+        } else if (grouping.equals("orgGroupByTypeOfOrgName")) {
+            return ORG_CATALOG;
+        } else if (grouping.equals("part")) {
+            return PART_CATALOG;
+        } else if {.... // many other if statements
+        } else
+            throw new IllegalArgumentException("Invalid grouping!");
+	}
+}
+ 
+============================================================
+./Q07.java
+============================================================
+//improve code
+class Restaurant extends Account {
+    //the string "Rest" is concated with the restaurant ID to
+    //form the key.
+    final static String RestaurantIDText = "Rest";
+
+    String website;
+
+    String addr_cn; //address in Chinese.
+    String addr_en; //address in English.
+
+    //the restaurant would like to update its fax # with this. After it is
+    //confirmed, it will be stored in Account. Before that, it is stored
+    //here.
+    String numb_newfax;
+    boolean has_NewFax = false;
+
+    //a list of holidays.
+    Vector Holiday; 
+
+    //id of the category this restaurant belongs to.
+    String catId;
+
+    //a list of business session. Each business session is an array
+    //of two times. The first time is the start time. The second time
+    //is the end time. The restaurant is open for business in each
+    //session.
+    Vector BsHour; //Business hour
+    ...
+    //y: year.
+    //m: month.
+    //d: date.
+    void addHoliday(int y,int m,int d){
+        if(y<1900) y+=1900;
+        Calendar aHoliday = (new GregorianCalendar(y,m,d,0,0,0));
+        Holiday.add(aHoliday);
+    }
+
+    public boolean addBsHour(int fromHr, int fromMin, int toHr, int toMin){
+        int fMin = fromHr*60 + fromMin; //start time in minutes.
+        int tMin = toHr*60 + toMin; //end time in minutes.
+        //make sure both times are valid and the start time is earlier
+        //than the end time.
+        if(fMin >= 0 && fMin <= 1440 && tMin >= 0 && 
+                tMin <=1440 && fMin < tMin){
+            GregorianCalendar bs[] = {
+                new GregorianCalendar(1900,1,1, fromHr, fromMin,0),
+                new GregorianCalendar(1900,1,1, toHr, toMin,0)
+            };
+            BsHour.add(bs);
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+ 
+============================================================
+./Q08.java
+============================================================
+//Improve code.
+//Participant is a value object i.e. It is immutable.
+class ParticipantsInDBTest extends TestCase {
+    ParticipantsInDB p;
+    void setUp() {
+        p=ParticipantsInDB.getInstance();
+    }
+    void tearDown() {
+        ParticipantsInDB.freeInstance();
+    }
+    void testAdd() {
+        Participant part1=new Participant("ABC001","Kent",
+            "Tong",true,"Manager");
+        p.deleteAllParticipants();
+        p.addParticipant(part1);
+        assertEquals(p.getCount(),1);
+    }
+    void testAdd2() {
+        Participant part1=new Participant("ABC001","Kent",
+            "Tong",true,"Manager");
+        Participant part2=new Participant("ABC003","Paul",
+            "Chan",true,"Manager");
+        p.deleteAllParticipants();
+        p.addParticipant(part1);
+        p.addParticipant(part2);
+        assertEquals(p.getCount(),2);
+    }
+    void testEnum() {
+        Participant part1=new Participant("ABC001","Kent","Tong",true,"Manager");
+        Participant part2=new Participant("ABC003","Paul","Chan",true,"Manager");
+        p.deleteAllParticipants();
+        p.addParticipant(part2);
+        p.addParticipant(part1);
+        ParticipantEnumeratorById penum=new ParticipantEnumeratorById();
+        assertTrue(penum.next());
+        assertTrue(penum.get().equals(part1));
+        assertTrue(penum.next());
+        assertTrue(penum.get().equals(part2));
+        assertTrue(!penum.next());
+        penum.close();
+    }
+}
+ 
+============================================================
+./Q10.java
+============================================================
+//Improve the code
+class UIDialogCustomerMain extends JDialog {
+    JButton btnOrderDel;
+    JButton btnCustChangePassword;
+    void bindEvents() {
+        ...
+        btnOrderDel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Dialog d = new UIDialogCustomerDeleteOrder(
+                    UIDialogCustomerMain.this, "Del Order", true);
+                d.pack();
+                d.setLocation(400,200);
+                d.setVisible(true);
+            }
+        });
+        btnCustChangePassword.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Dialog d = new UIChangeAccountPW(
+                    UIDialogCustomerMain.this, "chg pw", true);
+                d.pack();
+                d.setLocation(400,200);
+                d.setVisible(true);
+            }
+        });
+    }
+    ...
+}
+
+class UIDialogRestaurantMain extends JDialog {
+    JButton btnChangePassword;
+    void bindEvents() {
+        ...
+        btnChangePassword.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Dialog d = new UIChangeAccountPW(
+                    UIDialogRestaurantMain.this, "chg pw", true);
+                d.pack();
+                d.setLocation(400,200);
+                d.setVisible(true);
+            }
+        });
+    }
+    ...
+}
+ 
+============================================================
+./Q11.java
+============================================================
+//There are two kinds of rentals i.e. Books and Movies. Improve the code
+public class BookRental {
+    private String bookTitle;
+    private String author;
+    private Date rentDate;
+    private Date dueDate;
+    private double rentalFee;
+    public boolean isOverdue() {
+        Date now=new Date();
+        return dueDate.before(now);
+    }
+    public double getTotalFee() {
+        return isOverdue() ? 1.2*rentalFee : rentalFee;
+    }
+}
+public class MovieRental {
+    private String movieTitle;
+    private int classification;
+    private Date rentDate;
+    private Date dueDate;
+    private double rentalFee;
+    public boolean isOverdue() {
+        Date now=new Date();
+        return dueDate.before(now);
+    }
+    public double getTotalFee() {
+        return isOverdue() ? 1.3*rentalFee : rentalFee;
+    }
+}
+ 
+============================================================
+./Q20Comments.java
+============================================================
+//Improve the code
+class InchToPointConvertor {
+    //convert the quantity in inches to points.
+    static float parseInch(float inch) {
+        return inch * 72; //one inch contains 72 points.
+    }
+}
+ 
+============================================================
+./Q21Comments.java
+============================================================
+//Improve the code
+public class Badge {
+    String pid; //participant ID
+    String engName; //participant's full name in English
+    String chiName; //participant's full name in Chinese
+    String engOrgName; //name of the participant's organization in English
+    String chiOrgName; //name of the participant's organization in Chinese
+    String engCountry; //the organization's country in English
+    String chiCountry; //the organization's country in Chinese
+    //***********************
+    //constructor.
+    //The participant ID is provided. It then loads all the info from the DB.
+    //***********************
+    Badge(String pid) {
+        this.pid = pid;
+        //***********************
+        //get the participant's full names.
+        //***********************
+        ParticipantsInDB partsInDB = ParticipantsInDB.getInstance();
+        Participant part = partsInDB.locateParticipant(pid);
+        if (part != null) {
+            //get the participant's full name in English.
+            engName = part.getELastName() + ", " + part.getEFirstName();
+            //get the participant's full name in Chinese.
+            chiName = part.getCLastName()+part.getCFirstName();
+            //***********************
+            //get the organization's name and country.
+            //***********************
+            OrganizationsInDB orgsInDB = OrganizationsInDB.getInstance();
+            //find the ID of the organization employing this participant.
+            String oid = orgsInDB.getOrganization(pid);
+            if (oid != null) {
+                Organization org = orgsInDB.locateOrganization(oid);
+                engOrgName = org.getEName();
+                chiOrgName = org.getCName();
+                engCountry = org.getEAddress().getCountry();
+                chiCountry = org.getCAddress().getCountry();
+            }
+        }
+    }
+    ...
+}
+ 
+============================================================
+./Q22Comments.java
+============================================================
+//Improve the code
+class Account {
+    ...
+    //check if the password is complex enough, i.e.,
+    //contains letter and digit/symbol.
+    boolean isComplexPassword(String password){
+        //found a digit or symbol?
+        boolean dg_sym_found=false;
+        //found a letter?
+        boolean letter_found=false;
+        for(int i=0; i<password.length(); i++){
+            char c=password.charAt(i);
+            if(Character.isLowerCase(c)||Character.isUpperCase(c))
+                letter_found=true;
+            else dg_sym_found=true;
+        }
+        return (letter_found) && (dg_sym_found);
+    }
+} 
+============================================================
+./Q23Comments.java
+============================================================
+//Improve the code
+class TokenStream {
+    List<String> v; //a list of tokens parsed from br.
+    int index; //index of the current token in v.
+    BufferedReader br; //read the chars from here to parse the tokens.
+    int currentChar; //previous char read from br.
+    //read the chars from the reader and parse the tokens.
+    TokenStream(Reader read) {
+        br = new BufferedReader(read);
+        takeChar();
+        v = parseFile();
+        index=0;
+    }
+    //read the chars from br, parse the tokens and store them into an List
+    List<String> parseFile() {
+        List<String> v; //accumulate the tokens that have been parsed.
+        ...
+        return v;
+    }
+    ...
+} 
+============================================================
+./Q25Comments.java
+============================================================
+//Improve the code
+class Order {
+    String orderId; //order ID.
+    Restaurant r1; //the order is placed for this restaurant.
+    Customer c1; //the order is created by this customer.
+    String address; //Shipping address
+
+    HashMap orderItems; //order items.
+
+    //get the total amount of this order.
+    public double getTotalAmt() {
+        //total amount.
+        BigDecimal amt= new BigDecimal("0.00");
+        //for each order item do...
+        Iterator iter=orderItems.values().iterator();
+        while(iter.hasNext()){
+            //add the amount of the next order item.
+            OrderItem oi=(OrderItem)iter.next();
+            amt = amt.add(new BigDecimal(
+                    String.valueOf(oi.getAmount())));
+        }
+        return amt.doubleValue();
+    }
+}
+ 
+============================================================
+./Q26Demeter.java
+============================================================
+class Board {
+    //...
+    class Piece {
+        //...
+        String representation;
+    }
+	class Location {
+		//...
+		Piece current;
+	}
+	String boardRepresentation() {
+		StringBuffer buf = new StringBuffer();
+		for(Location l : squares())
+			buf.append(l.current.representation.substring(0, 1));
+		return buf.toString();
+	}
+}
+ 
+============================================================
+./Q28Artists.java
+============================================================
+import java.util.List;
+import java.util.Objects;
+
+public class Q28Artists {
+    private final List<Artist> artists;
+    public Q28Artists(List<Artist> artists) {
+        this.artists = artists;
+    }
+    public Artist getArtist(int index) {
+        if ((index < 0) || (index >= artists.size())) return null;
+        return artists.get(index);
+    }
+    public String getArtistName(int index) {
+        try {
+            return getArtist(index).getName();
+        } catch (NullPointerException e) {
+            return null;
+        }
+    }
+    //Improve the design of this class
+}
+
+class Artist {
+    private final String name;
+    public Artist(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+    }
+    public String getName() {
+        return name;
+    }
+}
+ 
+============================================================
+./Q30smell1.java
+============================================================
+//Improve the code
+class Shape {
+    final static int TYPELINE = 0;
+    final static int TYPERECTANGLE = 1;
+    final static int TYPECIRCLE = 2;
+    int shapeType;
+
+    //starting point of the line.
+    //lower left corner of the rectangle.
+    //center of the circle.
+    Point p1;
+
+    //ending point of the line.
+    //upper right corner of the rectangle.
+    //not used for the circle.
+    Point p2;
+
+    int radius;
+}
+class CADApp {
+    void drawShapes(Graphics graphics, Shape shapes[]) {
+        for (int i = 0; i < shapes.length; i++) {
+            switch (shapes[i].getType()) {
+            case Shape.TYPELINE:
+                graphics.drawLine(shapes[i].getP1(), shapes[i].getP2());
+                break;
+            case Shape.TYPERECTANGLE:
+                //draw the four edges.
+                graphics.drawLine(...);
+                graphics.drawLine(...);
+                graphics.drawLine(...);
+                graphics.drawLine(...);
+                break;
+            case Shape.TYPECIRCLE:
+                graphics.drawCircle(shapes[i].getP1(),
+                        shapes[i].getRadius());
+                break;
+            }
+        }
+    }
+}
+ 
+============================================================
+./Q31smell.java
+============================================================
+//Improve the code
+class UserAccount {
+    final static int USERTYPE_NORMAL = 0;
+    final static int USERTYPE_ADMIN  = 1;
+    final static int USERTYPE_GUEST  = 2;
+    int userType;
+
+    String id;
+    String name;
+    String password;
+    Date dateOfLastPasswdChange;
+    public boolean checkPassword(String password) {
+        ...
+    }
+}
+class InventoryApp {
+    void login(UserAccount userLoggingIn, String password) {
+        if (userLoggingIn.checkPassword(password)) {
+            GregorianCalendar today = new GregorianCalendar();
+            GregorianCalendar expiryDate =
+                    getAccountExpiryDate(userLoggingIn);
+            if (today.after(expiryDate)) {
+            //prompt the user to change password
+            ...
+            }
+        }
+    }
+
+    GregorianCalendar getAccountExpiryDate(UserAccount account) {
+        int passwordMaxAgeInDays = getPasswordMaxAgeInDays(account);
+        GregorianCalendar expiryDate = new GregorianCalendar();
+        expiryDate.setTime(account.dateOfLastPasswdChange);
+        expiryDate.add(Calendar.DAY_OF_MONTH, passwordMaxAgeInDays);
+        return expiryDate;
+    }
+
+    int getPasswordMaxAgeInDays(UserAccount account) {
+        switch (account.getType()) {
+        case UserAccount.USERTYPE_NORMAL:
+            return 90;
+        case UserAccount.USERTYPE_ADMIN:
+            return 30;
+        case UserAccount.USERTYPE_GUEST:
+            return Integer.MAX_VALUE;
+        }
+    }
+
+    void printReport(UserAccount currentUser) {
+        boolean canPrint;
+        switch (currentUser.getType()) {
+        case UserAccount.USERTYPE_NORMAL:
+            canPrint = true;
+            break;
+        case UserAccount.USERTYPE_ADMIN:
+            canPrint = true;
+            break;
+        case UserAccount.USERTYPE_GUEST:
+            canPrint = false;
+        }
+        if (!canPrint) {
+            throw new SecurityException("You have no right");
+        } //print the report.
+    }
+}
+
+ 
+============================================================
+./Q32smell.java
+============================================================
+//Improve the code
+class FoodSalesReport {
+    int q0; //how many items of rice sold?
+    int q1; //how many items of noodle sold?
+    int q2; //how many items of drink sold?
+    int q3; //how many items of dessert sold?
+    void LoadData(Connection conn) {
+        PreparedStatement st = conn.prepareStatement("select "+
+            "sum(case when foodType=0 then qty else 0 end) as totalQty0,"+
+            "sum(case when foodType=1 then qty else 0 end) as totalQty1,"+
+            "sum(case when foodType=2 then qty else 0 end) as totalQty2,"+
+            "sum(case when foodType=3 then qty else 0 end) as totalQty3 "+
+            "from foodSalesTable group by foodType");
+        try {
+            ResultSet rs = st.executeQuery();
+            try {
+                rs.next();
+                q0 = rs.getInt("totalQty0");
+                q1 = rs.getInt("totalQty1");
+                q2 = rs.getInt("totalQty2");
+                q3 = rs.getInt("totalQty3");
+            } finally {
+                rs.close();
+            }
+        } finally {
+            st.close();
+        }
+    }
+}
+ 
+============================================================
+./Q33smell.java
+============================================================
+//Improve the code
+class SurveyData {
+    String path; //save the data to this file.
+    boolean hidden; //should the file be hidden?
+    //set the path to save the data according to the type of data (t).
+    void setSavePath(int t) {
+        if (t==0) { //raw data.
+            path = "c:/application/data/raw.dat";
+            hidden = true;
+        } else if (t==1) { //cleaned up data.
+            path = "c:/application/data/cleanedUp.dat";
+            hidden = true;
+        } else if (t==2) { //processed data.
+            path = "c:/application/data/processed.dat";
+            hidden = true;
+        } else if (t==3) { //data ready for publication.
+            path = "c:/application/data/publication.dat";
+            hidden = false;
+        }
+    }
+} 
+============================================================
+./Q34smell.java
+============================================================
+//Improve the code
+class CustomersInDB {
+    Connection conn;
+    Customer getCustomer(String IDNumber) {
+        PreparedStatement st = conn.prepareStatement(
+            "select * from customer where ID=?");
+        try {
+            st.setString(1, IDNumber.replace('-', ' ').replace('(', ' ').
+                replace(')', ' ').replace('/', ' '));
+            ResultSet rs = st.executeQuery();
+            ...
+        } finally {
+            st.close();
+        }
+    }
+    void addCustomer(Customer customer) {
+        PreparedStatement st = conn.prepareStatement(
+            "insert into customer values(?,?,?,?)");
+        try {
+            st.setString(1,customer.getIDNumber().replace('-', ' ').
+                replace('(', ' ').replace(')', ' ').replace('/', ' '));
+            st.setString(2, customer.getName());
+            ...
+            st.executeUpdate();
+            ...
+        } finally {
+            st.close();
+        }
+    }
+}
+ 
+============================================================
+./Q35smell.java
+============================================================
+//Improve the code
+class BookRentals {
+    Vector rentals;
+    int countRentals() {
+        return rentals.size();
+    }
+    BookRental getRentalAt(int i) {
+        return (BookRental)rentals.elementAt(i);
+    }
+    void printOverdueRentals() {
+        int i;
+        for (i=0; i<countRentals(); i++) {
+            BookRental rental = getRentalAt(i);
+            if (rental.isOverdue() &&
+                      ... //Complex condition
+               )
+                System.out.println(rental.toString());
+        }
+    }
+    int countOverdueRentals() {
+        int i, count;
+        count=0;
+        for (i=0; i<countRentals(); i++)
+            if (getRentalAt(i).isOverdue() &&
+                      ... //Same complex condition
+               )
+                count++;
+        return count;
+    }
+} 
+============================================================
+./Q36smell.java
+============================================================
+//Improve the code
+class Currency {
+    final public int USD=0;
+    final public int RMB=1; //Chinese currency
+    final public int ESCUDO=2; //Portuguese currency
+    private int currencyCode;
+    public Currency(int currencyCode) {
+        this.currencyCode=currencyCode;
+    }
+    public String format(int amount) {
+        switch (currencyCode) {
+        case USD:
+            //return something like $1,200
+        case RMB:
+            //return something like RMB1,200
+        case ESCUDO:
+            //return something like $1.200
+        }
+    }
+} 
+============================================================
+./Q37smell.java
+============================================================
+//Improve the code
+class Payment {
+    final static String FOC = "FOC"; //free of charge.
+    final static String TT = "TT"; //paid by telegraphic transfer.
+    final static String CHEQUE = "Cheque"; //paid by cheque.
+    final static String CREDIT_CARD = "CreditCard"; //paid by credit card.
+    final static String CASH = "Cash"; //paid by cash.
+    //type of payment. Must be one of the above constant.
+    String paymentType;
+
+    Date paymentDate; //if FOC, the date the fee is waived.
+    int actualPayment; //if FOC, it is 0.
+    int discount; //if FOC, the amount that is waived.
+    String bankName; //if it is by TT, cheque or credit card.
+    String chequeNumber; //if it is by cheque.
+
+    //if it is by credit card.
+    String creditCardType;
+    String creditCardHolderName;
+    String creditCardNumber;
+    Date creditCardExpiryDate;
+
+    int getNominalPayment() {
+        return actualPayment+discount;
+    }
+
+    String getBankName() {
+        if (paymentType.equals(TT) || paymentType.equals(CHEQUE) ||
+            paymentType.equals(CREDIT_CARD)) {
+            return bankName;
+        }
+        else
+            throw new RuntimeException(
+                "bank name is undefined for this payment type");
+    }
+}
+ 
+============================================================
+./Q38smell.java
+============================================================
+//Improve the code
+class EditPaymentDialog extends JDialog {
+    Payment newPayment; //new payment to be returned.
+    JPanel sharedPaymentDetails;
+    JPanel uniquePaymentDetails;
+    JTextField paymentDate;
+    JComboBox paymentType;
+    JTextField discountForFOC;
+    JTextField bankNameForTT;
+    JTextField actualAmountForTT;
+    JTextField discountForTT;
+    JTextField bankNameForCheque;
+    JTextField chequeNumberForCheque;
+    JTextField actualAmountForCheque;
+    JTextField discountForCheque;
+    ...
+
+    EditPaymentDialog() {
+        //setup the components.
+        Container contentPane = getContentPane();
+        String comboBoxItems[] = { //available payment types.
+            Payment.FOC, Payment.TT, Payment.CHEQUE,
+            Payment.CREDIT_CARD, Payment.CASH };
+
+        //setup the components for the details shared by all types of payment.
+        sharedPaymentDetails = new JPanel();
+        paymentDate = new JTextField();
+        paymentType = new JComboBox(comboBoxItems);
+        sharedPaymentDetails.add(paymentDate);
+        sharedPaymentDetails.add(paymentType);
+        contentPane.add(sharedPaymentDetails, BorderLayout.NORTH);
+
+        //setup the unique components for each type of payment.
+        uniquePaymentDetails = new JPanel();
+        uniquePaymentDetails.setLayout(new CardLayout());
+
+        //setup a panel for FOC payment.
+        JPanel panelForFOC = new JPanel();
+        discountForFOC = new JTextField();
+        panelForFOC.add(discountForFOC);
+        uniquePaymentDetails.add(panelForFOC, Payment.FOC);
+
+        //setup a panel for TT payment.
+        JPanel panelForTT = new JPanel();
+        bankNameForTT = new JTextField();
+        actualAmountForTT = new JTextField();
+        discountForTT = new JTextField();
+        panelForTT.add(bankNameForTT);
+        panelForTT.add(actualAmountForTT);
+        panelForTT.add(discountForTT);
+        uniquePaymentDetails.add(panelForTT, Payment.TT);
+
+        //setup a panel for cheque payment.
+        JPanel panelForCheque = new JPanel();
+        bankNameForCheque = new JTextField();
+        chequeNumberForCheque = new JTextField();
+        actualAmountForCheque = new JTextField();
+        discountForCheque = new JTextField();
+        panelForCheque.add(bankNameForCheque);
+        panelForCheque.add(chequeNumberForCheque);
+        panelForCheque.add(actualAmountForCheque);
+        panelForCheque.add(discountForCheque);
+        uniquePaymentDetails.add(panelForCheque, Payment.CHEQUE);
+
+        //setup a panel for credit card payment.
+        ...
+        //setup a panel for cash payment.
+        ...
+
+        contentPane.add(uniquePaymentDetails, BorderLayout.CENTER);
+    }
+
+    Payment editPayment(Payment payment) {
+        displayPayment(payment);
+        setVisible(true);
+        return newPayment;
+    }
+
+    void displayPayment(Payment payment) {
+        paymentDate.setText(payment.getDateAsString());
+        paymentType.setSelectedItem(payment.getType());
+        if (payment.getType().equals(Payment.FOC)) {
+            discountForFOC.setText(Integer.toString(payment.getDiscount()));
+        }
+        else if (payment.getType().equals(Payment.TT)) {
+            bankNameForTT.setText(payment.getBankName());
+            actualAmountForTT.setText(
+            Integer.toString(payment.getActualAmount()));
+            discountForTT.setText(Integer.toString(payment.getDiscount()));
+        }
+        else if (payment.getType().equals(Payment.CHEQUE)) {
+            bankNameForCheque.setText(payment.getBankName());
+            chequeNumberForCheque.setText(payment.getChequeNumber());
+            actualAmountForCheque.setText(
+            Integer.toString(payment.getActualAmount()));
+            discountForCheque.setText(Integer.toString(payment.getDiscount()));
+        } else if (payment.getType().equals(Payment.CREDIT_CARD)) {
+            //...
+        }
+        else if (payment.getType().equals(Payment.CASH)) {
+            //...
+        }
+    }
+
+    //when the user clicks OK.
+    void onOK() {
+        newPayment = makePayment();
+        dispose();
+    }
+
+    //make a payment from the components.
+    Payment makePayment() {
+        String paymentTypeString = (String) paymentType.getSelectedItem();
+        Payment payment = new Payment(paymentTypeString);
+        payment.setDateAsText(paymentDate.getText());
+        if (paymentTypeString.equals(Payment.FOC)) {
+            payment.setDiscount(Integer.parseInt(discountForFOC.getText()));
+        }
+        else if (paymentTypeString.equals(Payment.TT)) {
+            payment.setBankName(bankNameForTT.getText());
+            payment.setActualAmount(
+            Integer.parseInt(actualAmountForTT.getText()));
+            payment.setDiscount(
+            Integer.parseInt(discountForTT.getText()));
+        }
+        else if (paymentTypeString.equals(Payment.CHEQUE)) {
+            payment.setBankName(bankNameForCheque.getText());
+            payment.setChequeNumber(chequeNumberForCheque.getText());
+            payment.setActualAmount(
+            Integer.parseInt(actualAmountForCheque.getText()));
+            payment.setDiscount(
+            Integer.parseInt(discountForCheque.getText()));
+        } else if (
+            paymentTypeString.equals(Payment.CREDIT_CARD)) {
+            //...
+        }
+        else if (paymentTypeString.equals(Payment.CASH)) {
+            //...
+        }
+        return payment;
+    }
+}
+ 
+============================================================
+./Q39smell.java
+============================================================
+/* This is an embedded application controlling a cooker. 
+ * In every second, it will check if the cooker is over-heated 
+ * (e.g., short-circuited). If yes it will cut itself off the power 
+ * and make an alarm using its built-in speaker. It will also check 
+ * if the moisture inside is lower than a certain threshold 
+ * (e.g., the rice is cooked). If yes, it will turn its built-in heater 
+ * to 50 degree Celsius just to keep the rice warm. 
+ * In the future, you expect that some more things will need to be 
+ * done in every second.
+ * Remove the problem in the code.
+ */
+class Scheduler extends Thread {
+    Alarm alarm;
+    HeatSensor heatSensor;
+    PowerSupply powerSupply;
+    MoistureSensor moistureSensor;
+    Heater heater;
+    public void run() {
+        for (;;) {
+            Thread.sleep(1000);
+            //check if it is overheated.
+            if (heatSensor.isOverHeated()) {
+                powerSupply.turnOff();
+                alarm.turnOn();
+            }
+            //check if the rice is cooked.
+            if (moistureSensor.getMoisture()<60) {
+                heater.setTemperature(50);
+            }
+        }
+    }
+}
+ 
+============================================================
+./Q40smell.java
+============================================================
+/* This application is concerned with the training courses.
+ * The schedule of a course can be expressed in three ways (as of now):
+ *	weekly, range or list.
+ * A weekly schedule is like "every Tuesday for 5 weeks starting
+ *   from Oct. 22".
+ * A range schedule is like "Every day from Oct. 22 to Nov. 3".
+ * A list schedule is like "Oct. 22, Oct. 25, Nov. 3, Nov. 10".
+ * In this exercise we will ignore the time and just assume that it is
+ * always 7:00pm-10:00pm. It is expected that new ways to express the
+ * schedule may be added in the future.
+ * Point out and remove the code smells in the code
+ */
+class Course {
+    static final int WEEKLY=0;
+    static final int RANGE=1;
+    static final int LIST=2;
+    int scheduleType; // WEEKLY, RANGE, or LIST
+
+    String courseTitle;
+
+    int noWeeks; // For WEEKLY.
+    Date fromDate; // for WEEKLY and RANGE.
+    Date toDate; // for RANGE.
+    Date dateList[]; // for LIST.
+
+    int getDurationInDays() {
+        switch (scheduleType) {
+
+        case WEEKLY:
+            return noWeeks;
+
+        case RANGE:
+            int msInOneDay = 24*60*60*1000;
+            return (int)((toDate.getTime()-fromDate.getTime()) /
+                            msInOneDay);
+        case LIST:
+            return dateList.length;
+
+        default:
+            return 0; // unknown schedule type!
+        }
+    }
+    void printSchedule() {
+        switch (scheduleType) {
+        case WEEKLY:
+            //...
+        case RANGE:
+            //...
+        case LIST:
+            //...
+        }
+    }
+}
+ 
+============================================================
+./Q41smell.java
+============================================================
+/* This application is concerned with training courses.
+ * A course has a title, a fee and a list of sessions. However,
+ * sometimes a course can consist of several modules, each of which is a
+ * course. For example, there may be a compound course "Fast track to
+ * becoming a web developer" which consists of three modules: a course
+ * named "HTML", a course named "FrontPage" and a course named "Flash".
+ * It is possible for a module to consist of some other modules.
+ * If a course consists of modules, its fee and schedule are totally
+ * determined by that of its modules and thus it will not maintain
+ * its list of sessions.
+ * Point out and remove the code smells in the code */
+class Session {
+    Date date;
+    int startHour;
+    int endHour;
+    int getDuration() {
+        return endHour-startHour;
+    }
+}
+class Course {
+    String courseTitle;
+    Session sessions[];
+    double fee;
+    Course modules[];
+    Course(String courseTitle, double fee, Session sessions[]) {
+        //...
+    }
+    Course(String courseTitle, Course modules[]) {
+        //...
+    }
+    String getTitle() {
+        return courseTitle;
+    }
+    double getDuration() {
+        int duration=0;
+        if (modules==null)
+            for (int i=0; i<sessions.length; i++)
+                duration += sessions[i].getDuration();
+        else
+            for (int i=0; i<modules.length; i++)
+                duration += modules[i].getDuration();
+        return duration;
+    }
+    double getFee() {
+        if (modules==null)
+            return fee;
+        else {
+            double totalFee = 0;
+            for (int i=0; i<modules.length; i++)
+                totalFee += modules[i].getFee();
+            return totalFee;
+        }
+    }
+    void setFee(int fee) throws Exception {
+    if (modules==null)
+        this.fee = fee;
+    else
+        throw new Exception("Please set the fee of each module one by one");
+    }
+}
+ 
+============================================================
+./Q43smell.java
+============================================================
+// Point out and remove the code smells in the code
+class Customer {
+    String homeAddress;
+    String workAddress;
+}
+class Order {
+    String orderId;
+    Restaurant restaurantReceivingOrder;
+    Customer customerPlacingOrder;
+
+    //"H": deliver to home address of the customer.
+    //"W": deliver to work address of the customer.
+    //"O": deliver to the address specified here.
+    String addressType;
+
+    String otherAddress; //address if addressType is "O".
+    HashMap orderItems;
+
+    public String getDeliveryAddress() {
+        if (addressType.equals("H")) {
+            return customerPlacingOrder.getHomeAddress();
+        } else if (addressType.equals("W")) {
+            return customerPlacingOrder.getWorkAddress();
+        } else if (addressType.equals("O")) {
+            return otherAddress;
+        } else {
+            return null;
+        }
+    }
+} 
+============================================================
+./Q44smell.java
+============================================================
+//We need exclusive access to FILE1 and DATABASE1.
+//New resources will be added later on. The design should be able
+//accomodate these new resource allocation/deallocation easily.
+
+enum ResourceType { FILE1, DATABASE1 }
+public class ra1{
+    public int allocate(ResourceType r) {
+        int resourceId = 0;
+        switch (r) {
+        case FILE1:
+            resourceId = getFreeFile();
+            break;
+        case DATABASE1:
+            resourceId = getFreeDatabase();
+        }
+        return resourceId;
+    }
+
+    public void free(ResourceType r, int resourceId)  {
+        switch (r) {
+        case FILE1:
+            markFileFree(resourceId);
+            break;
+        case DATABASE1:
+            markDatabaseFree(resourceId);
+        }
+    }
+    private void markDatabaseFree(int a){}
+    private void markFileFree(int a) {}
+    private int getFreeFile() {return 0;}
+    private int getFreeDatabase() {return 0;}
+} 
+============================================================
+./Q45ocp.java
+============================================================
+//Suppose you are writing a module to approve personal loans and 
+//before doing that you want to validate the personal information.
+//Later on, its required to approve vehicle loans, consumer goods loans and what not. 
+class LoanApprovalHandler {
+    public void approvePersonalLoan(PersonalLoanValidator validator) {
+        if (validator.isValid()) {
+            //Process the loan.
+        }
+    }
+    public void approveVehicleLoan(VehicleLoanValidator validator) {
+        if (validator.isValid()) {
+            //Process the loan.
+        }
+    }
+    // Methods for approving other loans.
+}
+
+class PersonalLoanValidator {
+    public boolean isValid() {
+        //Validation logic
+    }
+}
+
+class VehicleLoanValidator {
+    public boolean isValid() {
+        //Validation logic
+    }
+}
+ 
+============================================================
+./Q50srp.java
+============================================================
+class Account {
+    final public int SAVING=0;
+    final public int CHEQUE=1;
+    final public int FIXED=2;
+    private int accountType;
+
+    private double balance;
+
+    public double getInterestRate(...) { // Some method;
+        ...
+    }
+
+    public Account(int accountType) {
+        this.accountType=accountType;
+    }
+
+    public double calcInterest() {
+        switch (accountType) {
+        case SAVING:
+            return balance*getInterestRate();
+        case CHEQUE:
+            return 0;
+        case FIXED:
+            return balance*(getInterestRate()+0.02);
+        }
+    }
+}
+ 
+============================================================
+./Q51srp.java
+============================================================
+class Department{
+    final public int Account =0;
+    final public int Marketing = 1;
+    final public int CustomerServices = 2;
+    protected int departmentCode;
+    public Department(int departmentCode){
+        this.departmentCode = departmentCode;
+    }
+    public String getDepartmentName(){
+        switch (departmentCode){
+        case Account:
+            return "Account";
+        case Marketing:
+            return "Marketing";
+        case CustomerServices:
+            return "Customer Services";
+        }
+    }
+}
+ 
+============================================================
+./Q52srp.java
+============================================================
+class NormalPayment {
+    int units;
+    double rate;
+    final double TAX_RATE = 0.1;
+    double getBillableAmount() {
+        double baseAmt = units * rate;
+        double tax = baseAmt * TAX_RATE;
+        return baseAmt + tax;
+    }
+}
+class PaymentForSeniorCitizen {
+    int units;
+    double rate;
+    final double TAX_RATE = 0.1;
+    double getBillableAmount() {
+        double baseAmt = units * rate * 0.8;
+        double tax = baseAmt * (TAX_RATE - 0.05) ;
+        return baseAmt + tax;
+    }
+}
+ 
+============================================================
+./Q53srp.java
+============================================================
+class PianoKey {
+    final static int key0 = 0;
+    final static int key1 = 1;
+    final static int key2 = 2;
+    int keyNumber;
+    public void playSound() {
+        if (keyNumber == 0) {
+            //play the frequency for key0
+        }
+        else if (keyNumber == 1) {
+            //play the frequency for key1
+        }
+        else if (keyNumber == 2) {
+            //play the frequency for key2
+        }
+    }
+	//Function to set keyNumber to key0, key1 or key2
+}
+class Piano {
+    Vector rythmn;
+    public void play() {
+        for(int i=0;i<rythmn.size();i++)
+            ((PianoKey) rythmn.elementAt(i)).playSound();
+    }
+}
+ 
+============================================================
+./Q54srp.java
+============================================================
+class Account {
+    final static int LEVEL_USER = 1;
+    final static int LEVEL_ADMIN = 2;
+    int accountLevel;
+
+    Date expiredDate; // for user account only
+
+    boolean hasLogin; // for admin account only
+}
+class ERPApp {
+    public boolean checkLoginIssue(Account account) {
+        if (account.getLevel() == Account.LEVEL_USER) {
+            // Check the account expired date
+            Date now = new Date();
+            if (account.getExpiredDate().before(now))
+                return false;
+            return true;
+        } else if (account.getLevel() == Account.LEVEL_ADMIN) {
+            // No expired date for admin account
+            // Check multilogin
+            if (account.hasLogin())
+                return false;
+            return true;
+        }
+        return false;
+    }
+} 
+============================================================
+./Q55srp.java
+============================================================
+class Form1 extends JDialog {
+    JComboBox comboBoxReportType;
+    Form1() {
+        comboBoxReportType = new JComboBox();
+        comboBoxReportType.addItem("r1");
+        comboBoxReportType.addItem("r2");
+        ...
+        comboBoxReportType.addItem("r31c");
+    }
+    void processReport1() {
+        //print some fancy report...
+    }
+    void processReport2() {
+        //print another totally different fancy report...
+    }
+    ...
+    void processReport31c() {
+        //print yet another totally different fancy report...
+    }
+    void printReport(String repNo) {
+        if (repNo.equals("r1"))
+            processReport1();
+        else if (repNo.equals("r2"))
+            processReport2();
+            ...
+        else if (repNo.equals("r31c"))
+            processReport31c();
+    }
+    void onPrintClick() {
+        printReport((String) comboBoxReportType.getSelectedItem());
+    }
+}
+ 
+============================================================
+./Q56srp.java
+============================================================
+/* This application is about restaurants. Initially we created a
+ * Restaurant class to represent a restaurant account and
+ * includes information such as its
+ *      name, access password, tel and fax number, address.
+ * The class is like:
+ * class Restaurant { String name, password, telNo, faxNo, address;}
+ *
+ * Later, the following requirements are added in sequence:
+ * 1. After initial registration, the restaurant account is assigned an
+ *    activation code by the system. Only after the user enters the
+ *    activation code, the account will become activated.
+ *    Until then, the account is inactive and login is not allowed.
+ * 2. If the user would like to change the fax number of the account,
+ *    the new fax number will not take effect immediately
+ *    (the existing fax number will remain in effect). Instead,
+ *    the account is assigned an activation code by the system.
+ *    Only after the user enters the activation code, the new fax number
+ *    will take effect.
+ * 3. A restaurant can be marked as in a certain category
+ *    (e.g., Chinese restaurant, Portuguese restaurant and etc.).
+ *    A category is identified by a category ID.
+ * 4. The user can input the holidays for the restaurant.
+ * 5. The user can input the business hours for the restaurant.
+ *
+ * After implementing all these five requirements, the class has grown
+ * significantly and become quite complicated as shown below. Our task
+ * now is to implement the five requirements above in separate classes,
+ * leaving the original simple Restaurant class unchanged.
+ */
+class Restaurant {
+    String name;
+    String password;
+    String telNo;
+    String faxNo;
+    String address;
+    String verificationCode;
+    boolean isActivated;
+    String faxNoToBeConfirmed;
+    boolean isThereFaxNoToBeConfirmed = false;
+    String catId;
+    Vector holidays;
+    Vector businessSessions;
+    void activate(String verificationCode) {
+        isActivated =(this.verificationCode.equals(verificationCode));
+        if (isActivated && isThereFaxNoToBeConfirmed){
+            faxNo = faxNoToBeConfirmed;
+            isThereFaxNoToBeConfirmed = false;
+        }
+    }
+    void setFaxNo(String newFaxNo) {
+        faxNoToBeConfirmed = newFaxNo;
+        isThereFaxNoToBeConfirmed = true;
+        isActivated = false;
+    }
+    boolean isInCategory(String catId) {
+        return this.catId.equals(catId);
+    }
+    void addHoliday(int year, int month, int day) {
+        ...
+    }
+    void removeHoliday(int year, int month, int day) {
+    ...
+    }
+    boolean addBusinessSession(int fromHour, int fromMin,
+                int toHour, int toMin) {
+        ...
+    }
+    boolean isInBusinessHour(Calendar time) {
+        ...
+    }
+    Vector getAllHolidays() {
+        return holidays;
+    }
+    Vector getAllBusinessSessions() {
+        return businessSessions;
+    }
+}
+ 
+============================================================
+./Q57srp.java
+============================================================
+/* This application is about students. Originally we had a 
+ * simple Student class:
+ * class Student { String studentId; String name; Date dateOfBirth; }
+ *
+ * Later, in order to record what courses the student has 
+ * enrolled in, on which dates he enrolled and how he paid for them, 
+ * we modified the code as shown below.
+ * Your task is to implement this requirement without modifying 
+ * the Student class.
+ */
+
+class StudentManagementSystem {
+    Student students[];
+}
+class Student {
+    String studentId;
+    String name;
+    Date dateOfBirth;
+    String courseCodes[]; //the student has enrolled in these courses.
+    Date enrollDates[]; //for each enrolled course, the date he enrolled.
+    Payment payments[]; //for each enrolled course, how he paid.
+    void enroll(String courseCode, Date enrollDate, Payment payment) {
+        //add courseCode to courseCodes
+        //add enrollDate to enrollDates
+        //add payment to Payments
+    }
+    void unenroll(String courseCode) {
+        ...
+    }
+}
+ 
+============================================================
+./Q58srp.java
+============================================================
+/* This application lets the network administrators document their 
+ * server configurations.
+ * Originally we had a simple Server class as shown in the code:
+ */
+class Server {
+    String name;
+    String CPUModel;
+    int RAMSizeInMB;
+    int diskSizeInMB;
+    InetAddress ipAddress;
+}
+class ServerConfigSystem {
+    Server servers[];
+}
+/* Now, there are four new requirements. You are required to implement 
+ * these requirements without modifying the Server class:
+ * 1. An administrator (identified by an admin ID) can be assigned 
+ *    to be responsible for a server.
+ * 2. We can check if a server is a DHCP server or not. If yes, 
+ *    we can record the address scope it manages 
+ *    (e.g., from 192.168.0.21 to 192.168.0.254).
+ * 3. We can check if a server is a file server or not. If yes, we can 
+ *    set and check the disk space quota allocated for each user 
+ *    (identified by a user ID).
+ * 4. A server can be a DHCP server and a file server at the same time.
+ */ 
+============================================================
+./Q59srp.java
+============================================================
+// At the moment the code of a system is shown below:
+class Customer {
+    String id;
+    String name;
+    String address;
+}
+class Supplier {
+    String id;
+    String name;
+    String telNo;
+    String address;
+}
+class SalesSystem {
+    List customers;
+    List suppliers;
+}
+/* Implement the following new requirements while keeping the code fit:
+
+1. Customers can place orders. Each order has a unique ID. It records the
+date of the order, the ID of the customer and the name and quantity of
+each item being ordered.
+2. The system can list all the orders placed by a particular customer.
+3. The system can list all the orders placed for a particular supplier.
+4. A supplier can provide a certain discount to some of the customers it
+selects (valid for some selected items only). The discount for different
+customers or different items may be different. */ 
+============================================================
+./Q60.java
+============================================================
+import java.util.HashSet;
+import java.util.Set;
+
+/*
+ * The goal is to classify numbers. A number is perfect, if the sum of its
+ * factors equals the number e.g. 6 is perfect. The factors are 1, 2, 3. 1 + 2 +
+ * 3 equals 6. 
+ * A number is abundant, if the sum of its factors is greater than
+ * the number e.g. 12 is abundant. The factors are 1, 2, 3, 4 and 6. 1+2+3+4+6
+ * is greater than 12.
+ * A number is deficient, if the sum of its factors is less
+ * than the number e.g. 10 is deficient. The factors are 1, 2, 5. 1+2+5 is less
+ * than 10.
+ */
+class NumberClassifier {
+    private final Set<Integer> _factors = new HashSet<Integer>();
+    private final int _number;
+    public NumberClassifier(int number) {
+        if (number < 1)
+            throw new RuntimeException(
+                    "Can't classify negative numbers");
+        _number = number;
+        _factors.add(1);
+    }
+    private boolean isFactor(int factor) {
+        return (_number % factor) == 0;
+    }
+    public Set<Integer> getFactors() {
+        return _factors;
+    }
+    private void calculateFactors() {
+        for (int i = 2; i <= Math.sqrt(_number); i++)
+            if (isFactor(i))
+                addFactor(i);
+    }
+    private void addFactor(int factor) {
+        _factors.add(factor);
+        _factors.add(_number / factor);
+    }
+    private int sumOfFactors() {
+        calculateFactors();
+        int sum = 0;
+        for (int i : _factors)
+            sum += i;
+        return sum;
+    }
+    public boolean isPerfect() {
+        return sumOfFactors() == _number;
+    }
+    public boolean isAbundant() {
+        return sumOfFactors() > _number;
+    }
+    public boolean isDeficient() {
+        return sumOfFactors() < _number;
+    }
+    public static boolean isPerfect(int number) {
+        return new NumberClassifier(number).isPerfect();
+    }
+} 
+============================================================
+./Q61.java
+============================================================
+package tictactoe;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
+
+public class Game {
+    public static final int SIZE = 3, EMPTY = 0, CROSS = 1,
+            CIRCLE = 2;
+    private final Table<Integer, Integer, Integer> board = HashBasedTable
+            .create(SIZE, SIZE);
+    public Game() {
+        for (int r = 0; r < SIZE; ++r)
+            for (int c = 0; c < SIZE; ++c)
+                board.put(r, c, EMPTY);
+    }
+    public void putX(int r, int c) {
+        board.put(r, c, CROSS);
+    }
+    public void putO(int r, int c) {
+        board.put(r, c, CIRCLE);
+    }
+    public boolean isEmpty(int r, int c) {
+        return board.get(r, c) == EMPTY;
+    }
+    public boolean isOver() {
+		/* The game is over, if any of the following condition is true
+		   - The board is filled
+		   - Any row is filled with same element
+		   - Any column is filled with same element
+		   - The left or right diagonal is filled with same element.
+		*/
+    }
+}
+//Complete the function isOver using functional programming techniques.
+//The documentation of Table class is present in Google Guava library.
+ 
+============================================================
+./Q62.java
+============================================================
+package csv;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.regex.Pattern;
+// A CSV file book.csv contains lots of information in format
+// ISBN,Title,Price
+// 123,Java,500
+// 234,C#,700
+// 345,OOAD,600
+//
+// Our goal is to find sum all the book prices.
+// Also report number of valid and invalid books.
+// The procedural code is given below.
+
+public class ProceduralCode {
+    static double currentBookPrice = 0;
+    public static void main(String[] args) throws FileNotFoundException {
+        double totalPrice = 0;
+        int validRecords = 0, invalidRecords = 0;
+        Scanner s = new Scanner(new File("src/csv/book.csv"));
+        s.nextLine(); //Skip the header line
+        while (s.hasNext()) {
+            validatePrice(s.nextLine());
+            if (currentBookPrice > 0) validRecords++;
+            else invalidRecords++;
+            totalPrice += currentBookPrice;
+        }
+        s.close();
+        System.out.printf("Total price of all Books %f%n. Total Valid records - %d.    Total Invalid records - %d%n",
+                totalPrice, validRecords, invalidRecords);
+    }
+    public static void validatePrice(String line) {
+        currentBookPrice = 0;
+        if ((line == null) || (line.length() == 0)) return;
+        String[] items = line.split(",");
+        if (items.length != 3) return;
+        String price = items[2].trim();
+        if (!Pattern.compile("[0-9]+").matcher(price).matches()) return;
+        try {
+            currentBookPrice = Double.valueOf(price);
+        } catch (NumberFormatException ignore) {
+        }
+    }
+}
+ 
+============================================================
+./Q70inheri.java
+============================================================
+//Remove the duplication for scanning the listeners array
+interface GridListener {
+    void onRowAppended();
+    void onRowMoved(int existingIdx, int newIdx);
+}
+class Grid {
+    GridListener listeners[];
+    void appendRow() {
+        //append a row at the end of the grid.
+        for (int i = 0; i < listeners.length; i++) {
+            listeners[i].onRowAppended();
+        }
+    }
+    void moveRow(int existingIdx, int newIdx) {
+        //move the row.
+        for (int i = 0; i < listeners.length; i++) {
+            listeners[i].onRowMoved(existingIdx, newIdx);
+        }
+    }
+}
+ 
+============================================================
+./Q71inheri.java
+============================================================
+//Point out and remove the problem in code below.
+public class CourseCatalog extends HashMap {
+    public void addCourse(Course c) {
+        put(c.getTitle(), c);
+    }
+    public Course findCourse(String title) {
+        return (Course)get(title);
+    }
+    public int countCourses() {
+        return size();
+    }
+}
+ 
+============================================================
+./Q72inheri.java
+============================================================
+//Remove the problem in code below without using Collections
+public class Node {
+    private Node nextNode;
+    public Node getNextNode() {
+        return nextNode;
+    }
+    public void setNextNode(Node nextNode) {
+        this.nextNode = nextNode;
+    }
+}
+public class LinkList {
+    private Node firstNode;
+    public void addNode(Node newNode) {
+        ...
+    } 
+    public Node getFirstNode() {
+        return firstNode;
+    }
+}
+public class Employee extends Node {
+    String employeeId;
+    String name;
+    ...
+}
+public class EmployeeList extends LinkList {
+    public void addEmployee(Employee employee) {
+        addNode(employee);
+    }
+    public Employee getFirstEmployee() {
+        return (Employee)getFirstNode();
+    }
+    ...
+}
+ 
+============================================================
+./Q73inheri.java
+============================================================
+/* Suppose that in general a teacher can teach many students. However, 
+ * a graduate student can be taught by a graduate teacher only. 
+ * Point out and remove the problem in the code:
+ */
+
+class Student {
+    String studentId;
+    ...
+}
+class Teacher {
+    String teacherId;
+    Vector studentsTaught;
+	//...
+    public String getId() {
+        return teacherId;
+    }
+    public void addStudent(Student student) {
+        studentsTaught.add(student);
+    }
+}
+class GraduateStudent extends Student {
+...
+}
+class GraduateTeacher extends Teacher {
+...
+}
+ 
+============================================================
+./Q74inheri.java
+============================================================
+//remove the problem in code below
+public class Button {
+    private Font labelFont;
+    private String labelText;
+    ...
+    public void addActionListener(ActionListener listener) {
+        ...
+    } 
+    public void paint(Graphics graphics) {
+        //draw the label text on the graphics using the label's font.
+    }
+}
+public class BitmapButton extends Button {
+    private Bitmap bitmap;
+    public void paint(Graphics graphics) {
+        //draw the bitmap on the graphics.
+    }
+} 
+============================================================
+./Q75inheri.java
+============================================================
+//Remove the problem in code below.
+//Assume that PropertyFileWriter is not used anywhere else
+//other than class App.
+class PropertyFileWriter extends FileWriter {
+    PropertyFileWriter(String path) {
+        super(new File(path));
+    }
+    void writeEntry(String key, String value) {
+        super.write(key+"="+value);
+    }
+	//Many more functions here
+}
+class App {
+    void makePropertyFile() {
+        PropertyFileWriter fw = new PropertyFileWriter("f1.properties");
+        try {
+            fw.writeEntry("conference.abc", "10");
+            fw.writeEntry("xyz", "hello");
+        } finally {
+            fw.close();
+        }
+    }
+}
+ 
+============================================================
+./Q76.java
+============================================================
+package deepInheritanceHierarchy;
+abstract class PricingService {
+    public double calculatePrice(ShoppingBasket shoppingBasket,
+            User user, String voucher) {
+        double discount = calculateDiscount(user);
+        double total = 0;
+        for (ShoppingBasket.Item item : shoppingBasket.items()) {
+            total += calculateProductPrice(item.getProduct(),
+                    item.getQuantity());
+        }
+        total = applyAdditionalDiscounts(total, user, voucher);
+        return total * ((100 - discount) / 100);
+    }
+    protected abstract double calculateDiscount(User user);
+    protected abstract double calculateProductPrice(Product product,
+            int quantity);
+    protected abstract double applyAdditionalDiscounts(double total,
+            User user, String voucher);
+}
+
+abstract class UserDiscountPricingService extends PricingService {
+    @Override
+    protected double calculateDiscount(User user) {
+        int discount = 0;
+        if (user.isPrime()) {
+            discount = 10;
+        }
+        return discount;
+    }
+}
+
+abstract class VoucherPricingService extends
+        UserDiscountPricingService {
+    private VoucherService voucherService;
+    @Override
+    protected double applyAdditionalDiscounts(double total,
+            User user, String voucher) {
+        double voucherValue = voucherService.getVoucherValue(voucher);
+        double totalAfterValue = total - voucherValue;
+        return (totalAfterValue > 0) ? totalAfterValue : 0;
+    }
+    public void setVoucherService(VoucherService voucherService) {
+        this.voucherService = voucherService;
+    }
+}
+
+class StandardPricingService extends VoucherPricingService {
+    @Override
+    protected double calculateProductPrice(Product product,
+            int quantity) {
+        return product.getPrice() * quantity;
+    }
+}
+
+class BoxingDayPricingService extends VoucherPricingService {
+    public static final double BOXING_DAY_DISCOUNT = 0.60;
+    @Override
+    protected double calculateProductPrice(Product product,
+            int quantity) {
+        return ((product.getPrice() * quantity) * BOXING_DAY_DISCOUNT);
+    }
+}
+
+//To avoid compilation errors, the following classes are created
+class Product {
+    public double getPrice() {
+        return 0;
+    }
+}
+
+class VoucherService {
+    public double getVoucherValue(String voucher) {
+        return 0;
+    }
+}
+
+class User {
+    public boolean isPrime() {
+        return false;
+    }
+}
+
+class ShoppingBasket {
+    class Item {
+        public Product getProduct() {
+            return null;
+        }
+        public int getQuantity() {
+            return 0;
+        }
+    }
+    public Item[] items() {
+        return null;
+    }
+}
+ 
+============================================================
+./Q77.java
+============================================================
+abstract class Employee {
+    private String name, address;
+    private long id, mobile;
+    //Assume public constructor, getters,setters, toString and other common functions.
+    abstract int calculateHolidaysPermitted(int month);
+}
+
+class PermanentEmployee extends Employee {
+    @Override
+    int calculateHolidaysPermitted(int month) {
+        return (month == 12)?4:3;
+    }
+}
+
+class TemporaryEmployee extends Employee {
+    @Override
+    int calculateHolidaysPermitted(int month) {
+        return 2;
+    }
+}
+//Replace simple hierarchy with Higher-order functions 
+============================================================
+./Q80reference.java
+============================================================
+/*This is a small program handling zip files. The user can input the
+ * path to the zip file such as c:\f.zip and the paths to the files
+ * that he would like to add to the zip file such as c:\f1.doc,
+ * c:\f2.doc and etc. in the main frame, then the program will compress
+ * f1.doc and f2.doc and create f.zip. When it is compressing each file,
+ * the status bar in the main frame will display the related message.
+ * For example, when it is compressing c:\f2.doc,
+ * the status bar will display "zipping c:\f2.zip".
+ */
+
+class ZipMainFrame extends Frame {
+    StatusBar sb;
+    void makeZip() {
+        String zipFilePath;
+        String srcFilePaths[];
+        //setup zipFilePath and srcFilePaths according to the UI.
+        ...
+        ZipEngine ze = new ZipEngine();
+        ze.makeZip(zipFilePath, srcFilePaths, this);
+    }
+    void setStatusBarText(String statusText) {
+        sb.setText(statusText);
+    }
+}
+class ZipEngine {
+    void makeZip(String zipFilePath, String srcFilePaths[], ZipMainFrame f) {
+        //create zip file at the path.
+        ...
+        for (int i = 0; i < srcFilePaths.length; i++) {
+            f.setStatusBarText("Zipping "+srcFilePaths[i]);
+            //add the file srcFilePaths[i] into the zip file.
+            ...
+        }
+    }
+}
+ 
+============================================================
+./Q81reference.java
+============================================================
+/* Point out the problem in the code below. Further suppose that you
+ * need to reuse the file copier in a text mode file copying application
+ * that will display the progress in its text console as an integer.
+ * What should you do?
+ */
+class MainApp extends JFrame {
+    ProgressBar progressBar;
+    void main() {
+        FileCopier fileCopier = new FileCopier(this);
+        fileCopier.copyFile(new File("f1.doc"), new File("f2.doc"));
+    }
+    void updateProgressBar(int noBytesCopied, int sizeOfSource) {
+        progressBar.setPercentage(noBytesCopied*100/sizeOfSource);
+    }
+}
+class FileCopier {
+    MainApp app;
+    FileCopier(MainApp app) {
+        this.app = app;
+    }
+    void copyFile(File source, File target) {
+        int sizeOfSource = (int)source.length();
+        for (int i = 0; i < sizeOfSource; ) {
+            //read n (<= 512) bytes from source.
+            //write n bytes to target.
+            i += n;
+            app.updateProgressBar(i, sizeOfSource);
+        }
+    }
+}
+ 
+============================================================
+./Q82reference.java
+============================================================
+/* Point out the problem in the code below. Further suppose that you 
+ * need to reuse the fax machine code in another application. What should 
+ * you do?
+ */
+class MainApp {
+    String faxNo;
+    void main() {
+        FaxMachine faxMachine = new FaxMachine(this);
+        faxMachine.sendFax("783675", "hello");
+    }
+}
+class FaxMachine {
+    MainApp app;
+    FaxMachine(MainApp app) {
+        this.app = app;
+    }
+    void sendFax(String toFaxNo, String msg) {
+        FaxMachineHardware hardware = ...;
+        hardware.setStationId(app.getFaxNo());
+        hardware.setRecipientFaxNo(toFaxNo);
+        hardware.start();
+        try {
+            do {
+                Graphics graphics = hardware.newPage();
+                //draw the msg into the graphics.
+            } while (more page is needed);
+        } finally {
+            hardware.done();
+        }
+    }
+}
+ 
+============================================================
+./Q83reference.java
+============================================================
+/* Point out the problem in the code below. Further suppose that 
+ * you need to reuse the heat sensor code in another application. 
+ * What should you do?
+ */
+class Cooker {
+    HeatSensor heatSensor;
+    Speaker speaker;
+    void alarm() {
+        speaker.setFrequency(Speaker.HIGH_FREQUENCY);
+        speaker.turnOn();
+    }
+}
+class HeatSensor {
+    Cooker cooker;
+    HeatSensor(Cooker cooker) {
+        this.cooker = cooker;
+    }
+    void checkOverHeated() {
+        if (isOverHeated()) {
+            cooker.alarm();
+        }
+    } 
+    boolean isOverHeated() {
+        ...
+    }
+} 
+============================================================
+./Q84reference.java
+============================================================
+/* This is a word processor application. It can let the user select the
+ * font. Before the user confirms to change the font, it will let the
+ * user preview the effect of the change. The current code is shown below.
+ * Point out the code smell. If we need to reuse the ChooseFontDialog
+ * in a GUI application that doesn't support this preview functionality,
+ * how should you change the code?
+ */
+class WordProcessorMainFrame extends JFrame {
+    void onChangeFont() {
+        ChooseFontDialog chooseFontDialog = new ChooseFontDialog(this);
+        if (chooseFontDialog.showOnScreen()) {
+            Font newFont = chooseFontDialog.getSelectedFont();
+            //show the contents using this new font.
+        } else {
+            //show the contents using the existing font.
+        }
+    }
+    void previewWithFont(Font font) {
+        //show the contents using this preview font.
+    }
+}
+class ChooseFontDialog extends JDialog {
+    WordProcessorMainFrame mainFrame;
+    Font selectedFont;
+    ChooseFontDialog(WordProcessorMainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+    }
+    boolean showOnScreen() {
+        ...
+    }
+    void onSelectedFontChange() {
+        selectedFont = getSelectedFontFromUI();
+        mainFrame.previewWithFont(selectedFont);
+    }
+    Font getSelectedFontFromUI() {
+        ...
+    }
+    Font getSelectedFont() {
+        return selectedFont;
+    }
+} 
+============================================================
+./Q90layer.java
+============================================================
+/* This is a conference management system. The system needs to record
+ * the ID, name, telephone of each participant and the region he comes
+ * from.
+ * The participant ID is a unique integer assigned by the conference
+ * organizer. The name must be specified. Telephone can be omitted. All the
+ * participants must come from China, US or Europe.
+ * We have created a database and a table to store the information of the
+ * participants. The schema is: create table Participants (
+ * 		id int primary key, name varchar(20) not null, telNo varchar(20),
+ *		region varchar(20));
+ *	We have also written the code below to let an operator add a new
+ * participant. The system will check all the existing participants to find
+ * the maximum ID and then adds one to it and use it as the default value
+ * for the ID of this new participant. The operator may use this ID or
+ * use any other value.
+ * What are the problems with this code?
+ */
+class AddParticipantDialog extends JDialog {
+    Connection dbConn;
+    JTextField id;
+    JTextField name;
+    JTextField telNo;
+    JTextField region;
+    AddParticipantDialog() {
+        setupComponents();
+        dbConn = ...;
+    }
+    void setupComponents() {
+        ...
+    }
+    void show() {
+        showDefaultValues();
+        setVisible(true);
+    }
+    void showDefaultValues() {
+        int nextId;
+        PreparedStatement st = dbConn.prepareStatement(
+            "select max(id) from participants");
+        try {
+            ResultSet rs = st.executeQuery();
+            try {
+                rs.next();
+                nextId = rs.getInt(1)+1;
+            } finally {
+                rs.close();
+            }
+        } finally {
+            st.close();
+        }
+        id.setText(new Integer(nextId).toString());
+        name.setText("");
+        region.setText("China");
+    }
+    void onOK() {
+        if (name.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Invalid name");
+            return;
+        }
+        if (!region.equals("China") && !region.equals("US") &&
+                !region.equals("Europe")) {
+            JOptionPane.showMessageDialog(this, "Region is unknown");
+            return;
+        }
+        PreparedStatement st = dbConn.prepareStatement(
+            "insert into from participants values(?,?,?,?)");
+        try {
+            st.setInt(1, Integer.parseInt(id.getText()));
+            st.setString(2, name.getText());
+            st.setString(3, telNo.getText());
+            st.setString(4, region.getText());
+            st.executeUpdate();
+        } finally {
+            st.close();
+        }
+        dispose();
+    }
+} 
+============================================================
+./Q91layer.java
+============================================================
+/* This application is about restaurants. An order has an order ID,
+ * a restaurant ID and a customer ID and contains some order items.
+ * Each order item contains the food ID, the quantity and unit price.
+ * You have created the tables and classes below.
+        create table Orders (
+        orderId varchar(20) primary key,
+        customerId varchar(20) not null,
+        restId varchar(20) not null
+        );
+        create table OrderItems (
+        orderId varchar(20),
+        itemId int,
+        foodId varchar(20) not null,
+        quantity int not null,
+        unitPrice float not null,
+        primary key(orderId, itemId)
+        );
+*/
+class Order {
+    String orderId;
+    String customerId;
+    String restId;
+    OrderItem items[];
+}
+class OrderItem {
+    String foodId;
+    int quantity;
+    double unitPrice;
+}
+/*Your tasks are:
+1. Create an interface for accessing the orders, while hiding the database.
+2. Create a class to implement that interface and show how to implement
+   its method for adding an order to the database.
+*/ 
+============================================================
+./Q92layer.java
+============================================================
+/* This program below implements a game called "Hangman". The game is
+ * played like this: the computer "comes up with" a secret such as "banana".
+ * The task of the player is to try to find out this secret. Every turn the
+ * player can input one english letter such as "a", then the
+ * computer will show the "a" letters in the secret (if any), while the
+ * other letters will be shown as a dash. For example, in this case, the
+ * computer will show "-a-a-a". In the next turn if the player inputs "b",
+ * the computer will show "ba-a-a". In the next turn if the player inputs "c",
+ * the computer will still show "ba-a-a" because there is no "c" in
+ * the secret. The player has at most 7 turns. If he can find out the secret
+ * within 7 turns, he wins. Otherwise he loses. If the player inputs say
+ * "b" again, the computer will tell him that it has been guessed before
+ * and this guess is not counted (not included in the 7 turns).
+ *
+ *	Point out and remove the problems in the code below.
+ */
+class Hangman {
+    String secret = "banana";
+    String guessedChars = "";
+    static public void main(String args[]) {
+        new Hangman();
+    }
+    Hangman() {
+        BufferedReader br = new BufferedReader(
+        new InputStreamReader(System.in));
+        for (int k = 0; k < 7;) { //can guess at most 7 times
+            String s = ""; //partially found secret
+            for (int i=0; i<secret.length(); i++) {
+                char ch = secret.charAt(i);
+                if (guessedChars.indexOf(ch)<0) //has it been guessed?
+                    ch = '-'; //no, hide it. just show a dash.
+                s = s+ch;
+            }
+            System.out.println("Secret: "+s);
+            System.out.print("Guess letter: ");
+            char ch = br.readLine().charAt(0); //read just one char
+            if (guessedChars.indexOf(ch)>=0) { //already guessed?
+                System.out.println("You have guessed this char!");
+                continue;
+            }
+            int n = numberOfFoundChars();
+            guessedChars = guessedChars+ch;
+            int m = numberOfFoundChars();
+            if (m>n) {
+                System.out.println("Success, you have found letter "+ch);
+                System.out.println("Letters found: "+m);
+            }
+            if (m==secret.length()) {
+                System.out.println("You won!");
+                return;
+            }
+            k++;
+        }
+        System.out.println("You lost!");
+    }
+
+    int numberOfFoundChars() {
+        int n = 0;
+        for (int i=0; i< secret.length(); i++) {
+            char ch = secret.charAt(i);
+            if (guessedChars.indexOf(ch)>=0)
+                n++;
+        }
+        return n;
+    }
+}
+ 
+============================================================
+./Q93layer.java
+============================================================
+/* This is a web-based application concerned with training courses. 
+ * A user can choose a subject area 
+ * 		("IT", "Management", "Language", "Apparel") 
+ * in a form and click submit. Then the application will display all 
+ * the courses in that subject area. The servlet doing that is shown below.
+ */
+public class ShowCoursesServlet extends HttpServlet {
+    public void doGet(HttpServletRequest request,
+            HttpServletResponse response) {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("<HTML><TITLE>Course listing</TITLE><BODY>");
+        Connection dbConn = ...;
+        PreparedStatement st =
+            dbConn.prepareStatement("select * from Courses where subjArea=?");
+        try {
+            st.setString(1, request.getParameter("SubjArea"));
+            ResultSet rs = st.executeQuery();
+            try {
+                out.println("<TABLE>");
+                while (rs.next()) {
+                    out.println("<TR>");
+                    out.println("<TD>");
+                    out.println(rs.getString(1)); //course code
+                    out.println("</TD>");
+                    out.println("<TD>");
+                    out.println(rs.getString(2)); //course name
+                    out.println("</TD>");
+                    out.println("<TD>");
+                    out.println(""+rs.getInt(3)); //course fee in MOP
+                    out.println("</TD>");
+                    out.println("</TR>");
+                }
+                out.println("</TABLE>");
+            } finally {
+                rs.close();
+            }
+        } finally {
+            st.close();
+        } 
+        out.println("</BODY></HTML>");
+    }
+}
+/*Your tasks are:
+ * 1. Point out and remove the problems in the code.
+ * 2. Divide your revised code into appropriate layers.
+*/ 
+============================================================
+./Q94layer.java
+============================================================
+/* This application is about courses. A course has a course code,
+ * a title, a fee and a number of sessions. A session specifies
+ * a date, a starting hour and ending hour. You have also created the
+ * following classes:
+ */
+class Course {
+    String courseId;
+    String title;
+    int fee;
+    Session sessions[];
+}
+class Session {
+    Date date;
+    int startHour;
+    int endHour;
+}
+/* The DBA (database administator) has created the tables below:
+create table Courses ( courseId varchar(20) primary key,
+    title varchar(20) not null, fee int not null);
+create table Sessions ( courseId varchar(20), sessionId int,
+    sessionDate date not null,startHour int not null,
+    endHour int not null,primary key(courseId, sessionId)
+);
+Your tasks are:
+1. Create an interface for accessing the courses while hiding the database.
+2. Create a class to implement that interface and show how to implement
+   its method for adding a course to the database.
+3. Give outline of its method for enumerating all courses whose total duration
+   is greater than a specified number of hours.
+*/ 
+============================================================
+./Q95layer.java
+============================================================
+/* This program below implements a game called "MasterMind". The game
+ * is played like this: the computer "comes up with" a secret code such
+ * as "RGBY" in which "R" means red, "G" means green, "B" means blue,
+ * "Y" means yellow, "P" means pink, "C" means cyan.
+ * The task of the player is to try to find out this secret code.
+ * Every turn the player can input a code also consisting of four colors
+ * such as "RBPY". In this case, he has got "R" correct because the
+ * secret code also contains "R" in the first position. The same is true
+ * for "Y". In contrast, the secret code contains "B", but the position is
+ * not correct. In response to the guess, the computer will tell the player
+ * that he has got two pegs in correct color and position (but will not tell
+ * him that they are "R" and "Y") and that he has got one peg in the
+ * correct color but incorrect position (but will not tell him that
+ * it's "B"). The player has at most 12 turns. If he can find out the
+ * secret code within 12 turns, he wins. Otherwise he loses.
+ *
+ * 	Point out and remove the problems in the code below.
+ *
+ */
+class MasterMind {
+    String secret = "RGBY";
+    static public void main(String args[]) {
+        new MasterMind();
+    }
+    MasterMind() {
+        BufferedReader br = new BufferedReader(
+            new InputStreamReader(System.in));
+        for (i = 0; i < 12;) { //can guess at most 12 times
+            String currentGuess = br.readLine();
+            String currentSecret = secret;
+            int m = 0; //how many pegs are right in color and position.
+            int n = 0; //how many pegs are right in color but wrong position.
+            //valid the colors and find those in right color and position.
+            for (j = 0; j < currentGuess.length();) {
+                //must sure each peg is one of: Red, Yellow, Pink,
+                //Green, Blue or Cyan.
+                if ("RYPGBC".indexOf(currentGuess.charAt(j))==-1) {
+                    System.out.println("Invalid color!");
+                    break;
+                }
+                if (currentGuess.charAt(j)== currentSecret.charAt(j)) {
+                    //right color and position.
+                    m++;
+                    //delete the peg.
+                    currentGuess=currentGuess.substring(0, j)+
+                            currentGuess.substring(j+1);
+                    currentSecret=
+                            currentSecret.substring(0, j)+
+                            currentSecret.substring(j+1);
+                } else {
+                    j++;
+                }
+            }
+            //see how many pegs are in right color but wrong position.
+            for (j = 0; j < currentGuess.length();) {
+                //is it in right color regardless of the position?
+                k = currentSecret.indexOf(guess.charAt(j));
+                if (k!=-1) {
+                    n++;
+                    //delete the peg.
+                    currentGuess=currentGuess.substring(0, j)+
+                        currentGuess.substring(j+1);
+                    currentSecret=currentSecret.substring(0, k)+
+                        currentSecret.substring(k+1);
+                } else {
+                    j++;
+                }
+            }
+            System.out.println(m+" are right in color and position");
+            System.out.println(n+" are right in color but wrong position");
+            if (m==4) { //all found?
+                System.out.println("You won!");
+                return;
+            }
+            i++;
+        }
+        System.out.println("You lost!");
+    }
+} 
+============================================================
+./Q96layer.java
+============================================================
+/* This is a web-based application concerned with food orders. A user
+ * can enter an order id in a form and click submit. Then the application
+ * will display the customer name of the order and the order items
+ * (food id and quantity) in the order. The servlet doing that is shown
+ * below.
+ */
+public class ShowOrderServlet extends HttpServlet {
+    public void doGet(HttpServletRequest request,
+                HttpServletResponse response) {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("<HTML><TITLE>Order details</TITLE><BODY>");
+        String orderId = request.getParameter("orderId");
+        String customerId;
+        Connection dbConn = ...;
+        PreparedStatement st = dbConn.prepareStatement(
+            "select * from Orders where orderId=?");
+        try {
+            st.setString(1, orderId);
+            ResultSet rs = st.executeQuery();
+            try {
+                if (!rs.next()) {
+                    out.println("Error: Order not found!");
+                    return;
+                }
+                customerId = rs.getString("customerId");
+            } finally {
+                rs.close();
+            }
+        } finally {
+            st.close();
+        }
+        //find and show the customer's name from his id.
+        PreparedStatement st = dbConn.prepareStatement(
+                "select * from Customers where customerId=?");
+        try {
+            st.setString(1, customerId);
+            ResultSet rs = st.executeQuery();
+            try {
+                if (!rs.next()) {
+                    out.println("Error: Customer not found!");
+                    return;
+                }
+                out.println("Customer: "+rs.getString("name"));
+            } finally {
+                rs.close();
+            }
+        } finally {
+            st.close();
+        }
+        //find and show the order items.
+        st = dbConn.prepareStatement(
+            "select * from OrderItems where orderId=?");
+        try {
+            st.setString(1, orderId);
+            ResultSet rs = st.executeQuery();
+            try {
+                out.println("<TABLE>");
+                while (rs.next()) {
+                    out.println("<TR>");
+                    out.println("<TD>");
+                    out.println(rs.getString(3)); //food id
+                    out.println("</TD>");
+                    out.println("<TD>");
+                    out.println(rs.getInt(4)+""); //quantity
+                    out.println("</TD>");
+                    out.println("</TD>");
+                    out.println("</TR>");
+                }
+                out.println("</TABLE>");
+            } finally {
+                rs.close();
+            }
+        } finally {
+            st.close();
+        }
+        out.println("</BODY></HTML>");
+    }
+}
+//Point out and remove the problems in the code above. 
+============================================================
+./QCardChips.java
+============================================================
+/* We have to monitor both chips and cards. We want to
+ * write a program that can request the status of both of
+ * these types of hardware and then sends that status over
+ * either a TCP/IP connection or via e-mail (SMTP).
+ *
+ * These messages may be optionally encrypted with
+ * either PGP64 bit encryption or PGP128 bit encryption.
+ * When sending status out for a card, we want to queue
+ * the information to send it out no more than every 10
+ * minutes unless there is an error. Chips, on the other
+ * hand, send immediately.
+ *
+ * A configuration file will contain information about which
+ * transmission method to use.
+ */ 
+============================================================
+./QCoffee.java
+============================================================
+/* The Mark IV special makes up to 12 cups of coffee at a time.
+ * The user places a filter in the filter holder, fills the filter
+ * with coffee grounds, and slides the filter holder into its
+ * receptacle. The user then pours up to 12 cups of water into the
+ * water strainer and presses the “Brew” button. The water is heated
+ * until boiling. The pressure of the evolving steam forces the water
+ * to be sprayed over the coffee grounds, and coffee drips through the
+ * filter into the pot. The pot is kept warm for extended periods by
+ * a warmer plate, which only turns on if there is coffee in the pot.
+ * If the pot is removed from the warmer plate while coffee is being
+ * sprayed over the grounds, the flow of water is stopped, so that brewed
+ * coffee does not spill on the warmer plate. The following hardware
+ * needs to be monitored or controlled:
+ *		- The heating element for the boiler. It can be turned on or off.
+ *		- The heating element for the warmer plate. It can be turned on or off.
+ *		- The sensor for the warmer plate. It has three states:
+ *		  warmerEmpty, potEmpty, potNotEmpty.
+ *		- A sensor for the boiler, which determines if there is water
+ *		present or not. It has two states: boilerEmpty or boilerNotEmpty.
+ *		- The brew button. This is a momentary button that starts the
+ *		brewing cycle. It has an indicator that lights up when the brewing
+ *		cycle is over and the coffee is ready.
+ *		- A pressure-relief valve that opens to reduce the pressure in
+ *		the boiler. The drop in pressure stops the flow of water to the
+ *		filter. It can be opened or closed.
+ * The hardware for the Mark IV has been designed and is
+ * currently under development. The hardware engineers have even provided
+ * a low-level API for us to use, so we don’t have to write any
+ * bit-twiddling I/O driver code. The code for these interface functions
+ * is mentioned below.
+ */
+public interface CoffeeMakerAPI {
+    public static CoffeeMakerAPI api = null; // set by main.
+
+    /**
+     * This function returns the status of the warmer-plate
+     * sensor. This sensor detects the presence of the pot
+     * and whether it has coffee in it.
+     */
+    public int getWarmerPlateStatus();
+    public static final int WARMER_EMPTY = 0;
+    public static final int POT_EMPTY = 1;
+    public static final int POT_NOT_EMPTY = 2;
+
+    /**
+     * This function returns the status of the boiler switch.
+     * The boiler switch is a float switch that detects if
+     * there is more than 1/2 cup of water in the boiler.
+     */
+    public int getBoilerStatus();
+    public static final int BOILER_EMPTY = 0;
+    public static final int BOILER_NOT_EMPTY = 1;
+
+    /**
+     * This function returns the status of the brew button.
+     * The brew button is a momentary switch that remembers
+     * its state. Each call to this function returns the
+     * remembered state and then resets that state to
+     * BREW_BUTTON_NOT_PUSHED.
+     *
+     * Thus, even if this function is polled at a very slow
+     * rate, it will still detect when the brew button is
+     * pushed.
+     */
+    public int getBrewButtonStatus();
+    public static final int BREW_BUTTON_PUSHED = 0;
+    public static final int BREW_BUTTON_NOT_PUSHED = 1;
+
+    /**
+     * This function turns the heating element in the boiler
+     * on or off.
+     */
+    public void setBoilerState(int boilerStatus);
+    public static final int BOILER_ON = 0;
+    public static final int BOILER_OFF = 1;
+
+
+    /**
+     * This function turns the heating element in the warmer
+     * plate on or off.
+     */
+    public void setWarmerState(int warmerState);
+    public static final int WARMER_ON = 0;
+    public static final int WARMER_OFF = 1;
+
+    /**
+     * This function turns the indicator light on or off.
+     * The indicator light should be turned on at the end
+     * of the brewing cycle. It should be turned off when
+     * the user presses the brew button.
+     */
+    public void setIndicatorState(int indicatorState);
+    public static final int INDICATOR_ON = 0;
+    public static final int INDICATOR_OFF = 1;
+
+    /**
+     * This function opens and closes the pressure-relief
+     * valve. When this valve is closed, steam pressure in
+     * the boiler will force hot water to spray out over
+     * the coffee filter. When the valve is open, the steam
+     * in the boiler escapes into the environment, and the
+     * water in the boiler will not spray out over the filter.
+     */
+     public void setReliefValveState(int reliefValveState);
+     public static final int VALVE_OPEN = 0;
+     public static final int VALVE_CLOSED = 1;
+}
+// Draw the class diagram.  
+============================================================
+./QInvestor.java
+============================================================
+/*
+The problem domain we would like to solve is as follows:
+
+   1. We need to represent the concept of an Investor in our application.
+   2. Our Investor should know its marginal tax rate and tax liability 
+   		calculated from the investor’s income.
+   3. The income tax laws for the following countries should be incorporated:
+          * USA.
+          * Australia.
+          * New Zealand. 
+   4. If none of these countries are specified, the object should have 
+   non-exceptional behavior.  What does non-exceptional behavior mean? 
+   The application should provide intelligent do nothing behaviors if none of 
+   the countries are specified, by hiding the details from its collaborators.
+ */
+//Below is a solution with procedural orientation
+
+public class Investor {
+	private double income;
+	private String m_currentCultureName;
+	public Investor(double income, String culture) {
+		this.income = income;
+		this.m_currentCultureName=culture;
+	}
+	public double getIncome() { 
+		return income; 
+	}
+	public void setIncome(double income) { 
+		this.income = income;
+	}
+	public String getCurrentCultureName() {
+		return m_currentCultureName; 
+	}
+	public void setCurrentCultureName(String culture) {
+		m_currentCultureName = culture;
+	}
+	public double getTaxLiability() {
+		double taxLiability=0.0;
+		double inv_income=income;
+		if (m_currentCultureName.equals("en-NZ")) {
+			// Calculate the Tax Liability for the Investor according 
+			// to the tax laws of the New Zealand
+			if (inv_income > 19500.99) 
+				taxLiability += 19500.99 * 0.195;
+			if (inv_income <= 19500.99)
+				taxLiability += inv_income * 0.195;
+			if (inv_income > 60000.99)
+				taxLiability += (60000.99 - 19501.00) * 0.33;
+			if (inv_income >= 19501.00 && inv_income <= 60000.99)
+				taxLiability += (inv_income - 19501.00) * 0.33;
+			if (inv_income > 60000.99)
+				taxLiability += (inv_income - 60000.99) * 0.39;
+		} else if (m_currentCultureName.equals("en-AU")) {
+			// Calculate the Tax Liability for the Investor according 
+			// to the tax laws of the Australia
+			if (inv_income >= 6001.00 && inv_income <= 25000.99)
+				taxLiability += (inv_income - 6000.99) * 0.15;
+			if (inv_income > 25000.99)
+				taxLiability += (25000.99 - 6001.00) * 0.15;
+			if (inv_income > 75000.99)
+				taxLiability += (75000.99 - 25001.00) * 0.30;
+			if (inv_income >= 25001.00 && inv_income <= 75000.99)
+				taxLiability += (inv_income - 25001.00) * 0.30;
+			if (inv_income > 150000.99)
+				taxLiability += (150000.99 - 75001.00) * 0.40;
+			if (inv_income >= 75001.00 && inv_income <= 150000.99)
+				taxLiability += (inv_income - 75001.00) * 0.40;
+			if (inv_income > 150000.99)
+				taxLiability += (inv_income - 150000.99) * 0.45;
+		} else if (m_currentCultureName.equals("en-US")) {
+			// Calculate the Tax Liability for the Investor according 
+			// to the tax laws of the USA
+			if (inv_income > 7550.99)
+				taxLiability += 7550.99 * 0.10;
+			if (inv_income >= 0.0 && inv_income <= 7550.99)
+				taxLiability += inv_income * 0.10;
+			if (inv_income > 30650.99)
+				taxLiability += (30650.99 - 7551.00) * 0.15;
+			if (inv_income >= 7551.00 && inv_income <= 30650.99)
+				taxLiability += (inv_income - 7551.00) * 0.15;
+			if (inv_income > 74200.99)
+				taxLiability += (74200.99 - 30651.00) * 0.25;
+			if (inv_income >= 30651.00 && inv_income <= 74200.99)
+				taxLiability += (inv_income - 30651.00) * 0.25;
+			if (inv_income > 154800.99)
+				taxLiability += (154800.99 - 74201.00) * 0.28;
+			if (inv_income >= 74201.00 && inv_income <= 154800.99)
+				taxLiability += (inv_income - 74201.00) * 0.28;
+			if (inv_income > 336550.99)
+				taxLiability += (336550.99 - 154801.00) * 0.33;
+			if (inv_income >= 154801.00 && inv_income <= 336550.99)
+				taxLiability += (inv_income - 154801.00) * 0.33;
+			if (inv_income > 336551.00)
+				taxLiability += (inv_income - 336551.00) * 0.35;
+		} else
+			taxLiability = 0.0;
+		return taxLiability;
+	}
+
+	public double getTaxRate() {
+		double taxRate;
+		double inv_income = income;
+		if (m_currentCultureName.equals("en-NZ")) {
+			// Calculate the tax rate for New Zealand
+			if (inv_income >= 0.0 && inv_income <= 19500.99)
+				taxRate = 0.195;
+			else if (inv_income >= 19501.00 && inv_income <= 60000.99)
+				taxRate = 0.33;
+			else
+				taxRate = 0.39;
+		} else if (m_currentCultureName.equals("en-AU")) {
+			 // Calculate the tax rate for Australia
+			if (inv_income >= 0.0 && inv_income <= 6000.99)
+				taxRate = 0.0;
+			else if (inv_income >= 6001.00 && inv_income <= 25000.99)
+				taxRate = 0.15;
+			else if (inv_income >= 25001.00 && inv_income <= 75000.99)
+				taxRate = 0.30;
+			else if (inv_income >= 75001.00 && inv_income <= 150000.99)
+				taxRate = 0.40;
+			else
+				taxRate = 0.45;
+		} else if (m_currentCultureName.equals("en-US")) {
+			 // Calculate the tax rate for the United States of America
+			if (inv_income >= 0.0 && inv_income <= 7550.99)
+				taxRate = 0.10;
+			else if (inv_income >= 7551.00 && inv_income <= 30650.99)
+				taxRate = 0.15;
+			else if (inv_income >= 30651.00 && inv_income <= 74200.99)
+				taxRate = 0.25;
+			else if (inv_income >= 74201.00 && inv_income <= 154800.99)
+				taxRate = 0.28;
+			else if (inv_income >= 154801.00 && inv_income <= 336550.99)
+				taxRate = 0.33;
+			else
+				taxRate = 0.35;
+		} else 
+			taxRate = 0.0;
+		return taxRate;
+	}
+}
+/*
+ * The above code has the following problems
+   1. Copy/Paste Errors 
+   2. Duplicate Code 
+   3. Big Methods 
+   4. Comments 
+   5. Switch / if..else Statement 
+
+   Correct the above problem by using OO design principles.
+ */
+
+ 
+============================================================
+./QRestaurant.java
+============================================================
+/* 
+ * Food To Go Inc. is a company that delivers food orders from 
+ * restaurants to customers' homes and offices. 
+ * The founders of "Food to Go" have decided to build a J2EE-based 
+ * application to run their business. This application supports the 
+ * following kinds of users:
+ *  	> Customers - Place orders and check order status
+ *  	> Customer service reps - Handle phone enquiries from 
+ *  					customers about their orders
+ *  	> Restaurants - Maintain menus and prepare the orders 
+ *  	> Dispatchers - Assign drivers to orders 
+ *  	> Drivers - Pick up orders from restaurants and deliver them
+ *
+ * The requirements
+ * After a lot of discussion, they jointly decide on the following 
+ * scenario to describe how an order flows through the system. 
+ * The sequence of events is as follows:
+ * 		1 The customer places the order via the website.
+ * 		2 The system sends the order (by fax or email) to the restaurant.
+ * 		3 The restaurant acknowledges receipt of the order.
+ * 		4 A dispatcher assigns a driver to the order.
+ * 		5 The system sends a notification to the assigned driver.
+ * 		6 The driver views the assigned order on a cell phone.
+ * 		7 The driver picks up the order from the restaurant and 
+ * 			notifies the system that the order has been picked up.
+ * 		8 The driver delivers the order to the customer and 
+ * 			notifies the system that the order has been delivered.
+ *
+ * 	In the first iteration, following use cases will be done:
+ * 		> Place Order - Describes how a customer places an order
+ * 		> View Orders - Describes how a customer service 
+ * 					representative can view orders
+ * 		> Send Orders to Restaurant - Describes how the system sends 
+ * 					orders to restaurants
+ * 		> Acknowledge Order - Describes how a restaurant can 
+ * 					acknowledge receipt of an order
+ * 		> Modify Order - Describes how a customer service 
+ * 					representative can modify an order
+ *
+ *
+ * 	Identify the Business logic classes needed in the first
+ * 	iteration. Draw the class diagram.
+ *  For every class mention its role e.g. Entity, Value,
+ *  Service, Factory or Repository.
+ **/
+	  	
+ 

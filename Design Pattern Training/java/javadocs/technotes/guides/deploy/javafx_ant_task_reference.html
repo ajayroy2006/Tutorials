@@ -1,0 +1,2970 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta content="text/html; charset=us-ascii" http-equiv="Content-Type"/>
+<meta content="text/css" http-equiv="Content-Style-Type"/>
+<meta content="text/javascript" http-equiv="Content-Script-Type"/>
+<title>JavaFX Ant Task Reference</title>
+<meta content="Oracle DARB XHTML Converter (Mode = document) - Version 1.0.24" name="generator"/>
+<meta content="2014-08-01T17:38:36Z" name="date"/>
+<meta content="noarchive" name="robots"/>
+<meta content="JavaFX Ant Task Reference" name="doctitle"/>
+<meta content="Release 8u20" name="relnum"/>
+<meta content="E50259-01" name="partnum"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="../../../technotes/css/guide.css" />
+</head>
+<body>
+<!-- STATIC HEADER -->
+
+<!-- header start -->
+<div id="javaseheader">
+<div id="javaseheaderlogo">
+<img src="../../../images/javalogo.gif"
+alt="Java logo" />
+</div>
+<div id="javaseheaderindex">
+
+<a href=
+"../../../index.html">Documentation Contents</a>
+</div>
+<div class="clear"></div>
+</div>
+
+<!-- header end -->
+
+
+<b>Java Platform, Standard Edition Deployment Guide</b><br/>
+
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="javafx_ant_tasks.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="part_develop.html">
+                Next</a><hr/><a id="CIAJGAFH" name="CIAJGAFH"/><a id="JSDPG343" name="JSDPG343"/>
+
+<div>
+<h1>JavaFX Ant Task Reference</h1>
+<p>The following items comprise the main JavaFX Ant tasks:</p>
+<ul>
+<li>
+<p><a href="#CIAEFCGA">&lt;fx:csstobin&gt;</a></p>
+<p>Used to convert CSS files to binary format for faster processing. See also <a href="packaging.html#BABCACBD">Section 5.4, "Style Sheet Conversion."</a></p>
+</li>
+<li>
+<p><a href="#CIABIFCI">&lt;fx:deploy&gt;</a></p>
+<p>Used to assemble the application package for redistribution. By default, the deploy task will generate the base application package, but it can also generate self-contained application packages if requested. See also <a href="packaging.html#BABFCGJJ">Section 5.7, "Run the Deploy Task or Command."</a></p>
+</li>
+<li>
+<p><a href="#CIACICBG">&lt;fx:jar&gt;</a></p>
+<p>Used to create one or more application JAR files. See also <a href="packaging.html#BABFFCEI">Section 5.5, "Create the Main Application JAR File."</a></p>
+</li>
+<li>
+<p><a href="#CIADDAEE">&lt;fx:signjar&gt;</a></p>
+<p>Used when the application needs a digital signature. See also <a href="packaging.html#BABJGFBH">Section 5.6, "Sign the JAR Files."</a></p>
+</li>
+</ul>
+<p>Items are in alphabetical order.</p>
+<a id="CIAEFCGA" name="CIAEFCGA"/><a id="JSDPG178" name="JSDPG178"/>
+
+<h3>&lt;fx:csstobin&gt;</h3>
+<a id="sthref67" name="sthref67"/>
+<h2>Description</h2>
+<p>Converts a set of CSS files into binary form (BSS).</p>
+<a id="sthref68" name="sthref68"/>
+<h2>Parent Elements</h2>
+<p>None.</p>
+<a id="sthref69" name="sthref69"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG204" name="JSDPG204"/><a id="sthref70" name="sthref70"/><a id="sthref71" name="sthref71"/>
+<p>Table 10-1 fx:csstobin</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:csstobin&gt; element, with a description, their data type, and whether they are required or not." title="fx:csstobin" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t3" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t3" valign="bottom">Description</th>
+<th align="left" id="r1c3-t3" valign="bottom">Type</th>
+<th align="left" id="r1c4-t3" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t3" id="r2c1-t3">
+<p><code>outdir</code></p>
+</td>
+<td align="left" headers="r2c1-t3 r1c2-t3">
+<p>Name of the directory in which output files are generated.</p>
+</td>
+<td align="left" headers="r2c1-t3 r1c3-t3">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t3 r1c4-t3">
+<p>Yes</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<a id="sthref72" name="sthref72"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<ul>
+<li>
+<p><a href="#CIAIHFGI">&lt;fx:fileset&gt;</a></p>
+</li>
+</ul>
+<a id="sthref73" name="sthref73"/>
+<h2>&lt;fx:csstobin&gt; Task Usage Examples</h2>
+<dl>
+<dd><a id="JSDPG509" name="JSDPG509"/><a id="CIAIEFAD" name="CIAIEFAD"/></dd>
+<dt>Example 1Convert CSS Files to Binary</dt>
+<dd>
+<p>This example converts all CSS files in the output tree to binary form.</p>
+<pre xml:space="preserve">
+&lt;fx:csstobin outdir="build/classes"&gt;
+    &lt;fileset dir="build/classes" includes="**/*.css"/&gt;
+&lt;/fx:csstobin&gt;
+</pre></dd>
+</dl>
+<a id="CIABIFCI" name="CIABIFCI"/><a id="JSDPG179" name="JSDPG179"/>
+
+<h3>&lt;fx:deploy&gt;</h3>
+<a id="sthref74" name="sthref74"/>
+<h2>Description</h2>
+<p>Generates a package for both web deployment and standalone applications. The package includes a set of JAR files, a JNLP file, and an HTML file.</p>
+<a id="sthref75" name="sthref75"/>
+<h2>Parent Elements</h2>
+<p>None.</p>
+<a id="CIAJGHHG" name="CIAJGHHG"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG205" name="JSDPG205"/><a id="sthref76" name="sthref76"/><a id="sthref77" name="sthref77"/>
+<p>Table 10-2 fx:deploy</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:deploy&gt; element, with a description, their data type, and whether they are required or not." title="fx:deploy" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t4" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t4" valign="bottom">Description</th>
+<th align="left" id="r1c3-t4" valign="bottom">Type</th>
+<th align="left" id="r1c4-t4" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r2c1-t4">
+<p><code>embeddedHeight</code></p>
+</td>
+<td align="left" headers="r2c1-t4 r1c2-t4">
+<p>If present, this value will be used for Javascript/HMTL code instead of width/height. Affects only embedded deployment mode.</p>
+<p>Use it if you want to specify a relative dimension for an embedded application.</p>
+<p>See <a href="packaging.html#BABGDEGI">Section 5.8.4, "Publishing an Application that Fills the Browser Window."</a></p>
+</td>
+<td align="left" headers="r2c1-t4 r1c3-t4">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t4 r1c4-t4">
+<p>No</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r3c1-t4">
+<p><code>embeddedWidth</code></p>
+</td>
+<td align="left" headers="r3c1-t4 r1c2-t4">
+<p>Same description as for <code>embeddedHeight</code>.</p>
+</td>
+<td align="left" headers="r3c1-t4 r1c3-t4">
+<p>String</p>
+</td>
+<td align="left" headers="r3c1-t4 r1c4-t4">
+<p>No</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r4c1-t4">
+<p><code>embedjnlp</code></p>
+</td>
+<td align="left" headers="r4c1-t4 r1c2-t4">
+<p>If true, embed the JNLP descriptor into the web page. Reduces number of network connections to be made on startup and helps to improve startup time.</p>
+</td>
+<td align="left" headers="r4c1-t4 r1c3-t4">
+<p>Boolean</p>
+</td>
+<td align="left" headers="r4c1-t4 r1c4-t4">
+<p>No</p>
+<p>Default is <code>false</code>.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r5c1-t4">
+<p><code>extension</code></p>
+</td>
+<td align="left" headers="r5c1-t4 r1c2-t4">
+<p>Treat the files named in <code>srcfiles</code> as extensions. If present, only a portion of the deployment descriptor is generated, and the HTML file is not generated.</p>
+</td>
+<td align="left" headers="r5c1-t4 r1c3-t4">
+<p>Boolean</p>
+</td>
+<td align="left" headers="r5c1-t4 r1c4-t4">
+<p>No</p>
+<p>Default is <code>false</code>.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r6c1-t4">
+<p><code>height</code></p>
+</td>
+<td align="left" headers="r6c1-t4 r1c2-t4">
+<p>Height of the application scene, for embedding applications into a web page.</p>
+</td>
+<td align="left" headers="r6c1-t4 r1c3-t4">
+<p>String</p>
+</td>
+<td align="left" headers="r6c1-t4 r1c4-t4">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r7c1-t4">
+<p><code>includeDT</code></p>
+</td>
+<td align="left" headers="r7c1-t4 r1c2-t4">
+<p>If set to <code>true</code>, files related to the Deployment Toolkit will be copied to a <code>web-files</code> subdirectory of the directory specified in <code>outdir</code>. This setting is useful for offline development but is not advised for production.</p>
+</td>
+<td align="left" headers="r7c1-t4 r1c3-t4">
+<p>Boolean</p>
+</td>
+<td align="left" headers="r7c1-t4 r1c4-t4">
+<p>No</p>
+<p>Default is <code>false</code>.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r8c1-t4">
+<p><code>nativeBundles</code></p>
+</td>
+<td align="left" headers="r8c1-t4 r1c2-t4">
+<p>Values:</p>
+<ul>
+<li>
+<p>all</p>
+</li>
+<li>
+<p>deb</p>
+</li>
+<li>
+<p>dmg</p>
+</li>
+<li>
+<p>exe</p>
+</li>
+<li>
+<p>image</p>
+</li>
+<li>
+<p>msi</p>
+</li>
+<li>
+<p>none</p>
+</li>
+<li>
+<p>rpm</p>
+</li>
+</ul>
+<p>Value <code>all</code> produces all applicable self-contained application packages. Value <code>none</code> produces no self-contained application packages. Or use another value to produce a specific package installer.</p>
+</td>
+<td align="left" headers="r8c1-t4 r1c3-t4">
+<p>String</p>
+</td>
+<td align="left" headers="r8c1-t4 r1c4-t4">
+<p>No</p>
+<p>Default is <code>none</code>.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r9c1-t4">
+<p><code>offlineAllowed</code></p>
+</td>
+<td align="left" headers="r9c1-t4 r1c2-t4">
+<p>If the value is <code>true</code>, the cached application can operate even if the client system is disconnected from the network.</p>
+</td>
+<td align="left" headers="r9c1-t4 r1c3-t4">
+<p>Boolean</p>
+</td>
+<td align="left" headers="r9c1-t4 r1c4-t4">
+<p>Default is <code>true</code>.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r10c1-t4">
+<p><code>outdir</code></p>
+</td>
+<td align="left" headers="r10c1-t4 r1c2-t4">
+<p>Name of the directory in which output files are generated.</p>
+</td>
+<td align="left" headers="r10c1-t4 r1c3-t4">
+<p>String</p>
+</td>
+<td align="left" headers="r10c1-t4 r1c4-t4">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r11c1-t4">
+<p><code>outfile</code></p>
+</td>
+<td align="left" headers="r11c1-t4 r1c2-t4">
+<p>Prefix of the output files, without the extension.</p>
+</td>
+<td align="left" headers="r11c1-t4 r1c3-t4">
+<p>String</p>
+</td>
+<td align="left" headers="r11c1-t4 r1c4-t4">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r12c1-t4">
+<p><code>placeholderref</code></p>
+</td>
+<td align="left" headers="r12c1-t4 r1c2-t4">
+<p>Placeholder in the web page where the application will be embedded. This is expected to be JavaScript DOM object.</p>
+</td>
+<td align="left" headers="r12c1-t4 r1c3-t4">
+<p>String</p>
+</td>
+<td align="left" headers="r12c1-t4 r1c4-t4">
+<p>Yes</p>
+<p>Either reference or ID of placeholder is required.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r13c1-t4">
+<p><code>placeholderid</code></p>
+</td>
+<td align="left" headers="r13c1-t4 r1c2-t4">
+<p>Used with callbacks. The ID of the placeholder in the web page where application will be embedded. The JavaScript function <code>document.getElementById()</code> is used to resolve it.</p>
+</td>
+<td align="left" headers="r13c1-t4 r1c3-t4">
+<p>String</p>
+</td>
+<td align="left" headers="r13c1-t4 r1c4-t4">
+<p>Yes</p>
+<p>Either the reference or the ID of the placeholder is required.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r14c1-t4">
+<p><code>updatemode</code></p>
+</td>
+<td align="left" headers="r14c1-t4 r1c2-t4">
+<p>Indicates the preferences for when checks for application updates are performed for embedded and Web Start applications.</p>
+<p>A value of <code>always</code> means to always check for updates before launching the application.</p>
+<p>A value of <code>background</code> means to launch the application while checking for updates in the background.</p>
+<p>See <a href="packaging.html#CEGBADCB">Section 5.9.1, "Background Update Check for the Application."</a></p>
+</td>
+<td align="left" headers="r14c1-t4 r1c3-t4">
+<p>String</p>
+</td>
+<td align="left" headers="r14c1-t4 r1c4-t4">
+<p>No</p>
+<p>Default is <code>background</code>.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r15c1-t4">
+<p><code>width</code></p>
+</td>
+<td align="left" headers="r15c1-t4 r1c2-t4">
+<p>Width of the application scene, for embedding applications into a web page.</p>
+</td>
+<td align="left" headers="r15c1-t4 r1c3-t4">
+<p>String</p>
+</td>
+<td align="left" headers="r15c1-t4 r1c4-t4">
+<p>Yes</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<a id="sthref78" name="sthref78"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<ul>
+<li>
+<p><a href="#CIAEEFCJ">&lt;fx:platform&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIADDDAA">&lt;fx:preferences&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIAGCAFH">&lt;fx:application&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIAHGJBH">&lt;fx:permissions&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIACACDA">&lt;fx:template&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIAJBBCD">&lt;fx:callbacks&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIAIEJHG">&lt;fx:info&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIADIIEI">&lt;fx:resources&gt;</a></p>
+</li>
+</ul>
+<a id="CIABHEIG" name="CIABHEIG"/>
+<h2>&lt;fx:deploy&gt; Task Usage Examples</h2>
+<dl>
+<dd><a id="JSDPG206" name="JSDPG206"/><a id="sthref79" name="sthref79"/></dd>
+<dt>Example 1Minimal &lt;fx:deploy&gt; Task</dt>
+<dd>
+<p>This is a simple example of an <code>&lt;fx:deploy&gt;</code> Ant task. It generates an HTML file and JNLP file into the web-dist directory and uses <code>"Fish"</code> as the prefix for the generated files.</p>
+<a id="CIAHBJEE" name="CIAHBJEE"/>
+<pre xml:space="preserve">
+&lt;fx:deploy width="600" height="400"
+        outdir="web-dist" outfile="Fish" 
+        offlineAllowed="false"&gt;
+    &lt;fx:info title="Sample application"/&gt;
+    &lt;fx:application refid="myapp"/&gt;
+    &lt;fx:resources refid="myresources"/&gt;
+&lt;/fx:deploy&gt;  
+</pre></dd>
+<dd><a id="JSDPG510" name="JSDPG510"/><a id="sthref80" name="sthref80"/></dd>
+<dt>Example 2&lt;fx:deploy&gt; Task for an Application with a Preloader</dt>
+<dd>
+<p>The following Ant task creates a redistributable package for a simple application with a preloader. Details about the application and its resources are defined in the <code>&lt;fx:application&gt;</code> and <code>&lt;resource&gt;</code> elements in the task.</p>
+<p>Note that the location of the output package is defined by the <code>outdir</code> attribute of the <code>&lt;fx:deploy&gt;</code> task. New files are generated using the <code>name</code> prefix specified in the <code>outfile</code> attribute. As a result of execution of this task, the following files are created in the web-dist folder:</p>
+<ul>
+<li>
+<p>preloader.jar</p>
+</li>
+<li>
+<p>helloworld.jar</p>
+</li>
+<li>
+<p>App.jnlp</p>
+</li>
+<li>
+<p>App.html</p>
+</li>
+</ul>
+<div align="center">
+<div><br/>
+<table border="1" cellpadding="3" cellspacing="0" frame="hsides" rules="groups" summary="" width="80%">
+<tbody>
+<tr>
+<td align="left">
+<p><b>Note:</b></p>
+<p>By default, the deployment package uses auxiliary files from java.com to support web deployment. This is the preferred way, because it enables the application to always use the best way to deploy on the web. However, if you want to test your application in a closed network then you can include these files into your application package. To do this, pass <code>includeDT="true"</code> as an attribute in the <code>&lt;fx:deploy&gt;</code> Ant task.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+</div>
+<pre xml:space="preserve">
+&lt;fx:deploy width="600" height="400"
+        outdir="web-dist" outfile="App"&gt;
+    &lt;fx:info title="Sample application"/&gt;
+    &lt;fx:application name="SampleApp" 
+            mainClass="testapp.MainApp"
+            preloaderClass="testpreloader.Preloader"&gt;
+        &lt;fx:param name="testVariable" value="10"/&gt;
+    &lt;/fx:application&gt;
+    &lt;fx:resources&gt;
+        &lt;fx:fileset requiredFor="preloader" dir="dist"&gt;
+            &lt;include name="preloader.jar"/&gt;
+        &lt;/fx:fileset&gt;
+        &lt;fx:fileset dir="dist"&gt;
+            &lt;include name="helloworld.jar"/&gt;
+        &lt;/fx:fileset&gt;
+    &lt;/fx:resources&gt;
+&lt;/fx:deploy&gt;
+</pre></dd>
+</dl>
+<a id="CIACICBG" name="CIACICBG"/><a id="JSDPG208" name="JSDPG208"/>
+
+<h3>&lt;fx:jar&gt;</h3>
+<a id="sthref81" name="sthref81"/>
+<h2>Description</h2>
+<p>Packages a JavaFX application into a JAR file. The set of files to be included is defined by nested <code>&lt;fx:fileset&gt;</code> parameters. The <code>&lt;fx:jar&gt;</code> task also embeds a JAR manifest into the JAR file.</p>
+<p>In addition to creating a JAR archive, this task also:</p>
+<ul>
+<li>
+<p>Embeds the JavaFX launcher, which detects the presence of JavaFX Runtime, sets up the environment, and executes the application.</p>
+</li>
+<li>
+<p>Embeds the fallback AWT applet, to be used if JavaFX is not available.</p>
+</li>
+<li>
+<p>Creates a manifest in the JAR file.</p>
+</li>
+</ul>
+<p>The resulting JAR file supports launching by double-clicking.</p>
+<a id="sthref82" name="sthref82"/>
+<h2>Parent Elements</h2>
+<p>None.</p>
+<a id="sthref83" name="sthref83"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG209" name="JSDPG209"/><a id="sthref84" name="sthref84"/><a id="sthref85" name="sthref85"/>
+<p>Table 10-3 fx:jar</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:jar&gt; element, with a description, their data type, and whether they are required or not." title="fx:jar" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t6" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t6" valign="bottom">Description</th>
+<th align="left" id="r1c3-t6" valign="bottom">Type</th>
+<th align="left" id="r1c4-t6" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t6" id="r2c1-t6">
+<p><code>destfile</code></p>
+</td>
+<td align="left" headers="r2c1-t6 r1c2-t6">
+<p>Path to output JAR file (location and name)</p>
+</td>
+<td align="left" headers="r2c1-t6 r1c3-t6">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t6 r1c4-t6">
+<p>Yes</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<a id="sthref86" name="sthref86"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<ul>
+<li>
+<p><a href="#CIAEEFCJ">&lt;fx:platform&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIAIHFGI">&lt;fx:fileset&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIAGCAFH">&lt;fx:application&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIAIEJHG">&lt;fx:info&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIADIIEI">&lt;fx:resources&gt;</a></p>
+</li>
+</ul>
+<a id="CIAEEAGG" name="CIAEEAGG"/>
+<h2>&lt;fx:jar&gt; Usage Examples</h2>
+<p>See <a href="javafx_ant_tasks.html#ant_hello_world_example">Example 10-3</a> and the following example.</p>
+<a id="CIAEGCGC" name="CIAEGCGC"/>
+<dl>
+<dd><a id="JSDPG511" name="JSDPG511"/><a id="CIAJFBED" name="CIAJFBED"/></dd>
+<dt>Example 1&lt;fx:jar&gt; Ant Task for a Simple Application</dt>
+<dd>
+<p>This example shows how to use the <code>&lt;fx:jar&gt;</code> Ant task to create the main application JAR file for a simple application without a custom preloader. The resulting JAR file performs the following two actions:</p>
+<ul>
+<li>
+<p>Starts test.MyApplication with all resources needed on the classpath when launched as <code>java -jar application.jar</code> or by double-clicking the JAR file.</p>
+</li>
+<li>
+<p>Automatically detects the location of JavaFX Runtime and prompts the user to install it if it is not available, or reports if the platform is not supported.</p>
+</li>
+</ul>
+<pre xml:space="preserve">
+&lt;!-- Expect definition of JavaFX ant tasks is already imported --&gt;
+ 
+&lt;fx:jar destfile="dist/application.jar"&gt;
+    &lt;!-- Details about application --&gt;
+    &lt;fx:application name="Sample JavaFX application"
+            mainClass="test.MyApplication"/&gt;
+ 
+    &lt;!-- Define what auxilary resources are needed --&gt;
+    &lt;fx:resources&gt;
+        &lt;fx:fileset dir="dist" includes="lib/*.jar"/&gt;
+    &lt;/fx:resources&gt;
+            
+    &lt;!-- What to include into result jar file?
+         Everything in the build tree --&gt;
+    &lt;fileset dir="build/classes"/&gt;
+ 
+    &lt;!-- Customize jar manifest (optional) --&gt;
+    &lt;manifest&gt;
+        &lt;attribute name="Implementation-Vendor" value="Samples Team"/&gt;
+        &lt;attribute name="Implementation-Version" value="1.0"/&gt;
+    &lt;/manifest&gt;
+&lt;/fx:jar&gt;   
+</pre></dd>
+</dl>
+<a id="CIADDAEE" name="CIADDAEE"/><a id="JSDPG210" name="JSDPG210"/>
+
+<h3>&lt;fx:signjar&gt;</h3>
+<a id="sthref87" name="sthref87"/>
+<h2>Description</h2>
+<p>Digitally signs an application JAR file with a certificate.</p>
+<p>Signs the JAR file as BLOB. In other words, instead of every entry being signed separately, the JAR file is signed as a single binary object.</p>
+<p>This is a new signing method in JavaFX. For traditional signing, the standard Ant <code>signjar</code> task should be used.</p>
+<a id="sthref88" name="sthref88"/>
+<h2>Parent Elements</h2>
+<p>None.</p>
+<a id="sthref89" name="sthref89"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG211" name="JSDPG211"/><a id="sthref90" name="sthref90"/><a id="sthref91" name="sthref91"/>
+<p>Table 10-4 fx:signjar</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:signjar&gt; element, with a description, their data type, and whether they are required or not." title="fx:signjar" width="100%">
+<col width="24%"/>
+<col width="*"/>
+<col width="24%"/>
+<col width="17%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t7" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t7" valign="bottom">Description</th>
+<th align="left" id="r1c3-t7" valign="bottom">Type</th>
+<th align="left" id="r1c4-t7" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t7" id="r2c1-t7">
+<p><code>alias</code></p>
+</td>
+<td align="left" headers="r2c1-t7 r1c2-t7">
+<p>The alias for the key</p>
+</td>
+<td align="left" headers="r2c1-t7 r1c3-t7">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t7 r1c4-t7">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t7" id="r3c1-t7">
+<p><code>destdir</code></p>
+</td>
+<td align="left" headers="r3c1-t7 r1c2-t7">
+<p>Location of output file</p>
+</td>
+<td align="left" headers="r3c1-t7 r1c3-t7">
+<p>String</p>
+</td>
+<td align="left" headers="r3c1-t7 r1c4-t7">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t7" id="r4c1-t7">
+<p><code>keypass</code></p>
+</td>
+<td align="left" headers="r4c1-t7 r1c2-t7">
+<p>Password for the private key</p>
+</td>
+<td align="left" headers="r4c1-t7 r1c3-t7">
+<p>String</p>
+</td>
+<td align="left" headers="r4c1-t7 r1c4-t7">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t7" id="r5c1-t7">
+<p><code>keystore</code></p>
+</td>
+<td align="left" headers="r5c1-t7 r1c2-t7">
+<p>Keystore file name</p>
+</td>
+<td align="left" headers="r5c1-t7 r1c3-t7">
+<p>File</p>
+</td>
+<td align="left" headers="r5c1-t7 r1c4-t7">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t7" id="r6c1-t7">
+<p><code>jar</code></p>
+</td>
+<td align="left" headers="r6c1-t7 r1c2-t7">
+<p>The JAR file to sign*</p>
+</td>
+<td align="left" headers="r6c1-t7 r1c3-t7">
+<p>String</p>
+</td>
+<td align="left" headers="r6c1-t7 r1c4-t7">
+<p>No</p>
+<p>Either this attribute or a nested <code>&lt;fx:fileset&gt;</code> element is required.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t7" id="r7c1-t7">
+<p><code>storepass</code></p>
+</td>
+<td align="left" headers="r7c1-t7 r1c2-t7">
+<p>Password to check integrity of the keystore or unlock the keystore</p>
+</td>
+<td align="left" headers="r7c1-t7 r1c3-t7">
+<p>String</p>
+</td>
+<td align="left" headers="r7c1-t7 r1c4-t7">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t7" id="r8c1-t7">
+<p><code>storetype</code></p>
+</td>
+<td align="left" headers="r8c1-t7 r1c2-t7">
+<p>Keystore type</p>
+</td>
+<td align="left" headers="r8c1-t7 r1c3-t7">
+<p>String</p>
+</td>
+<td align="left" headers="r8c1-t7 r1c4-t7">
+<p>No</p>
+<p>Default is <code>jks</code>.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t7" id="r9c1-t7">
+<p><code>verbose</code></p>
+</td>
+<td align="left" headers="r9c1-t7 r1c2-t7">
+<p>Enable verbose output.</p>
+</td>
+<td align="left" headers="r9c1-t7 r1c3-t7">
+<p>Boolean</p>
+</td>
+<td align="left" headers="r9c1-t7 r1c4-t7">
+<p>No</p>
+<p>Default is <code>false</code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<p>*Note that:</p>
+<pre xml:space="preserve">
+&lt;fx:signjar jar="path/to/jar/folder/jarname" .../&gt;
+</pre>
+<p>is simply a convenience syntax for the following:</p>
+<pre xml:space="preserve">
+&lt;fx:signjar ...&gt;
+    &lt;fileset dir="path/to/jar/folder" file="jarname"/&gt; 
+&lt;/fx:signjar&gt;
+</pre>
+<a id="sthref92" name="sthref92"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<ul>
+<li>
+<p><a href="#CIAIHFGI">&lt;fx:fileset&gt;</a></p>
+</li>
+</ul>
+<a id="CIAFJGAB" name="CIAFJGAB"/>
+<h2>&lt;fx:signjar&gt; Usage Examples</h2>
+<dl>
+<dd><a id="JSDPG514" name="JSDPG514"/><a id="CIAGCJFJ" name="CIAGCJFJ"/></dd>
+<dt>Example 1Sign JAR Files</dt>
+<dd>
+<p>The following snippet of Ant code shows how to sign JAR files using the new sign as BLOB technique.</p>
+<pre xml:space="preserve">
+&lt;fx:signjar destdir="dist"
+        keyStore="sampleKeystore.jks" storePass="****"
+        alias="javafx" keyPass="****"&gt;
+    &lt;fileset dir='dist/*.jar'/&gt;
+&lt;/fx:signjar&gt;
+</pre></dd>
+</dl>
+</div>
+
+<a id="CACCABFF" name="CACCABFF"/><a id="JSDPG527" name="JSDPG527"/>
+
+<div>
+<h1>JavaFX Ant Helper Parameter Reference</h1>
+<p>Helper parameters are types that are used by the JavaFX tasks described in <a href="#CIAJGAFH">JavaFX Ant Task Reference</a>. This reference page contains the following elements:</p>
+<ul>
+<li>
+<p><a href="#CIAGCAFH">&lt;fx:application&gt;</a></p>
+</li>
+<li>
+<p><a href="#CACIJFHB">&lt;fx:argument&gt;</a></p>
+</li>
+<li>
+<p><a href="#CACDDFDF">&lt;fx:bundleArgument&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIABBIHI">&lt;fx:callback&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIAJBBCD">&lt;fx:callbacks&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIAIHFGI">&lt;fx:fileset&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIACDFGB">&lt;fx:htmlParam&gt;</a></p>
+</li>
+<li>
+<p><a href="#CACFJBFJ">&lt;fx:icon&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIAIEJHG">&lt;fx:info&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIAHJIJG">&lt;fx:jvmarg&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIACICCF">&lt;fx:param&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIAHGJBH">&lt;fx:permissions&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIAEEFCJ">&lt;fx:platform&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIADDDAA">&lt;fx:preferences&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIAHCIFJ">&lt;fx:property&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIADIIEI">&lt;fx:resources&gt;</a></p>
+</li>
+<li>
+<p><a href="#CACDIDFE">&lt;fx:splash&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIACACDA">&lt;fx:template&gt;</a></p>
+</li>
+</ul>
+<p>Items are in alphabetical order.</p>
+<a id="CIAGCAFH" name="CIAGCAFH"/><a id="JSDPG216" name="JSDPG216"/>
+
+<h3>&lt;fx:application&gt;</h3>
+<a id="sthref93" name="sthref93"/>
+<h2>Description</h2>
+<p>Basic application descriptor. It defines the main components and default set of parameters of the application.</p>
+<a id="sthref94" name="sthref94"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIABIFCI">&lt;fx:deploy&gt;</a></p>
+</li>
+</ul>
+<a id="sthref95" name="sthref95"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG217" name="JSDPG217"/><a id="sthref96" name="sthref96"/><a id="sthref97" name="sthref97"/>
+<p>Table 10-5 fx:application</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:application&gt; element, with a description, their data type, and whether they are required or not." title="fx:application" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t8" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t8" valign="bottom">Description</th>
+<th align="left" id="r1c3-t8" valign="bottom">Type</th>
+<th align="left" id="r1c4-t8" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t8" id="r2c1-t8">
+<p><code>name</code></p>
+</td>
+<td align="left" headers="r2c1-t8 r1c2-t8">
+<p>--</p>
+</td>
+<td align="left" headers="r2c1-t8 r1c3-t8">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t8 r1c4-t8">
+<p>--</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t8" id="r3c1-t8">
+<p><code>fallbackClass</code></p>
+</td>
+<td align="left" headers="r3c1-t8 r1c2-t8">
+<p>AWT-based applet to be used if application fails to launch due to missing FX runtime and installation of JavaFX is not possible.</p>
+</td>
+<td align="left" headers="r3c1-t8 r1c3-t8">
+<p>String</p>
+</td>
+<td align="left" headers="r3c1-t8 r1c4-t8">
+<p>No</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t8" id="r4c1-t8">
+<p>id</p>
+</td>
+<td align="left" headers="r4c1-t8 r1c2-t8">
+<p>Application ID that can be used to get a JavaScript reference to the application in HTML. The same ID can be used to refer to an application object in the Ant task (using <code>refid</code>).</p>
+</td>
+<td align="left" headers="r4c1-t8 r1c3-t8">
+<p>String</p>
+</td>
+<td align="left" headers="r4c1-t8 r1c4-t8">
+<p>No</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t8" id="r5c1-t8">
+<p><code>mainClass</code></p>
+</td>
+<td align="left" headers="r5c1-t8 r1c2-t8">
+<p>Qualified name of the main application class, which should extend <code>javafx.application.Application</code></p>
+</td>
+<td align="left" headers="r5c1-t8 r1c3-t8">
+<p>String</p>
+</td>
+<td align="left" headers="r5c1-t8 r1c4-t8">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t8" id="r6c1-t8">
+<p><code>name</code></p>
+</td>
+<td align="left" headers="r6c1-t8 r1c2-t8">
+<p>Short name of the application. For self-contained applications, also defines the name of the output package.</p>
+</td>
+<td align="left" headers="r6c1-t8 r1c3-t8">
+<p>String</p>
+</td>
+<td align="left" headers="r6c1-t8 r1c4-t8">
+<p>No</p>
+<p>Default value is derived from the main application class.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t8" id="r7c1-t8">
+<p><code>preloaderClass</code></p>
+</td>
+<td align="left" headers="r7c1-t8 r1c2-t8">
+<p>Qualified name of the preloader class, which should extend <code>javafx.application.Preloader</code></p>
+</td>
+<td align="left" headers="r7c1-t8 r1c3-t8">
+<p>String</p>
+</td>
+<td align="left" headers="r7c1-t8 r1c4-t8">
+<p>No</p>
+<p>Default is the preloader that is shipped with the JavaFX Runtime.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t8" id="r8c1-t8">
+<p><code>refid</code>*</p>
+</td>
+<td align="left" headers="r8c1-t8 r1c2-t8">
+<p>--</p>
+</td>
+<td align="left" headers="r8c1-t8 r1c3-t8">
+<p>Reference</p>
+</td>
+<td align="left" headers="r8c1-t8 r1c4-t8">
+<p>No</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t8" id="r9c1-t8">
+<p><code>toolkit</code></p>
+</td>
+<td align="left" headers="r9c1-t8 r1c2-t8">
+<p>Indicates your preference for the application to use a specific UI toolkit. Possible values:</p>
+<ul>
+<li>
+<p>fx</p>
+</li>
+<li>
+<p>swing</p>
+</li>
+</ul>
+</td>
+<td align="left" headers="r9c1-t8 r1c3-t8">
+<p>String</p>
+</td>
+<td align="left" headers="r9c1-t8 r1c4-t8">
+<p>No</p>
+<p>Default value is <code>fx</code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<p>* If refid is used, then none of the other parameters can be specified.</p>
+<a id="sthref98" name="sthref98"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<ul>
+<li>
+<p><a href="#CACIJFHB">&lt;fx:argument&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIACDFGB">&lt;fx:htmlParam&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIACICCF">&lt;fx:param&gt;</a></p>
+</li>
+</ul>
+<a id="sthref99" name="sthref99"/>
+<h2>&lt;fx:application&gt; Usage Examples</h2>
+<p>See <a href="javafx_ant_tasks.html#ant_hello_world_example">Example 10-3</a>.</p>
+<a id="CACIJFHB" name="CACIJFHB"/><a id="JSDPG528" name="JSDPG528"/>
+
+<h3>&lt;fx:argument&gt;</h3>
+<a id="sthref100" name="sthref100"/>
+<h2>Description</h2>
+<p>An unnamed argument that is inserted in the <code>&lt;fx:argument&gt;</code> element in the deployment descriptor. Multiple arguments are added to the list of arguments in the same order as they are listed in the Ant script.</p>
+<a id="sthref101" name="sthref101"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIAGCAFH">&lt;fx:application&gt;</a></p>
+</li>
+</ul>
+<a id="sthref102" name="sthref102"/>
+<h2>Parameters</h2>
+<p>None.</p>
+<a id="sthref103" name="sthref103"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<p>None.</p>
+<a id="sthref104" name="sthref104"/>
+<h2>&lt;fx:argument&gt; Usage Examples</h2>
+<dl>
+<dd><a id="JSDPG529" name="JSDPG529"/><a id="sthref105" name="sthref105"/></dd>
+<dt>Example 1Passing Various Unnamed Arguments</dt>
+<dd>
+<pre xml:space="preserve">
+&lt;fx:application name="Sample app"
+        mainClass="test.MyApplication"&gt;
+    &lt;!-- unnamed arguments --&gt;
+    &lt;fx:argument&gt;Something&lt;/fx:argument&gt;
+    &lt;!-- value with spaces that are generated at build time --&gt;
+    &lt;fx:argument&gt;JRE version: ${java.version}&lt;/fx:argument&gt;
+    &lt;!-- example of value using a special character --&gt;
+    &lt;fx:argument&gt;true &amp;amp; false&lt;/fx:argument&gt;
+&lt;/fx:application&gt; 
+</pre></dd>
+</dl>
+<a id="CACDDFDF" name="CACDDFDF"/><a id="JSDPG690" name="JSDPG690"/>
+
+<h3>&lt;fx:bundleArgument&gt;</h3>
+<a id="sthref106" name="sthref106"/>
+<h2>Description</h2>
+<p>Specifies an argument for the bundler that is used to create self-contained applications. Each type of bundler has its own set of arguments.</p>
+<a id="sthref107" name="sthref107"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIABIFCI">&lt;fx:deploy&gt;</a></p>
+</li>
+</ul>
+<a id="sthref108" name="sthref108"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG691" name="JSDPG691"/><a id="sthref109" name="sthref109"/><a id="sthref110" name="sthref110"/>
+<p>Table 10-6 fx:bundleArgument</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:bundleArgument&gt; element, with a description, their data type, and whether they are required or not." title="fx:bundleArgument" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t9" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t9" valign="bottom">Description</th>
+<th align="left" id="r1c3-t9" valign="bottom">Type</th>
+<th align="left" id="r1c4-t9" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t9" id="r2c1-t9">
+<p><code>arg</code></p>
+</td>
+<td align="left" headers="r2c1-t9 r1c2-t9">
+<p>Name of bundler argument</p>
+</td>
+<td align="left" headers="r2c1-t9 r1c3-t9">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t9 r1c4-t9">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t9" id="r3c1-t9">
+<p><code>value</code></p>
+</td>
+<td align="left" headers="r3c1-t9 r1c2-t9">
+<p>Value of bundler argument</p>
+</td>
+<td align="left" headers="r3c1-t9 r1c3-t9">
+<p>String</p>
+</td>
+<td align="left" headers="r3c1-t9 r1c4-t9">
+<p>Yes</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<a id="sthref111" name="sthref111"/>
+<h2>Arguments for Self-Contained Application Bundlers</h2>
+<p>Each type of bundler (Mac, Linux, and Windows) has its own set of arguments.</p>
+<a id="sthref112" name="sthref112"/>
+<h3>General Bundler Arguments</h3>
+<dl>
+<dt>preferencesID</dt>
+<dd>
+<p>ID of a <a href="#CIADDDAA">&lt;fx:preferences&gt;</a> element to check for JVM options that the user can override.</p>
+</dd>
+</dl>
+<a id="sthref113" name="sthref113"/>
+<h3>Mac Application Bundler Arguments</h3>
+<dl>
+<dt>icon</dt>
+<dd>
+<p>The path to the default icon to use for launchers and other assists. The file format is <code>.icns</code>.</p>
+</dd>
+<dt>mac.bundle-id-signing-prefix</dt>
+<dd>
+<p>Prefix that is applied to the signed binary when binaries that lack property list files (plists, which use the extension <code>.plist</code>) or existing signatures are found inside the bundles.</p>
+</dd>
+<dt>mac.category</dt>
+<dd>
+<p>Category for the application. The category must be in the list of categories found on the Apple Developer website.</p>
+</dd>
+<dt>mac.CFBundleIdentifier</dt>
+<dd>
+<p>Value stored in the <code>info.plist</code> file for <code>CFBundleIdentifier</code>. This value must be globally unique and contain only letters, numbers, dots, and dashes. Reverse DNS order is recommended, for example, <code>com.example.application.my-application</code>.</p>
+</dd>
+<dt>mac.CFBundleName</dt>
+<dd>
+<p>Name of the application as it appears on the Mac Menu Bar. A name of less than 16 characters is recommended. The default is the <code>name</code> attribute of the <a href="#CIAGCAFH">&lt;fx:application&gt;</a> element..</p>
+</dd>
+<dt>mac.signing-key-developer-id-app</dt>
+<dd>
+<p>Name of the signing key used for Developer ID or Gatekeeper signing. If you imported a standard key from the Apple Developer Website, then that key is used by default. If no key can be identified, then the application is not signed.</p>
+</dd>
+</dl>
+<a id="sthref114" name="sthref114"/>
+<h3>Mac PKG Bundler Arguments</h3>
+<dl>
+<dt>mac.signing-key-developer-id-installer</dt>
+<dd>
+<p>Name of the signing key used for Developer ID or Gatekeeper signing. If you imported a standard key from the Apple Developer Website, then that key is used by default. If no key can be identified, then the application is not signed.</p>
+</dd>
+</dl>
+<a id="sthref115" name="sthref115"/>
+<h3>Mac App Store Bundler Arguments</h3>
+<dl>
+<dt>mac.app-store-entitlements</dt>
+<dd>
+<p>Location of the file that contains the entitlements that the application operates under. The file must be in the format specified by Apple. The path to the file can be specified in absolute terms, or relative to your Ant file. If no entitlements are specified, then the application operates in a sandbox that is stricter than the typical applet sandbox, and access to network sockets and all files is prevented.</p>
+</dd>
+<dt>mac.signing-key-app</dt>
+<dd>
+<p>Name of the application signing key for the Mac App Store. If you imported a standard key from the Apple Developer Website, then that key is used by default. If no key can be identified, then the application is not signed.</p>
+</dd>
+<dt>mac.signing-key-pkg</dt>
+<dd>
+<p>Name of the installer signing key for the Mac App Store. If you imported a standard key from the Apple Developer Website, then that key is used by default. If no key can be identified, then the application is not signed.</p>
+</dd>
+</dl>
+<a id="sthref116" name="sthref116"/>
+<h3>Linux Bundler Arguments</h3>
+<dl>
+<dt>icon</dt>
+<dd>
+<p>The path of the default icon to use for launchers and other assists. The file format is <code>.png</code>.</p>
+</dd>
+<dt>linux.bundleName</dt>
+<dd>
+<p>Name of the RPM or DEB package to create.</p>
+</dd>
+</dl>
+<a id="sthref117" name="sthref117"/>
+<h3>Windows EXE and MSI Bundler Arguments</h3>
+<dl>
+<dt>icon</dt>
+<dd>
+<p>The path of the default icon to use for launchers and other assists. The file format is <code>.ico</code>.</p>
+</dd>
+<dt>win.menuGroup</dt>
+<dd>
+<p>Menu group in which to install the application when the <code>menu</code> attribute of the <a href="#CIADDDAA">&lt;fx:preferences&gt;</a> element is <code>true</code>. This argument is ignored when <code>menu</code> is <code>false</code>.</p>
+</dd>
+</dl>
+<a id="sthref118" name="sthref118"/>
+<h2>&lt;fx:bundleArgument&gt; Usage Example</h2>
+<p>The following example specifies that the generated Windows Installer Package (MSI file) create a Start Menu shortcut in a menu group named <b>Sample Applications</b>. Note that you must specify that the bundler create an MSI file with the <code>nativeBundles</code> attribute of the &lt;fx:deploy&gt; element.</p>
+<pre xml:space="preserve">
+&lt;fx:deploy outdir="." outfile="helloworld" <b>nativeBundles="msi"</b>&gt;
+    &lt;fx:platform basedir="${JAVA_HOME}"/&gt;
+    &lt;fx:application refId="HelloWorldID"/&gt;
+    &lt;fx:resources refid="appRes"/&gt;
+    &lt;fx:info title="Hello World Example" vendor="Oracle Corporation"/&gt;
+    <b>&lt;fx:bundleArgument arg="win.menuGroup" value="Sample Applications"/&gt;</b>
+&lt;/fx:deploy&gt;
+</pre>
+<a id="CIABBIHI" name="CIABBIHI"/><a id="JSDPG221" name="JSDPG221"/>
+
+<h3>&lt;fx:callback&gt;</h3>
+<a id="sthref119" name="sthref119"/>
+<h2>Description</h2>
+<p>Defines a JavaScript callback that can be used to customize user experience.</p>
+<a id="sthref120" name="sthref120"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIAJBBCD">&lt;fx:callbacks&gt;</a></p>
+</li>
+</ul>
+<a id="sthref121" name="sthref121"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG222" name="JSDPG222"/><a id="sthref122" name="sthref122"/><a id="sthref123" name="sthref123"/>
+<p>Table 10-7 fx:callback</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:callback&gt; element, with a description, their data type, and whether they are required or not." title="fx:callback" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t10" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t10" valign="bottom">Description</th>
+<th align="left" id="r1c3-t10" valign="bottom">Type</th>
+<th align="left" id="r1c4-t10" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t10" id="r2c1-t10">
+<p><code>name</code></p>
+</td>
+<td align="left" headers="r2c1-t10 r1c2-t10">
+<p>Name of the event for callback.</p>
+</td>
+<td align="left" headers="r2c1-t10 r1c3-t10">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t10 r1c4-t10">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t10" id="r3c1-t10">
+<p><code>refid</code>*</p>
+</td>
+<td align="left" headers="r3c1-t10 r1c2-t10">
+<p>--</p>
+</td>
+<td align="left" headers="r3c1-t10 r1c3-t10">
+<p>Reference</p>
+</td>
+<td align="left" headers="r3c1-t10 r1c4-t10">
+<p>No</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<p>* If <code>refid</code> is used, then none of the other parameters can be specified.</p>
+<a id="sthref124" name="sthref124"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<p>&lt;TEXT&gt;</p>
+<a id="CIACIFHH" name="CIACIFHH"/>
+<h2>&lt;fx:callback&gt; Usage Examples</h2>
+<dl>
+<dd><a id="JSDPG223" name="JSDPG223"/><a id="sthref125" name="sthref125"/></dd>
+<dt>Example 1A Callback Calling a JavaScript Function</dt>
+<dd>
+<p>In this example, a callback is used to create an HTML splash screen for an application embedded in a web page. When the event <code>onGetSplash</code> is triggered, the JavaScript function <code>customGetSplash</code> is executed.</p>
+<pre xml:space="preserve">
+&lt;fx:callbacks&gt;
+    &lt;fx:callback name="onGetSplash"&gt;customGetSplash&lt;/fx:callback&gt;
+&lt;/fx:callbacks&gt;
+</pre></dd>
+<dd><a id="JSDPG224" name="JSDPG224"/><a id="sthref126" name="sthref126"/></dd>
+<dt>Example 2A Callback with JavaScript Inserted</dt>
+<dd>
+<p>In this example, the callback is defined with JavaScript code in the <code>&lt;fx:callback&gt;</code> element itself.</p>
+<pre xml:space="preserve">
+&lt;fx:callbacks&gt;
+    &lt;fx:callback name="onLoadHandler"&gt;
+        function () {perfLog(0, "onLoad called");}
+    &lt;/fx:callback&gt;
+&lt;/fx:callbacks&gt;
+</pre></dd>
+<dd><a id="JSDPG508" name="JSDPG508"/><a id="sthref127" name="sthref127"/></dd>
+<dt>Example 3Multiple Callbacks</dt>
+<dd>
+<pre xml:space="preserve">
+&lt;fx:callbacks&gt;
+    &lt;fx:callback name="onJavascriptReady"&gt;callAppFunction&lt;/fx:callback&gt;
+    &lt;fx:callback name="onGetSplash"&gt;function(id) {}&lt;/fx:callback&gt;
+ &lt;/fx:callbacks&gt;   
+</pre></dd>
+</dl>
+<a id="CIAJBBCD" name="CIAJBBCD"/><a id="JSDPG225" name="JSDPG225"/>
+
+<h3>&lt;fx:callbacks&gt;</h3>
+<a id="sthref128" name="sthref128"/>
+<h2>Description</h2>
+<p>Collection of JavaScript callbacks to be used to customize the user experience.</p>
+<a id="sthref129" name="sthref129"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIABIFCI">&lt;fx:deploy&gt;</a></p>
+</li>
+</ul>
+<a id="sthref130" name="sthref130"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG226" name="JSDPG226"/><a id="sthref131" name="sthref131"/><a id="sthref132" name="sthref132"/>
+<p>Table 10-8 fx:callbacks</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:callbacks&gt; element, with a description, their data type, and whether they are required or not." title="fx:callbacks" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t11" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t11" valign="bottom">Description</th>
+<th align="left" id="r1c3-t11" valign="bottom">Type</th>
+<th align="left" id="r1c4-t11" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t11" id="r2c1-t11">
+<p><code>refid</code>*</p>
+</td>
+<td align="left" headers="r2c1-t11 r1c2-t11">
+<p>--</p>
+</td>
+<td align="left" headers="r2c1-t11 r1c3-t11">
+<p>Reference</p>
+</td>
+<td align="left" headers="r2c1-t11 r1c4-t11">
+<p>No</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<p>* If <code>refid</code> is used, then none of the other parameters can be specified.</p>
+<a id="sthref133" name="sthref133"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<ul>
+<li>
+<p><a href="#CIABBIHI">&lt;fx:callback&gt;</a></p>
+</li>
+</ul>
+<a id="sthref134" name="sthref134"/>
+<h2>&lt;fx:callbacks&gt; Usage Examples</h2>
+<p>See the examples for <a href="#CIABBIHI">&lt;fx:callback&gt;</a>.</p>
+<a id="CIAIHFGI" name="CIAIHFGI"/><a id="JSDPG257" name="JSDPG257"/>
+
+<h3>&lt;fx:fileset&gt;</h3>
+<a id="sthref135" name="sthref135"/>
+<h2>Description</h2>
+<p>Extension of the standard Ant <code>FileSet</code> type, which provides the means to specify optional meta information on a selected set of files. This includes:</p>
+<ul>
+<li>
+<p>Type of resource (see the <code>type</code> attribute)</p>
+</li>
+<li>
+<p>Operating system and architecture for which this resource is applicable</p>
+</li>
+<li>
+<p>When this resource is needed, which helps to optimize loading order</p>
+</li>
+</ul>
+<p>Depending on type, the resource might not be used by the enclosing task. See <a href="packaging.html#BABGCEDJ">Section 5.7.2, "Application Resources"</a> for details.</p>
+<p>A fileset of type <code>"jar"</code> is expected to contain a set of JAR files to be added to the classpath.</p>
+<p>Resource of type <code>"native"</code> is expected to be a JAR file with a set of native libraries. In most of cases, it makes sense to set the operating system and architecture for this resource too.</p>
+<p>Resources of type <code>"jnlp"</code> are expected to contain JNLP files defining external JNLP extensions.</p>
+<p>Filesets of type <code>"license"</code> can contain arbitrary files, but additional restrictions can be applied when they are actually used (for example, on Mac it has to be a plain text file, and on Windows it needs to be RTF).</p>
+<p>Filesets of type <code>"data"</code> can contain arbitrary files.</p>
+<a id="sthref136" name="sthref136"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIACICBG">&lt;fx:jar&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIADIIEI">&lt;fx:resources&gt;</a></p>
+</li>
+</ul>
+<a id="sthref137" name="sthref137"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG258" name="JSDPG258"/><a id="sthref138" name="sthref138"/><a id="CIACHAIA" name="CIACHAIA"/>
+<p>Table 10-9 fx:fileset</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:fileset&gt; element, with a description, their data type, and whether they are required or not." title="fx:fileset" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t12" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t12" valign="bottom">Description</th>
+<th align="left" id="r1c3-t12" valign="bottom">Type</th>
+<th align="left" id="r1c4-t12" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t12" id="r2c1-t12">
+<p><code>arch</code></p>
+<p>(used only when <code>&lt;fx:fileset&gt;</code> is nested under <code>&lt;fx:resources&gt;</code></p>
+</td>
+<td align="left" headers="r2c1-t12 r1c2-t12">
+<p>Specifies the architecture for which these resources should be considered.</p>
+</td>
+<td align="left" headers="r2c1-t12 r1c3-t12">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t12 r1c4-t12">
+<p>No</p>
+<p>Default is <code>any</code>.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t12" id="r3c1-t12">
+<p><code>excludes</code></p>
+</td>
+<td align="left" headers="r3c1-t12 r1c2-t12">
+<p>--</p>
+</td>
+<td align="left" headers="r3c1-t12 r1c3-t12">
+<p>String</p>
+</td>
+<td align="left" headers="r3c1-t12 r1c4-t12">
+<p>--</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t12" id="r4c1-t12">
+<p><code>includes</code></p>
+</td>
+<td align="left" headers="r4c1-t12 r1c2-t12">
+<p>--</p>
+</td>
+<td align="left" headers="r4c1-t12 r1c3-t12">
+<p>String</p>
+</td>
+<td align="left" headers="r4c1-t12 r1c4-t12">
+<p>--</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t12" id="r5c1-t12">
+<p><code>os</code></p>
+<p>(used only when <code>&lt;fx:fileset&gt;</code> is nested under <code>&lt;fx:resources&gt;</code></p>
+</td>
+<td align="left" headers="r5c1-t12 r1c2-t12">
+<p>Specifies the operating systems for which these resources should be considered.</p>
+</td>
+<td align="left" headers="r5c1-t12 r1c3-t12">
+<p>String</p>
+</td>
+<td align="left" headers="r5c1-t12 r1c4-t12">
+<p>No</p>
+<p>Default is <code>any</code>.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t12" id="r6c1-t12">
+<p><code>requiredFor</code></p>
+<p>(used only when <code>&lt;fx:fileset&gt;</code> is nested under <code>&lt;fx:resources&gt;</code></p>
+</td>
+<td align="left" headers="r6c1-t12 r1c2-t12">
+<p>Defines when resources are needed (affects loading priority). Supported values are:</p>
+<ul>
+<li>
+<p><code>preloader</code> - resources are needed to launch the preloader (first thing to be executed)</p>
+</li>
+<li>
+<p><code>startup</code> - resources are needed to launch the application.</p>
+</li>
+<li>
+<p><code>runtime</code> - resources are not critical to launch the application but may be needed later.</p>
+</li>
+</ul>
+</td>
+<td align="left" headers="r6c1-t12 r1c3-t12">
+<p>String</p>
+</td>
+<td align="left" headers="r6c1-t12 r1c4-t12">
+<p>No</p>
+<p>Default is <code>startup</code>.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t12" id="r7c1-t12">
+<p><code>type</code></p>
+<p>(used only when <code>&lt;fx:fileset&gt;</code> is nested under <code>&lt;fx:resources&gt;</code></p>
+</td>
+<td align="left" headers="r7c1-t12 r1c2-t12">
+<p>Type of the resources in the set. Supported values are:</p>
+<ul>
+<li>
+<p><code>auto</code> for autodetect</p>
+</li>
+<li>
+<p>data</p>
+</li>
+<li>
+<p><code>jar</code></p>
+</li>
+<li>
+<p><code>jnlp</code></p>
+</li>
+<li>
+<p>license</p>
+</li>
+<li>
+<p><code>native</code> for JAR files containing native libraries</p>
+</li>
+<li>
+<p><code>icon</code></p>
+</li>
+</ul>
+</td>
+<td align="left" headers="r7c1-t12 r1c3-t12">
+<p>String</p>
+</td>
+<td align="left" headers="r7c1-t12 r1c4-t12">
+<p>No</p>
+<p>Default is to guess based on extension.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<p>* If <code>refid</code> is used, then none of the other parameters can be specified.</p>
+<a id="sthref139" name="sthref139"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<p>None (except standard Ant elements).</p>
+<a id="CIACDFGB" name="CIACDFGB"/><a id="JSDPG260" name="JSDPG260"/>
+
+<h3>&lt;fx:htmlParam&gt;</h3>
+<a id="sthref140" name="sthref140"/>
+<h2>Description</h2>
+<p>Parameter to be passed to the embedded or Web Start application from the HTML page. The value of the parameter can be calculated at runtime using JavaScript.</p>
+<a id="sthref141" name="sthref141"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIAGCAFH">&lt;fx:application&gt;</a></p>
+</li>
+</ul>
+<a id="sthref142" name="sthref142"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG261" name="JSDPG261"/><a id="sthref143" name="sthref143"/><a id="sthref144" name="sthref144"/>
+<p>Table 10-10 fx:htmlParam</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:htmlparam&gt; element, with a description, their data type, and whether they are required or not." title="fx:htmlParam" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t13" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t13" valign="bottom">Description</th>
+<th align="left" id="r1c3-t13" valign="bottom">Type</th>
+<th align="left" id="r1c4-t13" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t13" id="r2c1-t13">
+<p><code>escape</code></p>
+</td>
+<td align="left" headers="r2c1-t13 r1c2-t13">
+<p>Defines how to interpret the value for the values that are passedas string literal (true) or JavaScript variable (false).</p>
+</td>
+<td align="left" headers="r2c1-t13 r1c3-t13">
+<p>Boolean</p>
+</td>
+<td align="left" headers="r2c1-t13 r1c4-t13">
+<p>No</p>
+<p>Default is true, meaning value is treated as string literal.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t13" id="r3c1-t13">
+<p><code>name</code></p>
+</td>
+<td align="left" headers="r3c1-t13 r1c2-t13">
+<p>Name of the parameter to be passed to the embedded or Web Start application from the HTML page.</p>
+</td>
+<td align="left" headers="r3c1-t13 r1c3-t13">
+<p>String</p>
+</td>
+<td align="left" headers="r3c1-t13 r1c4-t13">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t13" id="r4c1-t13">
+<p><code>value</code></p>
+</td>
+<td align="left" headers="r4c1-t13 r1c2-t13">
+<p>Value of the parameter. Could also be the name of a JavaScript variable whose value is expected to be passed as parameter.</p>
+<p>For JavaScript variables, ensure <code>escape</code> is set to false.</p>
+</td>
+<td align="left" headers="r4c1-t13 r1c3-t13">
+<p>String</p>
+</td>
+<td align="left" headers="r4c1-t13 r1c4-t13">
+<p>Yes</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<a id="sthref145" name="sthref145"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<p>None</p>
+<a id="sthref146" name="sthref146"/>
+<h2>&lt;fx:htmlParam&gt; Task Usage Examples</h2>
+<dl>
+<dd><a id="JSDPG530" name="JSDPG530"/><a id="sthref147" name="sthref147"/></dd>
+<dt>Example 1Various Parameters Passed from HTML Page</dt>
+<dd>
+<pre xml:space="preserve">
+&lt;fx:application name="Sample app"
+        mainClass="test.MyApplication"&gt;
+    &lt;!-- Parameters passed from HTML page. Only applicable 
+         for embeddeded and Web Start applications and unused when
+         run in a standalone and self-contained context.  --&gt;
+    &lt;!-- Parameter with name 'fixedParam', whose value is string 
+        '(new Date()).getTime()' --&gt;
+    &lt;htmlParam name="fixedParam"
+           value="(new Date()).getTime()"/&gt;
+    &lt;!-- Parameter with name 'dynamicParam', whose value will be 
+         the timestamp of the moment when the application is added  
+         to the web page (value will be assigned the result 
+         of execution of JavaScript code) --&gt;
+    &lt;htmlParam name="dynamicParam" escape="false"
+            value="(new Date()).getTime()"/&gt;
+&lt;/fx:application&gt; 
+</pre></dd>
+</dl>
+<a id="CACFJBFJ" name="CACFJBFJ"/><a id="JSDPG531" name="JSDPG531"/>
+
+<h3>&lt;fx:icon&gt;</h3>
+<a id="sthref148" name="sthref148"/>
+<h2>Description</h2>
+<p>Passes an icon to the <code>&lt;fx:deploy&gt;</code> task, other than a splash screen image.</p>
+<p>The icon specified in this element is used for Web Start and desktop applications.</p>
+<p>Note that in JavaFX 2.2, only icons of type <code>default</code> are used for self-contained applications. For details on how to customize the icon for self-contained applications, see <a href="self-contained-packaging.html#BCGICFDB">Section 7.3.3, "Customizing the Package Using Drop-In Resources."</a></p>
+<a id="sthref149" name="sthref149"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIAIEJHG">&lt;fx:info&gt;</a></p>
+</li>
+</ul>
+<a id="sthref150" name="sthref150"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG532" name="JSDPG532"/><a id="sthref151" name="sthref151"/><a id="sthref152" name="sthref152"/>
+<p>Table 10-11 fx:icon</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:info&gt; element, with a description, their data type, and whether they are required or not." title="fx:icon" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t14" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t14" valign="bottom">Description</th>
+<th align="left" id="r1c3-t14" valign="bottom">Type</th>
+<th align="left" id="r1c4-t14" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t14" id="r2c1-t14">
+<p><code>depth</code></p>
+</td>
+<td align="left" headers="r2c1-t14 r1c2-t14">
+<p>Color depth of the image in bits-per-pixel. Common values are 8, 16, and 24.</p>
+</td>
+<td align="left" headers="r2c1-t14 r1c3-t14">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t14 r1c4-t14">
+<p>No</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t14" id="r3c1-t14">
+<p><code>href</code></p>
+</td>
+<td align="left" headers="r3c1-t14 r1c2-t14">
+<p>Location of image.</p>
+<p>For self-contained applications, the supported graphic formats depend on the operating system:</p>
+<ul>
+<li>
+<p>OS X: <code>.icns</code></p>
+</li>
+<li>
+<p>Linux: <code>.png</code></p>
+</li>
+<li>
+<p>Windows: <code>.ico</code></p>
+</li>
+</ul>
+<p>Note that if you specify your own icon for a self-contained application, the values of the attributes <code>height</code>, <code>width</code>, and <code>depth</code> are not used. Ensure that the size and the color depth of your custom icons correspond to what your operating system expects.</p>
+<p>For Web Start applications, the supported graphic formats are <code>.gif</code>, <code>.jpg</code>, <code>.png</code>, and <code>.ico</code>.</p>
+</td>
+<td align="left" headers="r3c1-t14 r1c3-t14">
+<p>String</p>
+</td>
+<td align="left" headers="r3c1-t14 r1c4-t14">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t14" id="r4c1-t14">
+<p><code>height</code></p>
+</td>
+<td align="left" headers="r4c1-t14 r1c2-t14">
+<p>Image height in pixels</p>
+</td>
+<td align="left" headers="r4c1-t14 r1c3-t14">
+<p>String</p>
+</td>
+<td align="left" headers="r4c1-t14 r1c4-t14">
+<p>No</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t14" id="r5c1-t14">
+<p><code>kind</code></p>
+</td>
+<td align="left" headers="r5c1-t14 r1c2-t14">
+<p>Icon type. Supported values are:</p>
+<ul>
+<li>
+<p><code>default</code></p>
+</li>
+<li>
+<p><code>disabled</code></p>
+</li>
+<li>
+<p><code>rollover</code></p>
+</li>
+<li>
+<p><code>selected</code></p>
+</li>
+<li>
+<p><code>shortcut</code></p>
+</li>
+</ul>
+<p>For Web Start applications, this attribute corresponds to the <code>kind</code> attribute in the <code>icon</code> element of a JNLP file.</p>
+<p>For desktop applications, if this attribute is not specified or set as <code>default</code>, then the icon specified is the icon of the launcher (<code>.exe</code> file for Windows, <code>.app</code> file for OS X), the icon in the taskbar or dock, and in some instances the icon for the installer package (such as a DMG package).</p>
+</td>
+<td align="left" headers="r5c1-t14 r1c3-t14">
+<p>String</p>
+</td>
+<td align="left" headers="r5c1-t14 r1c4-t14">
+<p>No</p>
+<p>Default value is <code>default</code>.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t14" id="r6c1-t14">
+<p><code>width</code></p>
+</td>
+<td align="left" headers="r6c1-t14 r1c2-t14">
+<p>Image width in pixels</p>
+</td>
+<td align="left" headers="r6c1-t14 r1c3-t14">
+<p>String</p>
+</td>
+<td align="left" headers="r6c1-t14 r1c4-t14">
+<p>No</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<a id="sthref153" name="sthref153"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<p>None.</p>
+<a id="sthref154" name="sthref154"/>
+<h2>&lt;fx:icon&gt; Usage Examples</h2>
+<dl>
+<dd><a id="JSDPG533" name="JSDPG533"/><a id="sthref155" name="sthref155"/></dd>
+<dt>Example 1Use of &lt;fx:icon&gt;</dt>
+<dd>
+<pre xml:space="preserve">
+&lt;fx:info title="Sample application"&gt;
+    &lt;!-- icon to be used by default for anything but splash --&gt;
+    &lt;fx:icon href="shortcut.ico" kind="shortcut"
+            width="32" height="32" depth="8"/&gt; 
+&lt;/fx:info&gt; 
+</pre></dd>
+</dl>
+<a id="CIAIEJHG" name="CIAIEJHG"/><a id="JSDPG269" name="JSDPG269"/>
+
+<h3>&lt;fx:info&gt;</h3>
+<a id="sthref156" name="sthref156"/>
+<h2>Description</h2>
+<p>Application description for users. These details are shown in the system dialog boxes, if they need to be shown.</p>
+<a id="sthref157" name="sthref157"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIABIFCI">&lt;fx:deploy&gt;</a></p>
+</li>
+</ul>
+<a id="sthref158" name="sthref158"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG270" name="JSDPG270"/><a id="sthref159" name="sthref159"/><a id="sthref160" name="sthref160"/>
+<p>Table 10-12 fx:info</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:info&gt; element, with a description, their data type, and whether they are required or not." title="fx:info" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t15" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t15" valign="bottom">Description</th>
+<th align="left" id="r1c3-t15" valign="bottom">Type</th>
+<th align="left" id="r1c4-t15" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t15" id="r2c1-t15">
+<p><code>category</code></p>
+</td>
+<td align="left" headers="r2c1-t15 r1c2-t15">
+<p>Application category. Creates a link to an application in a specified category. Semantics of the value depends on the format of the package.</p>
+<p>For example:</p>
+<ul>
+<li>
+<p>For a self-contained application on Linux, it is used to define the application menu category where the application is listed.</p>
+</li>
+<li>
+<p>On Mac: Creates key in info.plist<br/>
+&lt;key&gt;LSApplicationCategoryType&lt;/key&gt;<br/>
+&lt;string&gt;unknown&lt;/string&gt;</p>
+</li>
+<li>
+<p>On Windows creates a group, for instance, if you specify "My Music" it will create your app in C:\ProgramData\Microsoft\Windows\Start Menu\Programs\My Music</p>
+</li>
+</ul>
+</td>
+<td align="left" headers="r2c1-t15 r1c3-t15">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t15 r1c4-t15">
+<p>No</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t15" id="r3c1-t15">
+<p><code>copyright</code></p>
+</td>
+<td align="left" headers="r3c1-t15 r1c2-t15">
+<p>Short copyright statement</p>
+</td>
+<td align="left" headers="r3c1-t15 r1c3-t15">
+<p>String</p>
+</td>
+<td align="left" headers="r3c1-t15 r1c4-t15">
+<p>No</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t15" id="r4c1-t15">
+<p><code>description</code></p>
+</td>
+<td align="left" headers="r4c1-t15 r1c2-t15">
+<p>A short statement describing the application.</p>
+</td>
+<td align="left" headers="r4c1-t15 r1c3-t15">
+<p>String</p>
+</td>
+<td align="left" headers="r4c1-t15 r1c4-t15">
+<p>No</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t15" id="r5c1-t15">
+<p><code>license</code></p>
+</td>
+<td align="left" headers="r5c1-t15 r1c2-t15">
+<p>License type (for example, GPL). As of JavaFX 2.2, this attribute is used only for Linux bundles.</p>
+</td>
+<td align="left" headers="r5c1-t15 r1c3-t15">
+<p>String</p>
+</td>
+<td align="left" headers="r5c1-t15 r1c4-t15">
+<p>No</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t15" id="r6c1-t15">
+<p><code>title</code></p>
+</td>
+<td align="left" headers="r6c1-t15 r1c2-t15">
+<p>Title of the application</p>
+</td>
+<td align="left" headers="r6c1-t15 r1c3-t15">
+<p>String</p>
+</td>
+<td align="left" headers="r6c1-t15 r1c4-t15">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t15" id="r7c1-t15">
+<p><code>vendor</code></p>
+</td>
+<td align="left" headers="r7c1-t15 r1c2-t15">
+<p>Provider of the application</p>
+</td>
+<td align="left" headers="r7c1-t15 r1c3-t15">
+<p>String</p>
+</td>
+<td align="left" headers="r7c1-t15 r1c4-t15">
+<p>Yes</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<a id="sthref161" name="sthref161"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<ul>
+<li>
+<p><a href="#CACFJBFJ">&lt;fx:icon&gt;</a></p>
+</li>
+<li>
+<p><a href="#CACDIDFE">&lt;fx:splash&gt;</a></p>
+</li>
+</ul>
+<a id="sthref162" name="sthref162"/>
+<h2>&lt;fx:info&gt; Usage Examples</h2>
+<dl>
+<dd><a id="JSDPG271" name="JSDPG271"/><a id="sthref163" name="sthref163"/></dd>
+<dt>Example 1&lt;fx:info&gt; Parameter Used in &lt;fx:deploy&gt; Task</dt>
+<dd>
+<pre xml:space="preserve">
+&lt;fx:info vendor="Uncle Joe" description="Test program"/&gt;
+</pre></dd>
+</dl>
+<a id="CIAHJIJG" name="CIAHJIJG"/><a id="JSDPG272" name="JSDPG272"/>
+
+<h3>&lt;fx:jvmarg&gt;</h3>
+<a id="sthref164" name="sthref164"/>
+<h2>Description</h2>
+<p>The JVM argument to be set in the JVM, where the application is executed. Can be used multiple times. Note that you do not need to additionally escape values if they contain space characters.</p>
+<a id="sthref165" name="sthref165"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIAEEFCJ">&lt;fx:platform&gt;</a></p>
+</li>
+</ul>
+<a id="sthref166" name="sthref166"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG273" name="JSDPG273"/><a id="sthref167" name="sthref167"/><a id="sthref168" name="sthref168"/>
+<p>Table 10-13 fx:jvmarg</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:jvmarg&gt; element, with a description, their data type, and whether they are required or not.." title="fx:jvmarg" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t16" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t16" valign="bottom">Description</th>
+<th align="left" id="r1c3-t16" valign="bottom">Type</th>
+<th align="left" id="r1c4-t16" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t16" id="r2c1-t16">
+<p><code>value</code></p>
+</td>
+<td align="left" headers="r2c1-t16 r1c2-t16">
+<p>Value of JVM argument.</p>
+</td>
+<td align="left" headers="r2c1-t16 r1c3-t16">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t16 r1c4-t16">
+<p>Yes</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<a id="sthref169" name="sthref169"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<p>None.</p>
+<a id="sthref170" name="sthref170"/>
+<h2>&lt;fx:jvmarg&gt; Usage Examples</h2>
+<p>See <a href="#CIAGFFIF">&lt;fx:platform&gt; Parameter to Specify JVM Options</a>.</p>
+<a id="CACIDHED" name="CACIDHED"/><a id="JSDPG692" name="JSDPG692"/>
+
+<h3>&lt;fx:jvmuserarg&gt;</h3>
+<a id="sthref171" name="sthref171"/>
+<h2>Description</h2>
+<p>The user overridable JVM argument to be set in the JVM, where the application is executed. Can be used multiple times. Note that you do not need to additionally escape values if they contain space characters.</p>
+<a id="sthref172" name="sthref172"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIAEEFCJ">&lt;fx:platform&gt;</a></p>
+</li>
+</ul>
+<a id="sthref173" name="sthref173"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG693" name="JSDPG693"/><a id="sthref174" name="sthref174"/><a id="sthref175" name="sthref175"/>
+<p>Table 10-14 fx:jvmuserarg</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:jvmarg&gt; element, with a description, their data type, and whether they are required or not.." title="fx:jvmuserarg" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t17" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t17" valign="bottom">Description</th>
+<th align="left" id="r1c3-t17" valign="bottom">Type</th>
+<th align="left" id="r1c4-t17" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t17" id="r2c1-t17">
+<p><code>value</code></p>
+</td>
+<td align="left" headers="r2c1-t17 r1c2-t17">
+<p>Value of JVM argument.</p>
+</td>
+<td align="left" headers="r2c1-t17 r1c3-t17">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t17 r1c4-t17">
+<p>Yes</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<a id="sthref176" name="sthref176"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<p>None.</p>
+<a id="sthref177" name="sthref177"/>
+<h2>&lt;fx:jvmuserarg&gt; Usage Examples</h2>
+<p>See <a href="#CIAGFFIF">&lt;fx:platform&gt; Parameter to Specify JVM Options</a>.</p>
+<a id="CIACICCF" name="CIACICCF"/><a id="JSDPG292" name="JSDPG292"/>
+
+<h3>&lt;fx:param&gt;</h3>
+<a id="sthref178" name="sthref178"/>
+<h2>Description</h2>
+<p>Parameter to be passed to the application (embedded into application package).</p>
+<p>This tag has no impact on standalone applications, including self-contained applications.</p>
+<a id="sthref179" name="sthref179"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIAGCAFH">&lt;fx:application&gt;</a></p>
+</li>
+</ul>
+<a id="sthref180" name="sthref180"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG293" name="JSDPG293"/><a id="sthref181" name="sthref181"/><a id="sthref182" name="sthref182"/>
+<p>Table 10-15 fx:param</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:param&gt; element, with a description, their data type, and whether they are required or not." title="fx:param" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t18" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t18" valign="bottom">Description</th>
+<th align="left" id="r1c3-t18" valign="bottom">Type</th>
+<th align="left" id="r1c4-t18" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t18" id="r2c1-t18">
+<p><code>name</code></p>
+</td>
+<td align="left" headers="r2c1-t18 r1c2-t18">
+<p>Name of parameter</p>
+</td>
+<td align="left" headers="r2c1-t18 r1c3-t18">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t18 r1c4-t18">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t18" id="r3c1-t18">
+<p><code>value</code></p>
+</td>
+<td align="left" headers="r3c1-t18 r1c2-t18">
+<p>Value of parameter</p>
+</td>
+<td align="left" headers="r3c1-t18 r1c3-t18">
+<p>String</p>
+</td>
+<td align="left" headers="r3c1-t18 r1c4-t18">
+<p>Yes</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<a id="sthref183" name="sthref183"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<p>None.</p>
+<a id="sthref184" name="sthref184"/>
+<h2>&lt;fx:param&gt; Task Usage Examples</h2>
+<dl>
+<dd><a id="JSDPG534" name="JSDPG534"/><a id="sthref185" name="sthref185"/></dd>
+<dt>Example 1Passing Various Types of Parameters</dt>
+<dd>
+<pre xml:space="preserve">
+&lt;fx:application name="Sample app"
+        mainClass="test.MyApplication"&gt;
+    &lt;!-- parameter with name 'simpleParam' and fixed string value--&gt;
+    &lt;param name="simpleParam" value="something"/&gt;
+    &lt;!-- parameter with name 'complexParam' with value generated 
+         at build time --&gt;
+    &lt;param name="complexParam" value="Compiled by ${java.version}"/&gt;
+    &lt;!-- parameter with name 'novalueParam' and no value --&gt;
+    &lt;param name="novalueParam"/&gt;
+&lt;/fx:application&gt; 
+</pre></dd>
+</dl>
+<a id="CIAHGJBH" name="CIAHGJBH"/><a id="JSDPG298" name="JSDPG298"/>
+
+<h3>&lt;fx:permissions&gt;</h3>
+<a id="sthref186" name="sthref186"/>
+<h2>Description</h2>
+<p>Definition of security permissions needed by application. By default, the application runs in the sandbox. Requesting elevated permissions requires signing the application JAR files.</p>
+<p>This option has no impact on standalone applications, including self-contained applications.</p>
+<a id="sthref187" name="sthref187"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIABIFCI">&lt;fx:deploy&gt;</a></p>
+</li>
+</ul>
+<a id="sthref188" name="sthref188"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG299" name="JSDPG299"/><a id="sthref189" name="sthref189"/><a id="sthref190" name="sthref190"/>
+<p>Table 10-16 fx:permissions</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:permissions&gt; element, with a description, their data type, and whether they are required or not." title="fx:permissions" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t19" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t19" valign="bottom">Description</th>
+<th align="left" id="r1c3-t19" valign="bottom">Type</th>
+<th align="left" id="r1c4-t19" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t19" id="r2c1-t19">
+<p><code>cachecertificates</code></p>
+</td>
+<td align="left" headers="r2c1-t19 r1c2-t19">
+<p>If set to true, then the certificate used to sign the JAR files are cached in the deployment descriptor. Caching enables the user to accept elevated permissions earlier in the startup process, which improves startup time.</p>
+<p>This setting has no effect if the application is run in the sandbox.</p>
+</td>
+<td align="left" headers="r2c1-t19 r1c3-t19">
+<p>Boolean</p>
+</td>
+<td align="left" headers="r2c1-t19 r1c4-t19">
+<p>No</p>
+<p>Default is false.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t19" id="r3c1-t19">
+<p><code>elevated</code></p>
+</td>
+<td align="left" headers="r3c1-t19 r1c2-t19">
+<p>If set to false, the application runs in the sandbox.</p>
+</td>
+<td align="left" headers="r3c1-t19 r1c3-t19">
+<p>Boolean</p>
+</td>
+<td align="left" headers="r3c1-t19 r1c4-t19">
+<p>No</p>
+<p>Default is false.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<a id="sthref191" name="sthref191"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<p>None.</p>
+<a id="sthref192" name="sthref192"/>
+<h2>&lt;fx:permissions&gt; Usage Examples</h2>
+<dl>
+<dd><a id="JSDPG512" name="JSDPG512"/><a id="sthref193" name="sthref193"/></dd>
+<dt>Example 1Embed Signing Certificate into Deployment Descriptor</dt>
+<dd>
+<p>See <a href="packaging.html#BABGGIHD">Section 5.9.3, "Embed Signing Certificate into Deployment Descriptor."</a></p>
+<pre xml:space="preserve">
+&lt;fx:permissions elevated="true" cacheCertificates="true"/&gt;
+</pre></dd>
+</dl>
+<a id="CIAEEFCJ" name="CIAEEFCJ"/><a id="JSDPG301" name="JSDPG301"/>
+
+<h3>&lt;fx:platform&gt;</h3>
+<a id="sthref194" name="sthref194"/>
+<h2>Description</h2>
+<p>Defines application platform requirements.</p>
+<a id="sthref195" name="sthref195"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIABIFCI">&lt;fx:deploy&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIACICBG">&lt;fx:jar&gt;</a></p>
+</li>
+</ul>
+<a id="sthref196" name="sthref196"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG302" name="JSDPG302"/><a id="sthref197" name="sthref197"/><a id="sthref198" name="sthref198"/>
+<p>Table 10-17 fx:platform</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:platform&gt; element, with a description, their data type, and whether they are required or not." title="fx:platform" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t20" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t20" valign="bottom">Description</th>
+<th align="left" id="r1c3-t20" valign="bottom">Type</th>
+<th align="left" id="r1c4-t20" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t20" id="r2c1-t20">
+<p><code>refid</code>*</p>
+</td>
+<td align="left" headers="r2c1-t20 r1c2-t20">
+<p>--</p>
+</td>
+<td align="left" headers="r2c1-t20 r1c3-t20">
+<p>Reference</p>
+</td>
+<td align="left" headers="r2c1-t20 r1c4-t20">
+<p>No</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t20" id="r3c1-t20">
+<p><code>javafx</code></p>
+</td>
+<td align="left" headers="r3c1-t20 r1c2-t20">
+<p>Minimum version of JavaFX required by the application.</p>
+</td>
+<td align="left" headers="r3c1-t20 r1c3-t20">
+<p>String</p>
+</td>
+<td align="left" headers="r3c1-t20 r1c4-t20">
+<p>No</p>
+<p>Default value matches the release of the JavaFX SDK; for example, if you use the JavaFX 2.2 SDK, the default value is '2.2'.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t20" id="r4c1-t20">
+<p><code>j2se</code></p>
+</td>
+<td align="left" headers="r4c1-t20 r1c2-t20">
+<p>Minimum version of JRE required by the application.</p>
+</td>
+<td align="left" headers="r4c1-t20 r1c3-t20">
+<p>String</p>
+</td>
+<td align="left" headers="r4c1-t20 r1c4-t20">
+<p>No</p>
+<p>Default is any JRE supporting JavaFX.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<p>* If <code>refid</code> is used, then none of the other parameters can be specified.</p>
+<a id="sthref199" name="sthref199"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<ul>
+<li>
+<p><a href="#CIAHJIJG">&lt;fx:jvmarg&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIAHCIFJ">&lt;fx:property&gt;</a></p>
+</li>
+</ul>
+<a id="sthref200" name="sthref200"/>
+<h2>&lt;fx:platform&gt; Usage Examples</h2>
+<dl>
+<dd><a id="JSDPG305" name="JSDPG305"/><a id="sthref201" name="sthref201"/></dd>
+<dt>Example 1&lt;fx:platform&gt; Parameter to Specify Version</dt>
+<dd>
+<p>In this example, the application needs JavaFX Runtime version 2.1 or later and JRE version 7.0 or later.</p>
+<pre xml:space="preserve">
+&lt;fx:platform javafx="2.1+" j2se="7.0"/&gt;
+</pre></dd>
+<dd><a id="JSDPG306" name="JSDPG306"/><a id="CIAGFFIF" name="CIAGFFIF"/></dd>
+<dt>Example 2&lt;fx:platform&gt; Parameter to Specify JVM Options</dt>
+<dd>
+<p>In this example, the application needs JavaFX Runtime version 2.1 or later and needs to run in a JVM launched with <code>"-Xmx400 -verbose:jni -Dpurpose="sample value"</code>.</p>
+<pre xml:space="preserve">
+&lt;fx:platform javafx="2.1+"&gt;
+    &lt;fx:jvmarg value="-Xmx400m"/&gt;
+    &lt;fx:jvmarg value="-verbose:jni"/&gt;
+    &lt;property name="purpose" value="sample value"/&gt;
+&lt;/fx:platform&gt;
+</pre></dd>
+<dd><a id="JSDPG694" name="JSDPG694"/><a id="sthref202" name="sthref202"/></dd>
+<dt>Example 3&lt;fx:platform&gt; Parameter to Specify User Overridable JVM Options</dt>
+<dd>
+<p>In this example, -Xmx768m is passed as a default value for heap size. The user can override this value in a user configuration file.</p>
+<pre xml:space="preserve">
+            &lt;fx:platform&gt;
+              &lt;fx:jvmuserarg name="-Xmx" value="768m" /&gt;
+            &lt;/fx:platform&gt;
+</pre></dd>
+</dl>
+<a id="CIADDDAA" name="CIADDDAA"/><a id="JSDPG307" name="JSDPG307"/>
+
+<h3>&lt;fx:preferences&gt;</h3>
+<a id="sthref203" name="sthref203"/>
+<h2>Description</h2>
+<p>Deployment preferences for the application. Preferences can be expressed but may not necessarily be satisfied, for example in the following cases:</p>
+<ul>
+<li>
+<p>The packager may ignore a preference if it is not supported for a particular execution mode.</p>
+</li>
+<li>
+<p>JRE may ignore it if it is not supported.</p>
+</li>
+<li>
+<p>The user may reject a request, for example if he is prompted whether a desktop shortcut can be created.</p>
+</li>
+</ul>
+<a id="sthref204" name="sthref204"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIABIFCI">&lt;fx:deploy&gt;</a></p>
+</li>
+</ul>
+<a id="sthref205" name="sthref205"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG308" name="JSDPG308"/><a id="sthref206" name="sthref206"/><a id="sthref207" name="sthref207"/>
+<p>Table 10-18 fx:preferences</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:preferences&gt; element, with a description, their data type, and whether they are required or not." title="fx:preferences" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="17%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t21" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t21" valign="bottom">Description</th>
+<th align="left" id="r1c3-t21" valign="bottom">Type</th>
+<th align="left" id="r1c4-t21" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t21" id="r2c1-t21">
+<p><code>install</code></p>
+</td>
+<td align="left" headers="r2c1-t21 r1c2-t21">
+<p>Install <code>true</code> means that the application is installed for the system and <code>false</code> means the application is installed for the current user only.</p>
+<p>For self-contained applications, <code>true</code> indicates a developer preference that the application package should perform a system-wide installation. If <code>false,</code> then a package is generated for per-user installation.</p>
+<p>This value is ignored if the packager does not support different types of install packages for the requested package format.</p>
+</td>
+<td align="left" headers="r2c1-t21 r1c3-t21">
+<p>Boolean</p>
+</td>
+<td align="left" headers="r2c1-t21 r1c4-t21">
+<p>No</p>
+<p>For Web Start and embedded applications, default is <code>false</code>.</p>
+<p>For self-contained applications, default value is different for various package formats.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t21" id="r3c1-t21">
+<p><code>menu</code></p>
+</td>
+<td align="left" headers="r3c1-t21 r1c2-t21">
+<p>If <code>true,</code> then the application requests to add an entry to the system application menu.</p>
+</td>
+<td align="left" headers="r3c1-t21 r1c3-t21">
+<p>Boolean</p>
+</td>
+<td align="left" headers="r3c1-t21 r1c4-t21">
+<p>No</p>
+<p>Default is <code>false</code>.</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t21" id="r4c1-t21">
+<p><code>refid</code>*</p>
+</td>
+<td align="left" headers="r4c1-t21 r1c2-t21">
+<p>--</p>
+</td>
+<td align="left" headers="r4c1-t21 r1c3-t21">
+<p>Reference</p>
+</td>
+<td align="left" headers="r4c1-t21 r1c4-t21">
+<p>No</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t21" id="r5c1-t21">
+<p><code>shortcut</code></p>
+</td>
+<td align="left" headers="r5c1-t21 r1c2-t21">
+<p>If true then application requests a desktop shortcut to be created.</p>
+</td>
+<td align="left" headers="r5c1-t21 r1c3-t21">
+<p>Boolean</p>
+</td>
+<td align="left" headers="r5c1-t21 r1c4-t21">
+<p>No</p>
+<p>Default is <code>false</code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<p>* If <code>refid</code> is used, then none of the other parameters can be specified.</p>
+<a id="sthref208" name="sthref208"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<p>None.</p>
+<a id="CIADCBDC" name="CIADCBDC"/>
+<h2>&lt;fx:preferences&gt; Usage Examples</h2>
+<dl>
+<dd><a id="JSDPG309" name="JSDPG309"/><a id="CIAIHHJF" name="CIAIHHJF"/></dd>
+<dt>Example 1&lt;fx:preferences&gt; Parameter to Add a Desktop Shortcut</dt>
+<dd>
+<p>This example shows a request to create a desktop shortcut.</p>
+<pre xml:space="preserve">
+&lt;fx:preferences id="p1" shortcut="true"/&gt;
+</pre></dd>
+<dd><a id="JSDPG310" name="JSDPG310"/><a id="sthref209" name="sthref209"/></dd>
+<dt>Example 2&lt;fx:preferences&gt; Parameter to Mark as Installed</dt>
+<dd>
+<p>This example does the following:</p>
+<ul>
+<li>
+<p>It requests creation of a web deployment descriptor that will add the application to the Applications Menu and mark it as installed (in other words, the application will be listed in Add/Remove programs.)</p>
+</li>
+<li>
+<p>If self-contained bundles are created, then they will be installed system-wide and will create an application entry in the Applications menu.</p>
+</li>
+</ul>
+<pre xml:space="preserve">
+&lt;fx:preferences shortcut="false" install="true" menu="true"/&gt;
+</pre></dd>
+<dd><a id="JSDPG311" name="JSDPG311"/><a id="sthref210" name="sthref210"/></dd>
+<dt>Example 3Using a refid to the &lt;fx:preferences&gt; Parameter</dt>
+<dd>
+<p>This example uses a reference to the &lt;fx:preferences&gt; parameter in <a href="#CIAIHHJF">&lt;fx:preferences&gt; Parameter to Add a Desktop Shortcut</a> to create the shortcut.</p>
+<pre xml:space="preserve">
+&lt;fx:resource refid="p1"/&gt;
+</pre></dd>
+</dl>
+<a id="CIAHCIFJ" name="CIAHCIFJ"/><a id="JSDPG315" name="JSDPG315"/>
+
+<h3>&lt;fx:property&gt;</h3>
+<a id="sthref211" name="sthref211"/>
+<h2>Description</h2>
+<p>Optional element and can be used multiple times. Java property to be set in the JVM where the application is executed.</p>
+<a id="sthref212" name="sthref212"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIAEEFCJ">&lt;fx:platform&gt;</a></p>
+</li>
+</ul>
+<a id="sthref213" name="sthref213"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG316" name="JSDPG316"/><a id="sthref214" name="sthref214"/><a id="sthref215" name="sthref215"/>
+<p>Table 10-19 fx:property</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:property&gt; element, with a description, their data type, and whether they are required or not." title="fx:property" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t22" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t22" valign="bottom">Description</th>
+<th align="left" id="r1c3-t22" valign="bottom">Type</th>
+<th align="left" id="r1c4-t22" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t22" id="r2c1-t22">
+<p><code>name</code></p>
+</td>
+<td align="left" headers="r2c1-t22 r1c2-t22">
+<p>Name of property to be set.</p>
+</td>
+<td align="left" headers="r2c1-t22 r1c3-t22">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t22 r1c4-t22">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t22" id="r3c1-t22">
+<p><code>value</code></p>
+</td>
+<td align="left" headers="r3c1-t22 r1c2-t22">
+<p>Value of property to be set.</p>
+</td>
+<td align="left" headers="r3c1-t22 r1c3-t22">
+<p>String</p>
+</td>
+<td align="left" headers="r3c1-t22 r1c4-t22">
+<p>Yes</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<a id="sthref216" name="sthref216"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<p>None.</p>
+<a id="CIADIIEI" name="CIADIIEI"/><a id="JSDPG318" name="JSDPG318"/>
+
+<h3>&lt;fx:resources&gt;</h3>
+<a id="sthref217" name="sthref217"/>
+<h2>Description</h2>
+<p>The collection of resources used by the application. Defined as a set of JavaFX FileSet filters. Could be reused using <code>id</code> or <code>refid</code>.</p>
+<a id="sthref218" name="sthref218"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIABIFCI">&lt;fx:deploy&gt;</a></p>
+</li>
+<li>
+<p><a href="#CIACICBG">&lt;fx:jar&gt;</a></p>
+</li>
+</ul>
+<a id="sthref219" name="sthref219"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG319" name="JSDPG319"/><a id="sthref220" name="sthref220"/><a id="sthref221" name="sthref221"/>
+<p>Table 10-20 fx:resources</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:resources&gt; element, with a description, their data type, and whether they are required or not." title="fx:resources" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t23" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t23" valign="bottom">Description</th>
+<th align="left" id="r1c3-t23" valign="bottom">Type</th>
+<th align="left" id="r1c4-t23" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t23" id="r2c1-t23">
+<p><code>id</code></p>
+</td>
+<td align="left" headers="r2c1-t23 r1c2-t23">
+<p>ID that can be referred from another element with a refid attribute.</p>
+</td>
+<td align="left" headers="r2c1-t23 r1c3-t23">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t23 r1c4-t23">
+<p>No</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t23" id="r3c1-t23">
+<p><code>refid</code>*</p>
+</td>
+<td align="left" headers="r3c1-t23 r1c2-t23">
+<p>--</p>
+</td>
+<td align="left" headers="r3c1-t23 r1c3-t23">
+<p>Reference</p>
+</td>
+<td align="left" headers="r3c1-t23 r1c4-t23">
+<p>No</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<p>* If <code>refid</code> is used, then none of the other parameters can be specified.</p>
+<a id="sthref222" name="sthref222"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<ul>
+<li>
+<p><a href="#CIAIHFGI">&lt;fx:fileset&gt;</a></p>
+</li>
+</ul>
+<a id="sthref223" name="sthref223"/>
+<h2>&lt;fx:resources&gt; Usage Examples</h2>
+<p>See also examples in <a href="packaging.html#BABFECGG">Chapter 5, "Packaging Basics"</a> and <a href="self-contained-packaging.html#BCGIBBCI">Chapter 7, "Self-Contained Application Packaging."</a></p>
+<dl>
+<dd><a id="JSDPG320" name="JSDPG320"/><a id="sthref224" name="sthref224"/></dd>
+<dt>Example 1&lt;fx:resources&gt; Parameters Used with id and refid Attributes</dt>
+<dd>
+<p>In this example, both <code>&lt;fx:resources&gt;</code> elements define the collection, consisting of s.jar in the dist directory. The first <code>&lt;fx:resources&gt;</code> element uses an <code>id</code> attribute, and the second <code>&lt;fx:resources&gt;</code> element refers to the first with the <code>refid</code> attribute.</p>
+<pre xml:space="preserve">
+&lt;fx:resources id="aaa"&gt;
+    &lt;fx:fileset dir="dist" includes="s.jar"/&gt;
+&lt;/fx:resources&gt;
+&lt;fx:resources refid="aaa"/&gt;
+</pre></dd>
+<dd><a id="JSDPG513" name="JSDPG513"/><a id="CIABGCEE" name="CIABGCEE"/></dd>
+<dt>Example 2Using &lt;fx:resources&gt; for Extension Descriptors</dt>
+<dd>
+<p>If you mix signed and unsigned JAR files, use an additional <a href="#CIABIFCI">&lt;fx:deploy&gt;</a> Ant task to generate an extension descriptor for each JAR file, and refer to the extension descriptors by treating them as resources in the main file, as shown in this example.</p>
+<pre xml:space="preserve">
+&lt;!-- Prepare extension --&gt;
+&lt;fx:deploy extension="true"
+        outdir="dist" outfile="other"&gt;
+    ...
+&lt;fx:deploy&gt;
+ 
+&lt;!-- Use it in the main descriptor --&gt;
+&lt;fx:deploy outdir="web-dist" ...&gt;
+    ...
+    &lt;fx:resources&gt;
+        <b>&lt;fx:fileset dir="dist" includes="other.jnlp"/&gt;</b>
+            ...
+    &lt;/fx:resources&gt;
+&lt;fx:deploy&gt;
+</pre></dd>
+</dl>
+<a id="CACDIDFE" name="CACDIDFE"/><a id="JSDPG535" name="JSDPG535"/>
+
+<h3>&lt;fx:splash&gt;</h3>
+<a id="sthref225" name="sthref225"/>
+<h2>Description</h2>
+<p>Passes the location of the image to be used as a splash screen. Currently custom splash images can only be passed to Web Start applications, and use of this parameter has no impact on standalone applications or applications embedded into web pages.</p>
+<a id="sthref226" name="sthref226"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIAIEJHG">&lt;fx:info&gt;</a></p>
+</li>
+</ul>
+<a id="sthref227" name="sthref227"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG536" name="JSDPG536"/><a id="sthref228" name="sthref228"/><a id="sthref229" name="sthref229"/>
+<p>Table 10-21 fx:splash</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:info&gt; element, with a description, their data type, and whether they are required or not." title="fx:splash" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t24" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t24" valign="bottom">Description</th>
+<th align="left" id="r1c3-t24" valign="bottom">Type</th>
+<th align="left" id="r1c4-t24" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t24" id="r2c1-t24">
+<p><code>href</code></p>
+</td>
+<td align="left" headers="r2c1-t24 r1c2-t24">
+<p>Location of image. Supported graphic formats are JPEG, GIF, and PNG.</p>
+</td>
+<td align="left" headers="r2c1-t24 r1c3-t24">
+<p>String</p>
+</td>
+<td align="left" headers="r2c1-t24 r1c4-t24">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t24" id="r3c1-t24">
+<p><code>mode</code></p>
+</td>
+<td align="left" headers="r3c1-t24 r1c2-t24">
+<p>Deployment mode. Supported values are:</p>
+<ul>
+<li>
+<p><code>any</code> (but currently only functional in Web Start mode)</p>
+</li>
+<li>
+<p><code>webstart</code></p>
+</li>
+</ul>
+</td>
+<td align="left" headers="r3c1-t24 r1c3-t24">
+<p>String</p>
+</td>
+<td align="left" headers="r3c1-t24 r1c4-t24">
+<p>No</p>
+<p>Default value is <code>any</code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<a id="sthref230" name="sthref230"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<p>None.</p>
+<a id="sthref231" name="sthref231"/>
+<h2>&lt;fx:splash&gt; Usage Examples</h2>
+<dl>
+<dd><a id="JSDPG537" name="JSDPG537"/><a id="CACFGABA" name="CACFGABA"/></dd>
+<dt>Example 1Use of &lt;fx:splash&gt;</dt>
+<dd>
+<p>In the following example, splash images of various types are passed.</p>
+<pre xml:space="preserve">
+&lt;fx:info title="Sample application"&gt;
+    &lt;fx:splash href="http://my.site/custom.gif"/&gt; 
+&lt;/fx:info&gt; 
+</pre></dd>
+</dl>
+<a id="CIACACDA" name="CIACACDA"/><a id="JSDPG327" name="JSDPG327"/>
+
+<h3>&lt;fx:template&gt;</h3>
+<a id="sthref232" name="sthref232"/>
+<h2>Description</h2>
+<p>Template to preprocess. A template is an HTML file that contains markers to be replaced with the JavaScript or HTML snippets that are required for web deployment. Using templates enables you to deploy your application directly into your own web pages. This simplifies the development process, especially when the application is tightly integrated with the page, for example when the web page uses JavaScript to communicate to the application.</p>
+<p>Template markers have one of the following forms:</p>
+<ul>
+<li>
+<p><code>#</code><i>XXX</i><code>#</code></p>
+</li>
+<li>
+<p><code>#</code><i>XXX</i><code>(</code><i>id</i><code>)#</code></p>
+</li>
+</ul>
+<p><i>id</i> is the identifier of an application and <i>XXX</i> is one of following:</p>
+<ul>
+<li>
+<p><code>DT.SCRIPT.URL</code></p>
+<p>Location of dtjava.js in the Deployment Toolkit. By default, the location is</p>
+<p>http://java.com/js/dtjava.js</p>
+</li>
+<li>
+<p><code>DT.SCRIPT.CODE</code></p>
+<p>Script element to include dtjava.js of the Deployment Toolkit.</p>
+</li>
+<li>
+<p><code>DT.EMBED.CODE.DYNAMIC</code></p>
+<p>Code to embed the application into a given placeholder. It is expected that the code will be wrapped in the <code>function()</code> method.</p>
+</li>
+<li>
+<p><code>DT.EMBED.CODE.ONLOAD</code></p>
+<p>All the code needed to embed the application into a web page using the <code>onload</code> hook (except inclusion of dtjava.js).</p>
+</li>
+<li>
+<p><code>DT.LAUNCH.CODE</code></p>
+<p>Code needed to launch the application. It is expected that the code will be wrapped in the <code>function()</code> method.</p>
+</li>
+</ul>
+<p>A page with different applications can be processed multiple times, one per application. To avoid confusion, markers must use application IDs with an alphanumeric string and no spaces.</p>
+<p>If the input and output files are the same then the template is processed in place.</p>
+<a id="sthref233" name="sthref233"/>
+<h2>Parent Elements</h2>
+<ul>
+<li>
+<p><a href="#CIABIFCI">&lt;fx:deploy&gt;</a></p>
+</li>
+</ul>
+<a id="sthref234" name="sthref234"/>
+<h2>Parameters</h2>
+<div><a id="JSDPG328" name="JSDPG328"/><a id="sthref235" name="sthref235"/><a id="sthref236" name="sthref236"/>
+<p>Table 10-22 fx:template</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="groups" summary="Lists the attributes of the fx:template&gt; element, with a description, their data type, and whether they are required or not." title="fx:template" width="100%">
+<col width="25%"/>
+<col width="*"/>
+<col width="25%"/>
+<col width="15%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t25" valign="bottom">Attribute</th>
+<th align="left" id="r1c2-t25" valign="bottom">Description</th>
+<th align="left" id="r1c3-t25" valign="bottom">Type</th>
+<th align="left" id="r1c4-t25" valign="bottom">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t25" id="r2c1-t25">
+<p><code>file</code></p>
+</td>
+<td align="left" headers="r2c1-t25 r1c2-t25">
+<p>Input template file.</p>
+</td>
+<td align="left" headers="r2c1-t25 r1c3-t25">
+<p>File</p>
+</td>
+<td align="left" headers="r2c1-t25 r1c4-t25">
+<p>Yes</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t25" id="r3c1-t25">
+<p><code>tofile</code></p>
+</td>
+<td align="left" headers="r3c1-t25 r1c2-t25">
+<p>Output file (after preprocessing).</p>
+</td>
+<td align="left" headers="r3c1-t25 r1c3-t25">
+<p>File</p>
+</td>
+<td align="left" headers="r3c1-t25 r1c4-t25">
+<p>No</p>
+<p>Default is the same as the input file.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<a id="sthref237" name="sthref237"/>
+<h2>Parameters Accepted as Nested Elements</h2>
+<p>None</p>
+<a id="CIABEFHB" name="CIABEFHB"/>
+<h2>&lt;fx:template&gt; Usage Examples</h2>
+<dl>
+<dd><a id="JSDPG329" name="JSDPG329"/><a id="sthref238" name="sthref238"/></dd>
+<dt>Example 1&lt;fx:template&gt; Parameter Used in &lt;fx:deploy&gt; Task</dt>
+<dd>
+<p>This example shows a <code>&lt;fx:template&gt;</code> parameter in which both input and output files are specified.</p>
+<pre xml:space="preserve">
+&lt;fx:template file="App_template.html" tofile="App.html"/&gt;
+</pre></dd>
+<dd><a id="JSDPG515" name="JSDPG515"/><a id="sthref239" name="sthref239"/></dd>
+<dt>Example 2&lt;fx:template&gt; Parameter in Context</dt>
+<dd>
+<pre xml:space="preserve">
+&lt;fx:deploy placeholderId="ZZZ"
+        width="600" height="400"
+        outdir="dist-web" outfile="App1"&gt;
+    &lt;fx:application id="myApp" name="Demo"
+            mainClass="fish.FishApplication"/&gt;
+    &lt;fx:template file="src/templates/EmbedApp_template.html"
+            tofile="dist-web/EmbedApp.html"/&gt;
+    &lt;fx:resources&gt;
+        &lt;fx:fileset requiredFor="startup" dir="dist" includes="*.jar"/&gt;
+    &lt;/fx:resources&gt;
+&lt;/fx:deploy&gt;
+</pre></dd>
+</dl>
+</div>
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="javafx_ant_tasks.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="part_develop.html">
+                Next</a><hr/>
+
+
+
+
+
+<!--  footer start -->
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<img id="oraclelogofooter" src=
+"../../../images/oraclelogo.gif" alt="Oracle and/or its affiliates"
+border="0" width="100" height="29" name=
+"oraclelogofooter" />
+
+<a href="../../../legal/cpyr.html">Copyright
+&#169;</a> 1993, 2014, Oracle and/or its affiliates. All rights
+reserved.</div>
+<div id="javasecontactus">
+<a href=
+"http://docs.oracle.com/javase/feedback.html">Contact
+Us</a>
+</div>
+</div>
+<!-- footer end -->
+
+<!-- STATIC FOOTER -->
+
+</body>
+</html>

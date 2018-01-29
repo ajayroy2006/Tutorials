@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta content="text/html; charset=us-ascii" http-equiv="Content-Type"/>
+<meta content="text/css" http-equiv="Content-Style-Type"/>
+<meta content="text/javascript" http-equiv="Content-Script-Type"/>
+<title>JAR File Manifest Attributes for Security</title>
+<meta content="Oracle DARB XHTML Converter (Mode = document) - Version 1.0.24" name="generator"/>
+<meta content="2014-08-01T17:38:37Z" name="date"/>
+<meta content="The JAR file manifest contains information about the contents of the JAR file, including security and configuration information. Use the manifest attributes described in this section to enhance the security of running Rich Internet Applications (RIAs) from a browser." name="description"/>
+<meta content="noarchive" name="robots"/>
+<meta content="JAR File Manifest Attributes for Security" name="doctitle"/>
+<meta content="Release 8u20" name="relnum"/>
+<meta content="E50259-01" name="partnum"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="../../../technotes/css/guide.css" />
+</head>
+<body>
+<!-- STATIC HEADER -->
+
+<!-- header start -->
+<div id="javaseheader">
+<div id="javaseheaderlogo">
+<img src="../../../images/javalogo.gif"
+alt="Java logo" />
+</div>
+<div id="javaseheaderindex">
+
+<a href=
+"../../../index.html">Documentation Contents</a>
+</div>
+<div class="clear"></div>
+</div>
+
+<!-- header end -->
+
+
+<b>Java Platform, Standard Edition Deployment Guide</b><br/>
+
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="certificates.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="mixed_code.html">
+                Next</a><hr/><a id="CIHJEJIA" name="CIHJEJIA"/><a id="JSDPG894" name="JSDPG894"/>
+<h1><span>24</span> JAR File Manifest Attributes for Security</h1>
+<a id="JSDPG895" name="JSDPG895"/>
+<p>The JAR file manifest contains information about the contents of the JAR file, including security and configuration information. Use the manifest attributes described in this section to enhance the security of running Rich Internet Applications (RIAs) from a browser.</p>
+<p>The attributes must be added to the manifest before the JAR file is signed. See <a href="http://docs.oracle.com/javase/tutorial/deployment/jar/modman.html">Modifying a Manifest File</a> in the Java Tutorial for information on adding attributes to the JAR manifest file.</p>
+<div align="center">
+<div><br/>
+<table border="1" cellpadding="3" cellspacing="0" frame="hsides" rules="groups" summary="" width="80%">
+<tbody>
+<tr>
+<td align="left">
+<p><b>Note:</b></p>
+<p>These attributes apply to signed applets, Java Web Start applications, and JavaFX applications that are embedded in a web page or launched from a browser. These attributes are ignored for stand-alone and self-contained applications.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+</div>
+<p>This topic contains the following sections:</p>
+<ul>
+<li>
+<p><a href="#A1148525">Section 24.1, "Permissions Attribute"</a></p>
+</li>
+<li>
+<p><a href="#CIHJIIHD">Section 24.2, "Codebase Attribute"</a></p>
+</li>
+<li>
+<p><a href="#A1148568">Section 24.3, "Application-Name Attribute"</a></p>
+</li>
+<li>
+<p><a href="#A1148583">Section 24.4, "Application-Library-Allowable-Codebase Attribute"</a></p>
+</li>
+<li>
+<p><a href="#CIHCFDCD">Section 24.5, "Caller-Allowable-Codebase Attribute"</a></p>
+</li>
+<li>
+<p><a href="#A1212456">Section 24.6, "Entry-Point Attribute"</a></p>
+</li>
+<li>
+<p><a href="#CIHCFIGH">Section 24.7, "Trusted-Only Attribute"</a></p>
+</li>
+<li>
+<p><a href="#A1148631">Section 24.8, "Trusted-Library Attribute"</a></p>
+</li>
+<li>
+<p><a href="#A1213309">Section 24.9, "Preventing RIAs from Being Repurposed"</a></p>
+</li>
+<li>
+<p><a href="#A1148678">Section 24.10, "Additional Information"</a></p>
+</li>
+</ul>
+<a id="A1148525" name="A1148525"/><a id="JSDPG896" name="JSDPG896"/>
+<div>
+<h2><span>24.1</span> Permissions Attribute</h2>
+<p>The <code>Permissions</code> attribute is used to verify that the permissions level requested by the RIA when it runs matches the permissions level that was set when the JAR file was created. This attribute is required in the manifest of the main JAR file for the RIA, secondary JAR files and extensions are not required to have the <code>Permissions</code> attribute. If the attribute is not present in the main JAR file, then the RIA is blocked.</p>
+<p>Use the <code>Permissions</code> attribute to help prevent someone from re-deploying an application that is signed with your certificate and running it at a different privilege level. Set this attribute to one of the following values:</p>
+<ul>
+<li>
+<p><code>sandbox</code> - Indicates that the RIA runs in the security sandbox and does not require additional permissions.</p>
+</li>
+<li>
+<p><code>all-permissions</code> - Indicates that the RIA requires access to the user's system resources.</p>
+</li>
+</ul>
+<p>For Java Web Start applications and applets that use JNLP, the value of the <code>Permissions</code> attribute must match the permissions level requested in the JNLP file, or match the default permission if no permissions level is requested. Otherwise, an error is shown and the RIA is blocked. See <a href="http://docs.oracle.com/javase/tutorial/deployment/deploymentInDepth/jnlpFileSyntax.html">Structure of the JNLP File</a> for information on the <code>security</code> element that is used to request the permissions level. If the element is not present, the permissions level defaults to <code>sandbox</code>.</p>
+<p>For applets that do not use JNLP, the value of the <code>Permissions</code> attribute must match the permissions level requested in the applet tag. Otherwise, an error is shown and the RIA is blocked. If the applet tag does not contain a permissions level, then signed applets run with the permissions level set by the <code>Permissions</code> attribute. See <a href="http://docs.oracle.com/javase/tutorial/deployment/applet/html.html">Deploying with the Applet Tag</a> for information on setting the permissions level in the applet tag.</p>
+</div>
+
+<a id="CIHJIIHD" name="CIHJIIHD"/><a id="JSDPG897" name="JSDPG897"/>
+<div>
+<h2><span>24.2</span> Codebase Attribute</h2>
+<p>The <code>Codebase</code> attribute is used to restrict the code base of the JAR file to specific domains. Use this attribute to prevent someone from re-deploying your application on another website for malicious purposes.</p>
+<div align="center">
+<div><br/>
+<table border="1" cellpadding="3" cellspacing="0" frame="hsides" rules="groups" summary="" width="80%">
+<tbody>
+<tr>
+<td align="left">
+<p><b>Note:</b></p>
+<p>If the <code>Codebase</code> attribute does not specify a secure server, such as <code>HTTPS</code>, some risk exists that your code could be repurposed in Man-in-the-Middle (MITM) attack schemes.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+</div>
+<p>Set this attribute to either the domain name or IP address where the JAR file for the application is located. The protocol and port number can also be included. For multiple locations, separate the values with a space. An asterisk (*) can be used as a wildcard only at the beginning of the domain name, and cannot be used with only a top-level domain, such as *.com. The following table shows sample values and what they match.</p>
+<div><a id="JSDPG898" name="JSDPG898"/><a id="sthref388" name="sthref388"/><a id="sthref389" name="sthref389"/>
+<p>Table 24-1 Valid Values for the Codebase Attribute</p>
+<table border="1" cellpadding="3" cellspacing="0" dir="ltr" frame="hsides" rules="rows" summary="Three column table where the first column shows a sample value for the codebase attribute, the second column shows what domains the value matches, and the third column shows what domains the value does not match." title="Valid Values for the Codebase Attribute" width="100%">
+<col width="33%"/>
+<col width="*"/>
+<col width="32%"/>
+<thead>
+<tr align="left" valign="top">
+<th align="left" id="r1c1-t4" valign="bottom">Value</th>
+<th align="left" id="r1c2-t4" valign="bottom">Matches</th>
+<th align="left" id="r1c3-t4" valign="bottom">Does Not Match</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r2c1-t4">
+<p>*</p>
+<br/></td>
+<td align="left" headers="r2c1-t4 r1c2-t4">
+<p>All domains</p>
+</td>
+<td align="left" headers="r2c1-t4 r1c3-t4"><br/></td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r3c1-t4">
+<p>https://*.example.com</p>
+</td>
+<td align="left" headers="r3c1-t4 r1c2-t4">
+<p>https://a.example.com https://a.b.example.com</p>
+</td>
+<td align="left" headers="r3c1-t4 r1c3-t4">
+<p>http://a.example.com http://a.b.example.com</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r4c1-t4">
+<p>www.example.com</p>
+</td>
+<td align="left" headers="r4c1-t4 r1c2-t4">
+<p>https://www.example.com, http://www.example.com</p>
+</td>
+<td align="left" headers="r4c1-t4 r1c3-t4">
+<p>http://example.com http://example.net</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r5c1-t4">
+<p>www.example.com:8085</p>
+</td>
+<td align="left" headers="r5c1-t4 r1c2-t4">
+<p>https://www.example.com:8085, http://www.example.com:8085</p>
+</td>
+<td align="left" headers="r5c1-t4 r1c3-t4">
+<p>http://www.example.com</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r6c1-t4">
+<p>*.example.com</p>
+</td>
+<td align="left" headers="r6c1-t4 r1c2-t4">
+<p>https://a.example.com, http://a.example.com https://a.b.example.com, http://a.b.example.com https://example.com, http://example.com</p>
+</td>
+<td align="left" headers="r6c1-t4 r1c3-t4">
+<p>http://example.net</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r7c1-t4">
+<p>127.0.0.1</p>
+</td>
+<td align="left" headers="r7c1-t4 r1c2-t4">
+<p>http://127.0.0.1 http://127.0.0.1:8080 http://127.0.0.1:80</p>
+</td>
+<td align="left" headers="r7c1-t4 r1c3-t4">
+<p>http://localhost</p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" headers="r1c1-t4" id="r8c1-t4">
+<p>127.0.0.1:8080</p>
+</td>
+<td align="left" headers="r8c1-t4 r1c2-t4">
+<p>http://127.0.0.1:8080</p>
+</td>
+<td align="left" headers="r8c1-t4 r1c3-t4">
+<p>http://127.0.0.1 http://127.0.0.1:80</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+
+<p>The value of the <code>Codebase</code> attribute must match the location of the JAR file for the RIA. Otherwise, an error is shown and the RIA is blocked. If the attribute is not present, a warning is written to the Java Console and the code base specified for the applet tag or JNLP file is used.</p>
+</div>
+
+<a id="A1148568" name="A1148568"/><a id="JSDPG899" name="JSDPG899"/>
+<div>
+<h2><span>24.3</span> Application-Name Attribute</h2>
+<p>The <code>Application-Name</code> attribute is used in security prompts to provide a title for your signed RIA. Use of this attribute is recommended to help users make the decision to trust and run the RIA. The value can be any valid string, for example:</p>
+<pre xml:space="preserve">
+Application-Name: Hello World 
+</pre>
+<p>If the <code>Application-Name</code> attribute is not present in the JAR file manifest, a warning is written to the Java Console and the value for the <code>Main-Class</code> attribute is used. If neither attribute is present in the manifest, no title is shown in the security prompts. Titles are not shown for unsigned RIAs.</p>
+</div>
+
+<a id="A1148583" name="A1148583"/><a id="JSDPG900" name="JSDPG900"/>
+<div>
+<h2><span>24.4</span> Application-Library-Allowable-Codebase Attribute</h2>
+<p>The <code>Application-Library-Allowable-Codebase</code> attribute identifies the locations where your signed RIA is expected to be found. This attribute is used to determine what is listed in the Location field for the security prompt that is shown to users when the JAR file for your RIA is in a different location than the JNLP file or HTML page that starts your RIA. If the files are not in the locations identified, the RIA is blocked. Set this attribute to the domains where the JAR file, JNLP file, and HTML page are located. To specify more than one domain, separate the domains by a space, for example:</p>
+<pre xml:space="preserve">
+Application-Library-Allowable-Codebase: https://host.example.com *.samplehost.com 
+</pre>
+<p>If the <code>Application-Library-Allowable-Codebase</code> attribute is present and matches the location from which the RIA is started, then a single host is listed in the Location field for the prompt and the option to hide future prompts is provided. If this attribute is present and the files are accessed from a location not included for the attribute, then the RIA is blocked. If this attribute is not present, then multiple hosts that correspond to the locations of the JAR file and the JNLP file or HTML page are listed in the Location field for the prompt. When multiple hosts are shown, the user is not given the option to hide future prompts. Use of this attribute is recommended so the files for the RIA are accessed only from known locations.</p>
+<p>This attribute is not needed if the JAR file for the RIA is in the same location as the JNLP file or HTML page that starts the RIA.</p>
+<p>See <a href="#CIHJIIHD">Codebase Attribute</a>for a description of the values that are allowed.</p>
+</div>
+
+<a id="CIHCFDCD" name="CIHCFDCD"/><a id="JSDPG901" name="JSDPG901"/>
+<div>
+<h2><span>24.5</span> Caller-Allowable-Codebase Attribute</h2>
+<p>The <code>Caller-Allowable-Codebase</code> attribute is used to identify the domains from which JavaScript code can make calls to your RIA without security prompts. Set this attribute to the domain that hosts the JavaScript code. If a call is made from JavaScript code that is not located in a domain specified by the <code>Caller-Allowable-Codebase</code> attribute, the call is blocked. To specify more than one domain, separate the domains by a space, for example:</p>
+<pre xml:space="preserve">
+Caller-Allowable-Codebase: host.example.com 127.0.0.1 
+</pre>
+<p>If the <code>Caller-Allowable-Codebase</code> attribute is not present, calls from JavaScript code to your RIA show a security warning, and users have the choice to allow the call or block the call. For unsigned RIAs, JavaScript code that requires access to the RIA must be in the same location as the main JAR file for your RIA, otherwise, the user is prompted to allow access. Security prompts are shown for each Applet <code>classLoader</code> instance.</p>
+<p>See <a href="#CIHJIIHD">Codebase Attribute</a> for a description of the values that are allowed. If a stand-alone asterisk (*) is specified as the value for the <code>Caller-Allowable-Codebase</code> attribute, then calls from JavaScript code to your RIA show a security warning, and users have the choice to allow the call or block the call. An option to remember the choice is also provided, and if selected, the warning is no longer shown when the RIA is launched.</p>
+</div>
+
+<a id="A1212456" name="A1212456"/><a id="JSDPG902" name="JSDPG902"/>
+<div>
+<h2><span>24.6</span> Entry-Point Attribute</h2>
+<p>The <code>Entry-Point</code> attribute is used to identify the classes that are allowed to be used as entry points to your RIA. Identifying the entry points helps to prevent unauthorized code from being run when a JAR file has more than one class with a <code>main()</code> method, multiple Applet classes, or multiple JavaFX Application classes. Set this attribute to the fully qualified class name that can be used as the entry point for the RIA. To specify more than one class, separate the classes by a space, for example:</p>
+<pre xml:space="preserve">
+Entry-Point: apps.test.TestUI apps.test.TestCLI
+</pre>
+<p>If the JAR manifest is signed and the <code>main-class</code> or <code>applet-class</code> entry point specified in the JNLP file or application descriptor differs from the class specified for the <code>Entry-Point</code> attribute, then the RIA is blocked. If the <code>Entry-Point</code> attribute is not present, any class with a <code>main()</code> method, or any Applet or JavaFX Application class in the JAR file can be used to start your RIA.</p>
+</div>
+
+<a id="CIHCFIGH" name="CIHCFIGH"/><a id="JSDPG903" name="JSDPG903"/>
+<div>
+<h2><span>24.7</span> Trusted-Only Attribute</h2>
+<p>The <code>Trusted-Only</code> attribute is used to prevent untrusted classes or resources from being loaded for an applet or application. Set the value of the attribute to <code>true</code>, for example:</p>
+<pre xml:space="preserve">
+Trusted-Only: true
+</pre>
+<p>This attribute prevents a privileged application or applet from being repurposed with untrusted components. All classes and resources in the application or applet must be signed and request all permissions.</p>
+</div>
+
+<a id="A1148631" name="A1148631"/><a id="JSDPG904" name="JSDPG904"/>
+<div>
+<h2><span>24.8</span> Trusted-Library Attribute</h2>
+<p>The <code>Trusted-Library</code> attribute is used for applications and applets that are designed to allow untrusted components. No warning dialog is shown and an application or applet can load JAR files that contain untrusted classes or resources. Set the value of the attribute to <code>true</code>, for example:</p>
+<pre xml:space="preserve">
+Trusted-Library: true
+</pre>
+<p>This attribute prevents components in a privileged application or applet from being repurposed with untrusted components. All classes and resources in a JAR file containing this manifest attribute must be signed and request all permissions.</p>
+<p>In a mixed code application or applet, all privileged classes and resources must be included in JAR files that contain the <code>Trusted-Library</code> attribute. This attribute is used for calls between privileged Java code sandbox Java code. If you have JavaScript code that calls Java code, see <a href="#CIHCFDCD">Caller-Allowable-Codebase Attribute</a>.</p>
+<p>All trusted library JARs are loaded into a separate dedicated class loader that is unique to the application or applet instance. This <code>Trusted-Library</code> loader is now the parent of the normal Web Start or applet class loader. For backwards compatibility with the original search order, both loaders cooperate to implement a common class path. Consistent with prior releases, JAR files use lazy download and are opened as needed to find requested classes and resources.</p>
+<p>Code in a JAR file that is to be marked with the <code>Trusted-Library</code> manifest attribute may need to be modified slightly if it uses calls that are class loader dependent, such as the single parameter version of <code>Class.forName()</code>, <code>Class.getResource()</code>, and <code>Class.getResourceAsStream()</code>, some variants of <code>java.util.ResourceBundle.getBundle()</code>, and any other methods that operate relative to their immediate caller's defining loader. Changes only need to be made if the requested class or resource might be found in a JAR file that is not a <code>Trusted-Library</code> (and is therefore loaded by the normal Web Start or applet class loader).</p>
+<p>Code in a <code>Trusted-Library</code> can look up the normal loader by invoking <code>Thread.currentThread().getContextClassLoader()</code>. Note, however, that there are uncommon circumstances in which <code>getContextClassLoader()</code> may return <code>null</code>. For example, this may happen when the garbage collector uses a JRE system thread to invoke the <code>Object.finalize()</code> method of an unreachable instance.</p>
+<p>If you need to convert class to <code>Class.getResource()</code> or <code>Class.getResourceAsStream()</code> to their <code>ClassLoader</code> equivalents, remember to adjust the string parameter as described by the documentation for those two methods. If the original resource name began with <code>'/'</code>, then it was an absolute name and the leading <code>'/'</code> simply needs to be removed. Otherwise, determine if the class instance which was the target of the <code>getResource</code> call is in a named package. If it is an array you should first determine the underlying component type of the array. Invoke <code>Class.getName()</code> on the class or component type instance. If the class name contains any <code>'.'</code> characters, it is in a named package that will need to be prepended to the original resource name. Determine the package name by removing any characters after, and including, the trailing <code>'.'</code> character. Next, replace any remaining <code>'.'</code> characters with <code>'/'</code> characters. Finally, add a trailing <code>'/'</code> and append the original resource name string. This new string can now be passed to the <code>ClassLoader</code> version of the <code>getResource()</code> or <code>getResourceAsStream()</code> methods.</p>
+<p>Generally, care must be taken to ensure that the code in the trusted library is written in a careful and secure manner and is otherwise compatible with being loaded in a separate class loader instance from any remaining jars that are part of the application and are loaded by the normal loader.</p>
+</div>
+
+<a id="A1213309" name="A1213309"/><a id="JSDPG905" name="JSDPG905"/>
+<div>
+<h2><span>24.9</span> Preventing RIAs from Being Repurposed</h2>
+<p>The <code>Permissions</code> attribute and the <code>Codebase</code> attribute were introduced in the JDK 7u25 release to defend RIAs against unauthorized code repurposing.</p>
+<p>Without the <code>Permissions</code> attribute, it might be possible for an attacker to exploit a user by re-deploying an application that is signed with your certificate, and running the application at a different privilege level.</p>
+<p>If the <code>Codebase</code> attribute does not specify a secure server, such as HTTPS, some risk exists that your code could be repurposed in Man-in-the-Middle (MITM) attack schemes.</p>
+<p>The following code example shows the attributes to add to the manifest if you have a RIA that runs in the security sandbox and is expected to be accessed from <code>https://example.com</code>:</p>
+<pre xml:space="preserve">
+Permissions: sandbox
+Codebase: https://example.com
+</pre>
+<p>If the RIA is also available from <code>example.backup.com:8080</code>, include both domains for the <code>Codebase</code> attribute:</p>
+<pre xml:space="preserve">
+Codebase: https://example.com example.backup.com:8080
+</pre></div>
+
+<a id="A1148678" name="A1148678"/><a id="JSDPG906" name="JSDPG906"/>
+<div>
+<h2><span>24.10</span> Additional Information</h2>
+<p>See <a href="mixed_code.html#CHDECHIC">Chapter 25, "Mixing Privileged Code and Sandbox Code"</a> for information on using manifest attributes to manage calls from untrusted code.</p>
+<p>For information on adding attributes to the JAR manifest file, see <a href="http://docs.oracle.com/javase/tutorial/deployment/jar/modman.html">Modifying a Manifest File</a> in the Java Tutorial.</p>
+</div>
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="certificates.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="mixed_code.html">
+                Next</a><hr/>
+
+
+
+
+
+<!--  footer start -->
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<img id="oraclelogofooter" src=
+"../../../images/oraclelogo.gif" alt="Oracle and/or its affiliates"
+border="0" width="100" height="29" name=
+"oraclelogofooter" />
+
+<a href="../../../legal/cpyr.html">Copyright
+&#169;</a> 1993, 2014, Oracle and/or its affiliates. All rights
+reserved.</div>
+<div id="javasecontactus">
+<a href=
+"http://docs.oracle.com/javase/feedback.html">Contact
+Us</a>
+</div>
+</div>
+<!-- footer end -->
+
+<!-- STATIC FOOTER -->
+
+</body>
+</html>

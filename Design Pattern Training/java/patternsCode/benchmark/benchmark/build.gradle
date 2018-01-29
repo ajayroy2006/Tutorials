@@ -1,0 +1,39 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+version = '1.0'
+sourceCompatibility = 1.8
+
+buildscript {
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+	}
+}
+
+repositories {
+	jcenter()
+	mavenCentral()
+}
+
+dependencies {
+	compile 'org.openjdk.jmh:jmh-core:1.11.3'
+	compile 'org.openjdk.jmh:jmh-generator-annprocess:1.11.3'
+}
+
+task benchmarks(type: Jar, dependsOn: classes) {
+	apply plugin: 'com.github.johnrengelman.shadow'
+	shadowJar {
+		classifier = "benchmarks"
+		manifest {
+			attributes "Main-Class": "org.openjdk.jmh.Main"
+		}
+	}
+	doLast {
+		shadowJar.execute()
+	}
+}
+
+eclipse.classpath.downloadJavadoc = true

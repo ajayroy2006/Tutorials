@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta content="text/html; charset=us-ascii" http-equiv="Content-Type"/>
+<meta content="text/css" http-equiv="Content-Style-Type"/>
+<meta content="text/javascript" http-equiv="Content-Script-Type"/>
+<title>Packaging for Distribution on a Mac</title>
+<meta content="Oracle DARB XHTML Converter (Mode = document) - Version 1.0.24" name="generator"/>
+<meta content="2014-08-01T17:38:36Z" name="date"/>
+<meta content="This page describes how to convert a simple Java application to a version you can distribute on a Mac." name="description"/>
+<meta content="noarchive" name="robots"/>
+<meta content="Packaging for Distribution on a Mac" name="doctitle"/>
+<meta content="Release 8u20" name="relnum"/>
+<meta content="E50259-01" name="partnum"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="../../../technotes/css/guide.css" />
+</head>
+<body>
+<!-- STATIC HEADER -->
+
+<!-- header start -->
+<div id="javaseheader">
+<div id="javaseheaderlogo">
+<img src="../../../images/javalogo.gif"
+alt="Java logo" />
+</div>
+<div id="javaseheaderindex">
+
+<a href=
+"../../../index.html">Documentation Contents</a>
+</div>
+<div class="clear"></div>
+</div>
+
+<!-- header end -->
+
+
+<b>Java Platform, Standard Edition Deployment Guide</b><br/>
+
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="self-contained-packaging.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="packager.html">
+                Next</a><hr/><a id="CIHIHAAG" name="CIHIHAAG"/><a id="JSDPG673" name="JSDPG673"/>
+<h1><span>8</span> Packaging for Distribution on a Mac</h1>
+<a id="JSDPG674" name="JSDPG674"/>
+<p>This page describes how to convert a simple Java application to a version you can distribute on a Mac.</p>
+<p>To follow along, download the ButtonDemo (.zip) example from the Java Tutorial. This example was created using the NetBeans IDE, which uses the Ant utility. You can run all necessary tools and make all necessary edits from the command line, without launching the IDE. The Ant tool is required.</p>
+<p>Packaging for a Mac requires the following steps:</p>
+<a id="JSDPG675" name="JSDPG675"/>
+<div><a id="sthref59" name="sthref59"/>
+<h2><span>8.1</span> Create a JAR File</h2>
+<p>This step creates the ButtonDemo.jar file.</p>
+<p>Execute ant JAR in the high-level project directory to create the <code>dist/ButtonDemo.jar</code> file. This JAR file is used to create the .app package.</p>
+</div>
+
+<a id="JSDPG676" name="JSDPG676"/>
+<div><a id="sthref60" name="sthref60"/>
+<h2><span>8.2</span> Bundle the JAR File into an App Package</h2>
+<p>To create the <code>ButtonDemo.app</code> package, use the <code>appbundler</code> tool. The <code>appbundler</code> is not shipped with the 7u6 version of the Oracle JDK for the Mac. You can download it from the <a href="http://java.net/projects/appbundler">Java Application Bundler</a> project on <a href="http://www.java.net"><code>java.net</code></a>. <a href="http://java.net/downloads/appbundler/appbundler.html">AppBundler Documentation</a> is also available.</p>
+<p>As of this writing, the most recent version is <code>appbundler-1.0.jar</code>, which is used by this document. Download the latest version available and substitute the file name accordingly.</p>
+<ol>
+<li>
+<p>Install the <code>appbundler-1.0.jar</code> file. In this case, create a lib directory in the high-level project directory and add the <code>appbundler-1.0.jar</code> file.</p>
+</li>
+<li>
+<p>Modify the <code>build.xml</code> file in the high-level project directory as shown in the following example.</p>
+<pre xml:space="preserve">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project name="ButtonDemo" default="default" basedir="."&gt; 
+&lt;import file="nbproject/build-impl.xml"/&gt;
+
+ &lt;taskdef name="bundleapp"
+ classname="com.oracle.appbundler.AppBundlerTask" 
+classpath="lib/appbundler-1.0.jar" /&gt;
+
+ &lt;target name="bundle-buttonDemo"&gt;
+ &lt;bundleapp outputdirectory="dist"
+ name="ButtonDemo"
+ displayname="Button Demo"
+ identifier="components.ButtonDemo"
+ mainclassname="components.ButtonDemo"&gt;
+ &lt;classpath file="dist/ButtonDemo.jar" /&gt;
+ &lt;/bundleapp&gt;
+ &lt;/target&gt;
+
+&lt;/project&gt;
+</pre></li>
+<li>
+<p>Invoke the <code>appbundler</code> by typing <code>ant bundle-buttonDemo</code> from the high-level project directory. This creates the <code>ButtonDemo.app</code> package in the <code>dist</code> directory.</p>
+</li>
+<li>
+<p>You should now be able to launch the application by double clicking <code>ButtonDemo.app</code> in the Finder, or by typing <code>open ButtonDemo.app</code> at the command line.</p>
+</li>
+</ol>
+</div>
+
+<a id="JSDPG677" name="JSDPG677"/>
+<div><a id="sthref61" name="sthref61"/>
+<h2><span>8.3</span> Bundle the JRE with the App Package</h2>
+<p>To distribute a Java application, you want to avoid dependencies on third party software. Your app package should include the Java Runtime Environment, or JRE. In fact, the Apple Store requires the use of an embedded JRE as a prerequisite for Mac App Store distribution. The runtime sub-element of the <code>&lt;bundleapp&gt;</code> task specifies the root of the JRE that will be included in the app package.</p>
+<p>In this example, the location of the JRE is defined using the <code>JAVA_HOME</code> environment variable. However, you might choose to bundle a JRE that is not the same as the one you are using for development. For example, you might be developing on 7u60, but you need to bundle the app with 7u51. You will define runtime accordingly.</p>
+<p>Since this example defines the runtime sub-element using <code>JAVA_HOME</code>, make sure it is configured correctly for your environment. For example, in your <code>.bashrc</code> file, define <code>JAVA_HOME</code> as shown in the following statement:</p>
+<pre xml:space="preserve">
+export JAVA_HOME=`/usr/libexec/java_home`
+</pre>
+<p>Use the following steps to modify the build.xml file at the top of the project directory:</p>
+<ol>
+<li>
+<p>Specify an environment property, named <code>env</code>:</p>
+<pre xml:space="preserve">
+&lt;property environment="env" /&gt;
+</pre></li>
+<li>
+<p>In the target that creates the bundle, specify the location of the JRE on your system, using the <code>env</code> property:</p>
+<pre xml:space="preserve">
+&lt;runtime dir="${env.JAVA_HOME}" /&gt;
+</pre></li>
+</ol>
+<p>The resulting <code>build.xml</code> file should look like the following example.</p>
+<pre xml:space="preserve">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project name="ButtonDemo" default="default" basedir="."&gt;
+ &lt;import file="nbproject/build-impl.xml"/&gt;
+
+&lt;property environment="env" /&gt;
+
+&lt;taskdef name="bundleapp"
+ classname="com.oracle.appbundler.AppBundlerTask"
+ classpath="lib/appbundler-1.0ea.jar" /&gt;
+
+&lt;target name="bundle-buttonDemo"&gt;
+ &lt;bundleapp outputdirectory="dist"
+ name="ButtonDemo"
+ displayname="Button Demo"
+ identifier="components.ButtonDemo"
+ mainclassname="components.ButtonDemo"&gt;
+ &lt;runtime dir="${env.JAVA_HOME}" /&gt;
+ &lt;classpath file="dist/ButtonDemo.jar" /&gt;
+ &lt;/bundleapp&gt;
+&lt;/target&gt;
+
+&lt;/project&gt;
+</pre>
+<p>Create a fresh version of <code>ButtonDemo.app</code>, using the ant <code>bundle-buttonDemo</code> command. The resulting version includes the JRE in the app package. You can confirm this by examining the <code>Contents/PlugIns</code> directory inside of the app package.</p>
+</div>
+
+<a id="JSDPG678" name="JSDPG678"/>
+<div><a id="sthref62" name="sthref62"/>
+<h2><span>8.4</span> Sign the App</h2>
+<p>The Gatekeeper feature, introduced in Mountain Lion (OS X 10.8), allows users to set the level of security for downloaded applications. By default, Gatekeeper is set to allow only OS X App Store and Developer ID signed applications. Unless your app is signed with a Developer ID certificate provided by Apple, your application will not launch on a system with Gatekeeper's default settings.</p>
+<p>For information on the signing certificates available, see <a href="https://developer.apple.com/library/mac/#documentation/security/Conceptual/CodeSigningGuide/Procedures/Procedures.html">Code Signing Tasks</a> on <a href="https://developer.apple.com/">developer.apple.com</a>.</p>
+<p>The signing certificate contains a field called <b>Common Name</b>. Use the string from the <b>Common Name</b> field to sign your application.</p>
+<p>Sign your app using the <code>codesign(1)</code> tool, as shown in the following example:</p>
+<pre xml:space="preserve">
+% codesign -s "Developer ID Application: CommonNameFromCertificate" ExampleApp.app
+</pre>
+<p>To verify that the app is signed, the following command provides information about the signing status of the app:</p>
+<pre xml:space="preserve">
+% codesign -d --verbose=4 ExampleApp.app
+</pre>
+<p>To check if an application can be launched when Gatekeeper is enabled, use the <code>spctl</code> command:</p>
+<pre xml:space="preserve">
+% spctl --assess --verbose=4 --type execute ExampleApp.app
+</pre>
+<p>If you leave off the <code>--verbose</code> tag, and it does not print any output, indicates 'success'.</p>
+<p>For more information, see <a href="https://developer.apple.com/library/mac/#documentation/ToolsLanguages/Conceptual/OSXWorkflowGuide/DistributingApplicationsOutside/DistributingApplicationsOutside.html#/apple_ref/doc/uid/TP40011201-CH12-SW2">Distributing Outside the Mac App Store</a> on developer.apple.com.</p>
+</div>
+
+<a id="JSDPG679" name="JSDPG679"/>
+<div><a id="sthref63" name="sthref63"/>
+<h2><span>8.5</span> Submitting an App to the Mac App Store</h2>
+<p>Packaging an app for the Mac App Store is similar to packaging for regular distribution up until the step of signing the app. Signing the app for the Mac App Store requires a few more steps, and a different kind of certificate.</p>
+<p>You will need to create an application ID and then obtain a <b>distribution certificate</b> for that application ID. Submit your app using Application Loader. For more information, see the following links on developer.apple.com:</p>
+<ul>
+<li>
+<p><a href="https://developer.apple.com/library/mac/#releasenotes/General/SubmittingToMacAppStore/_index.html#/apple_ref/doc/uid/TP40010572">Submitting to the Mac App Store</a></p>
+</li>
+<li>
+<p><a href="https://developer.apple.com/library/mac/#releasenotes/General/SubmittingToMacAppStore/_index.html#/apple_ref/doc/uid/TP40010572-CH16-SW3">Submit Your Application Using Application Loader</a></p>
+</li>
+</ul>
+</div>
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="self-contained-packaging.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="packager.html">
+                Next</a><hr/>
+
+
+
+
+
+<!--  footer start -->
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<img id="oraclelogofooter" src=
+"../../../images/oraclelogo.gif" alt="Oracle and/or its affiliates"
+border="0" width="100" height="29" name=
+"oraclelogofooter" />
+
+<a href="../../../legal/cpyr.html">Copyright
+&#169;</a> 1993, 2014, Oracle and/or its affiliates. All rights
+reserved.</div>
+<div id="javasecontactus">
+<a href=
+"http://docs.oracle.com/javase/feedback.html">Contact
+Us</a>
+</div>
+</div>
+<!-- footer end -->
+
+<!-- STATIC FOOTER -->
+
+</body>
+</html>

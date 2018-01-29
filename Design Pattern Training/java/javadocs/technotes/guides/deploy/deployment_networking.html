@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta content="text/html; charset=us-ascii" http-equiv="Content-Type"/>
+<meta content="text/css" http-equiv="Content-Style-Type"/>
+<meta content="text/javascript" http-equiv="Content-Script-Type"/>
+<title>Networking</title>
+<meta content="Oracle DARB XHTML Converter (Mode = document) - Version 1.0.24" name="generator"/>
+<meta content="2014-08-01T17:38:37Z" name="date"/>
+<meta content="This topic provides information on setting up a proxy, and using the Pack200 tool for your Java applications." name="description"/>
+<meta content="noarchive" name="robots"/>
+<meta content="Networking" name="doctitle"/>
+<meta content="Release 8u20" name="relnum"/>
+<meta content="E50259-01" name="partnum"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="../../../technotes/css/guide.css" />
+</head>
+<body>
+<!-- STATIC HEADER -->
+
+<!-- header start -->
+<div id="javaseheader">
+<div id="javaseheaderlogo">
+<img src="../../../images/javalogo.gif"
+alt="Java logo" />
+</div>
+<div id="javaseheaderindex">
+
+<a href=
+"../../../index.html">Documentation Contents</a>
+</div>
+<div class="clear"></div>
+</div>
+
+<!-- header end -->
+
+
+<b>Java Platform, Standard Edition Deployment Guide</b><br/>
+
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="part_reference.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="codebase_determination.html">
+                Next</a><hr/><a id="CEGIEAAD" name="CEGIEAAD"/><a id="JSDPG951" name="JSDPG951"/>
+<h1><span>28</span> Networking</h1>
+<a id="JSDPG952" name="JSDPG952"/>
+<p>This topic provides information on setting up a proxy, and using the Pack200 tool for your Java applications.</p>
+<p>This topic includes the following sections:</p>
+<ul>
+<li>
+<p><a href="#CHDDJFFF">Section 28.1, "Proxy Configuration"</a></p>
+</li>
+<li>
+<p><a href="#A1083791">Section 28.2, "Java Control Panel"</a></p>
+</li>
+<li>
+<p><a href="#A1148456">Section 28.3, "How Java Plug-in and Java Web Start Obtain Proxy Information From the Browser"</a></p>
+</li>
+<li>
+<p><a href="#A1148629">Section 28.4, "Manual Proxy Configuration"</a></p>
+</li>
+<li>
+<p><a href="#CEGIGFHE">Section 28.5, "Automatic Proxy Configuration"</a></p>
+</li>
+<li>
+<p><a href="#A1149982">Section 28.6, "java.net.ProxySelector API"</a></p>
+</li>
+<li>
+<p><a href="#A1150779">Section 28.7, "Deploying JAR Files Compressed with Pack200"</a></p>
+</li>
+</ul>
+<a id="CHDDJFFF" name="CHDDJFFF"/><a id="JSDPG953" name="JSDPG953"/>
+<div>
+<h2><span>28.1</span> Proxy Configuration</h2>
+<p>For enterprise customers it is important to be able to set up secure computing environments within their companies, and proxy configuration is an essential part of doing that. Proxy configuration acts as a security barrier; it ensures that the proxy server monitors all traffic between the Internet and the intranet.</p>
+<p>Proxy configuration is normally an integral part of security enforcement in corporate firewalls within intranets. Enterprise customers who want to use Java Plug-in to deploy applets, or Java Web Start to run applications on their intranet web pages can also set up proxy support. This support is required for Java Plug-in and Java Web Start to work in an intranet environment and can be set up through the Java Control Panel.</p>
+</div>
+
+<a id="A1083791" name="A1083791"/><a id="JSDPG954" name="JSDPG954"/>
+<div>
+<h2><span>28.2</span> Java Control Panel</h2>
+<p>The Java Control Panel provides four proxy options through the Network Setting dialog, which is accessed by clicking <b>Network Settings</b> in the General tab:</p>
+<ul>
+<li>
+<p>Use browser settings</p>
+</li>
+<li>
+<p>Use proxy server</p>
+</li>
+<li>
+<p>Use automatic proxy configuration script</p>
+</li>
+<li>
+<p>Direct connection</p>
+</li>
+</ul>
+<a id="JSDPG955" name="JSDPG955"/>
+<div><a id="sthref404" name="sthref404"/>
+<h3><span>28.2.1</span> Use browser settings</h3>
+<p>If <b>Use browser settings</b> is selected, then proxy information is obtained entirely through the browser. To change proxy information, see the documentation for your browser:</p>
+<ul>
+<li>
+<p>Internet Explorer:</p>
+<ul>
+<li>
+<p><a href="http://windows.microsoft.com/en-US/windows-vista/Change-proxy-settings-in-Internet-Explorer">Change proxy settings in Internet Explorer</a> (Windows Vista, Windows 7, Windows 8)</p>
+</li>
+<li>
+<p><a href="http://technet.microsoft.com/en-us/library/cc733158.aspx">Configure Proxy Settings for Internet Explorer</a> (Windows Server 2008 R2)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Firefox: Change proxy settings in the <a href="https://support.mozilla.org/en-US/kb/Options%20window%20-%20Advanced%20panel">Options window - Advanced panel</a></p>
+</li>
+<li>
+<p>Chrome: Chrome uses the same connection and proxy settings as Windows; follow the same steps as you would with Internet Explorer</p>
+</li>
+</ul>
+</div>
+
+<a id="JSDPG956" name="JSDPG956"/>
+<div><a id="sthref405" name="sthref405"/>
+<h3><span>28.2.2</span> Use proxy Server</h3>
+<p>If you select <b>Use proxy server</b> in the Java Control Panel, you have two choices:</p>
+<ol>
+<li>
+<p>Set the Address and the Port for a proxy server with the option to bypass it for local addresses.</p>
+</li>
+<li>
+<p>Individually set the proxy server for HTTP, Secure, FTP, and Socks connections. You can also provide a list of addresses for which you do not want to use a proxy server.</p>
+</li>
+</ol>
+</div>
+
+<a id="JSDPG957" name="JSDPG957"/>
+<div><a id="sthref406" name="sthref406"/>
+<h3><span>28.2.3</span> Use automatic proxy configuration script</h3>
+<p>If you select <b>Use automatic proxy configuration script</b>, then you must enter the URL for the location of the JavaScript method called <code>FindProxyForURL(URL url)</code> that returns the proxy server to be used for a URL. Support for this script is the same as described in <a href="#CEGIGFHE">Section 28.5, "Automatic Proxy Configuration."</a></p>
+</div>
+
+<a id="JSDPG958" name="JSDPG958"/>
+<div><a id="sthref407" name="sthref407"/>
+<h3><span>28.2.4</span> Direct connection</h3>
+<p>Direct connection does not use a proxy. For certain situations, such as when mobile users connect to the company through a modem, direct connection to the intranet environment is required, and proxies should not be used in these cases.</p>
+</div>
+</div>
+
+<a id="A1148456" name="A1148456"/><a id="JSDPG959" name="JSDPG959"/>
+<div>
+<h2><span>28.3</span> How Java Plug-in and Java Web Start Obtain Proxy Information From the Browser</h2>
+<p>Because browsers on different platforms store proxy information differently, there is no generic mechanism to obtain proxy information. Here is how proxy information is obtained from Internet Explorer and Firefox on Windows:</p>
+<ul>
+<li>
+<p><b>Internet Explorer</b>: Internet Explorer obtains proxy information from the same set of keys in the Windows registry. Java Plug-in and Java Web Start extract this information directly from the registry.</p>
+</li>
+<li>
+<p><b>Firefox</b>: Firefox stores proxy information in a preference file under the user profile directory on the local machine. Firefox also has public APIs available for determining proxy information. Java Plug-in uses these public APIs to obtain the proxy information; Java Web Start obtains the proxy information through reading and parsing the preference file.</p>
+</li>
+</ul>
+<p>Java Plug-in and Java Web Start obtain proxy information at startup time. If you change the proxy settings after Java Plug-in or Java Web Start have started, you may force reloading of the proxy information from the browser through the p option in the Java Console. Java Web Start is restarted for each application, so new proxy information will be used automatically on subsequent launches.</p>
+</div>
+
+<a id="A1148629" name="A1148629"/><a id="JSDPG960" name="JSDPG960"/>
+<div>
+<h2><span>28.4</span> Manual Proxy Configuration</h2>
+<p>Internet Explorer, Firefox, and Chrome support manual proxy configuration. Users can specify the proxy server and port for each protocol. Users can also specify one proxy server and port for all protocols. To minimize the workload of the proxy server, some sites might bypass the proxy server completely when a machine is connecting to another machine inside the intranet environment. To do this, network administrators and users can specify a proxy server bypass list in the browser's proxy setting.</p>
+<p><b>Internet Explorer</b>: Java Plug-in and Java Web Start recognize and supports the proxy server and port setting associated with the protocol. IE supports various syntaxes in the proxy server bypass list, as follows:</p>
+<ul>
+<li>
+<p>IP address/host name only</p>
+</li>
+<li>
+<p>IP address/host name with wildcard</p>
+</li>
+<li>
+<p>IP address/host name with protocol</p>
+</li>
+</ul>
+<p>For example, if you specify "<code>203.0.113.0;*.eng;http://*.com</code>" in the proxy server bypass list, then the browser bypasses the proxy whenever one of the following occurs:</p>
+<ul>
+<li>
+<p>"203.0.113.0" is requested</p>
+</li>
+<li>
+<p>the URL host name ends with <code>.eng</code></p>
+</li>
+<li>
+<p>the URL protocol is <code>HTTP</code> and the URL host name ends with <code>.com</code></p>
+</li>
+</ul>
+<p>Currently Java Plug-in and Java Web Start support the first two syntaxes in the proxy server bypass list in IE. IE also supports bypassing the proxy server for local (intranet) addresses without using the proxy server bypass list. Java Plug-in and Java Web Start support this option by bypassing the proxy server if the URL host name contains no dot (.).</p>
+<p><b>Firefox</b>: Java Plug-in and Java Web Start recognize and supports the proxy server and port setting associated with the protocol. For example, if you specify <code>.eng,.sun.com</code> in the proxy server bypass list in Firefox, it bypasses the proxy whenever the URL hostname ends with <code>.eng</code> or <code>.sun.com</code>. Java Plug-in and Java Web Start fully support this syntax in the proxy server bypass list in Firefox.</p>
+<p>For more information about manual proxy configuration in your browser, consult the user guide for your browser.</p>
+</div>
+
+<a id="CEGIGFHE" name="CEGIGFHE"/><a id="JSDPG961" name="JSDPG961"/>
+<div>
+<h2><span>28.5</span> Automatic Proxy Configuration</h2>
+<p>Automatic proxy configuration is supported in the browser by setting a particular URL that contains a JavaScript file with <code>.pac</code> or <code>.js</code> extension. This file contains a function called <code>FindProxyForURL</code> that contains the logic to determine which proxy server to use when the browser receives a connection request. This function is written by the system administrator for the particular intranet environment. When the browser starts up, it recognizes the URL of the JavaScript file and downloads the file to the local machine using direct connection. Then whenever it needs to make a new connection, the browser executes the JavaScript function <code>FindProxyForURL</code> in the file to obtain the proxy information to set up the connection.</p>
+<p><b>Java Plug-in</b></p>
+<ul>
+<li>
+<p><b>Internet Explorer</b>: During startup, Java Plug-in downloads the JavaScript file to the local machine using direct connection. Then whenever it needs to make a new connection, it executes the <code>FindProxyForURL</code> function to obtain the proxy information using the JavaScript engine in Internet Explorer.</p>
+</li>
+<li>
+<p><b>Firefox</b>: During startup, Java Plug-in downloads the JavaScript file to the local machine using direct connection. Then whenever it needs to make a new connection, it executes the <code>FindProxyForURL</code> function to obtain the proxy information by using the JavaScript engine in Firefox.</p>
+</li>
+</ul>
+<p><b>Java Web Start</b></p>
+<ul>
+<li>
+<p><b>Windows</b>: During startup, Java Web Start downloads the JavaScript file to the local machine using direct connection. Then whenever it needs to make a new connection, it executes the FindProxyForURL function to obtain the proxy information using the JavaScript engine in Internet Explorer.</p>
+</li>
+<li>
+<p><b>Linux, Solaris, OS X</b>: During startup, Java Web Start downloads the JavaScript file to the local machine using direct connection. Then whenever it needs to make a new connection, it will parse the <code>FindProxyForURL</code> function and try its best guess to obtain the proxy information.</p>
+</li>
+</ul>
+<p><b>Notes on FindProxyForURL</b></p>
+<p>Given a JavaScript engine, the following is applicable to Java Plug-in on all platforms and to Java Web Start on Windows only.</p>
+<ol>
+<li>
+<p>There are a number of JavaScript helper functions which can be called from the JavaScript function <code>FindProxyForURL</code>. Java Plug-in and Java Web Start provide their own implementations of these functions to completely emulate automatic proxy configuration. Regarding the implementation of these helper function, note the following:</p>
+<ul>
+<li>
+<p>Function <code>dnsResolve</code> always returns an empty string if the host is not an IP address.</p>
+</li>
+<li>
+<p>Function <code>isResolvable</code> always returns false if the host is not an IP address.</p>
+</li>
+<li>
+<p>Function <code>isInNet</code> always returns false if the host is not an IP address.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Executing the function <code>FindProxyForURL</code> always returns proxy information as a string. Java Plug-in and Java Web Start extract the setting in the following way:</p>
+<ul>
+<li>
+<p>If <code>DIRECT</code> is in the string, Java Plug-in and Java Web Start assume direct connection.</p>
+</li>
+<li>
+<p>If <code>PROXY</code> is in the string, they use the first proxy setting for the connection.</p>
+</li>
+<li>
+<p>If <code>SOCKS</code> is in the string, they use the SOCKS v4 for the connection.</p>
+</li>
+<li>
+<p>Otherwise, the proxy information in the string is incorrect. In this case, Java Plug-in and Java Web Start assume direct connection.</p>
+</li>
+</ul>
+</li>
+</ol>
+</div>
+
+<a id="A1149982" name="A1149982"/><a id="JSDPG962" name="JSDPG962"/>
+<div>
+<h2><span>28.6</span> java.net.ProxySelector API</h2>
+<p>Developers sometimes might need to determine the proxy configuration of a given host. By knowing the proxy configuration, they can write more intelligent code to connect to the host through the proper proxy server. The <code>java.net.ProxySelector</code> class provides configuration support. Here is a simple code example:</p>
+<div><a id="JSDPG963" name="JSDPG963"/><a id="sthref408" name="sthref408"/>
+<p>Example 28-1 ProxySelector Usage Example</p>
+<pre xml:space="preserve">
+private Proxy findProxy(URI uri)
+{
+     try
+     {
+          ProxySelector selector = ProxySelector.getDefault();
+          List&lt;Proxy&gt; proxyList = selector.select(uri);
+          if (proxyList.size() &gt; 1)
+               return proxyList.get(0);
+     }
+     catch (IllegalArgumentException e)
+     {
+     }
+     return Proxy.NO_PROXY;
+}
+</pre></div>
+</div>
+
+<a id="A1150779" name="A1150779"/><a id="JSDPG964" name="JSDPG964"/>
+<div>
+<h2><span>28.7</span> Deploying JAR Files Compressed with Pack200</h2>
+<p>When the Java system property <code>jnlp.packEnabled</code> is set to <code>true</code> in a JNLP file or an applet tag, Java Plug-in or Java Web Start downloads the JAR file compressed by the Pack200 tool. If the compressed version is not available, Java Plug-in or Java Web Start looks for the uncompressed version.</p>
+<div align="center">
+<div><br/>
+<table border="1" cellpadding="3" cellspacing="0" frame="hsides" rules="groups" summary="" width="80%">
+<tbody>
+<tr>
+<td align="left">
+<p><b>Note:</b></p>
+<p>Pack200 compressed JAR files must have the extension <code>pack.gz</code>. For example, if your JAR file is named <code>sampleApp.jar</code>, then the Pack200 compressed version of this file must be named <code>sampleApp.jar.pack.gz</code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+</div>
+<a id="JSDPG965" name="JSDPG965"/>
+<div><a id="sthref409" name="sthref409"/>
+<h3><span>28.7.1</span> Usage in a JNLP File</h3>
+<p>Use the property tag to specify <code>jnlp.packEnabled</code> to <code>true</code> within the resources tags, for example:</p>
+<pre xml:space="preserve">
+&lt;jnlp ...&gt;
+ ...
+ &lt;resources&gt;
+ &lt;property name="jnlp.packEnabled" value="true"/&gt;
+ &lt;java version="1.5+" href="http://javadl.sun.com/webapps/jawsautodl/AutoDL/j2se"/&gt;
+ &lt;jar href="sampleApp.jar" main="true" download="eager"/&gt; 
+&lt;/resources&gt;
+ ...
+&lt;/jnlp&gt;
+</pre>
+<p>In this example, Java Web Start and the Java Plug-in first look for <code>sampleApp.jar.pack.gz</code>. If the file is not found, they look for the original, <code>sampleApp.jar</code>.</p>
+</div>
+
+<a id="JSDPG966" name="JSDPG966"/>
+<div><a id="sthref410" name="sthref410"/>
+<h3><span>28.7.2</span> Usage in Applet Tag</h3>
+<p>Pass the <code>-Djnlp.packEnabled</code> VM argument by using <code>java_arguments</code>, for example:</p>
+<pre xml:space="preserve">
+&lt;HTML&gt;
+ ...
+ &lt;APPLET CODE="HelloWorld.class" WIDTH=150 HEIGHT=25&gt;
+ &lt;PARAM NAME = "cache_archive" VALUE = "HelloWorld.jar"/&gt;
+ &lt;PARAM NAME="java_arguments" VALUE="-Djnlp.packEnabled=true"/&gt;
+ &lt;/APPLET&gt;
+ ...
+&lt;/HTML&gt;
+</pre>
+<p>The Java Plug-in looks for <code>HelloWorld.jar.pack.gz</code>; if this file is not available, it looks for <code>HelloWorld.jar</code>.</p>
+</div>
+</div>
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="part_reference.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="codebase_determination.html">
+                Next</a><hr/>
+
+
+
+
+
+<!--  footer start -->
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<img id="oraclelogofooter" src=
+"../../../images/oraclelogo.gif" alt="Oracle and/or its affiliates"
+border="0" width="100" height="29" name=
+"oraclelogofooter" />
+
+<a href="../../../legal/cpyr.html">Copyright
+&#169;</a> 1993, 2014, Oracle and/or its affiliates. All rights
+reserved.</div>
+<div id="javasecontactus">
+<a href=
+"http://docs.oracle.com/javase/feedback.html">Contact
+Us</a>
+</div>
+</div>
+<!-- footer end -->
+
+<!-- STATIC FOOTER -->
+
+</body>
+</html>

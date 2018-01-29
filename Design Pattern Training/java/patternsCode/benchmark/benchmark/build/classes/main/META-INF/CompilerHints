@@ -1,0 +1,12 @@
+dontinline,*.*_all_jmhStub
+dontinline,*.*_avgt_jmhStub
+dontinline,*.*_sample_jmhStub
+dontinline,*.*_ss_jmhStub
+dontinline,*.*_thrpt_jmhStub
+inline,bnch/cloning/DeepCopy.SerializeDeserializeAllObjects
+inline,bnch/cloning/DeepCopy.initialize
+inline,bnch/cloning/ManualCopy.initialize
+inline,bnch/cloning/ManualCopy.manuallyCopyAllObjects
+inline,bnch/cloning/Shallow.cloneAllObjects
+inline,bnch/cloning/Shallow.initialize
+inline,org/openjdk/jmh/infra/Blackhole.clearSinks

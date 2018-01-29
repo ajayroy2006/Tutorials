@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta content="text/html; charset=us-ascii" http-equiv="Content-Type"/>
+<meta content="text/css" http-equiv="Content-Style-Type"/>
+<meta content="text/javascript" http-equiv="Content-Script-Type"/>
+<title>Deployment Rule Set</title>
+<meta content="Oracle DARB XHTML Converter (Mode = document) - Version 1.0.24" name="generator"/>
+<meta content="2014-08-01T17:38:37Z" name="date"/>
+<meta content="The Deployment Rule Set feature is for enterprises that manage their Java desktop environment directly, and provides a way for enterprises to continue using legacy business applications in an environment of ever-tightening Java applet and Java Web Start application security policies." name="description"/>
+<meta content="noarchive" name="robots"/>
+<meta content="Deployment Rule Set" name="doctitle"/>
+<meta content="Release 8u20" name="relnum"/>
+<meta content="E50259-01" name="partnum"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="../../../technotes/css/guide.css" />
+</head>
+<body>
+<!-- STATIC HEADER -->
+
+<!-- header start -->
+<div id="javaseheader">
+<div id="javaseheaderlogo">
+<img src="../../../images/javalogo.gif"
+alt="Java logo" />
+</div>
+<div id="javaseheaderindex">
+
+<a href=
+"../../../index.html">Documentation Contents</a>
+</div>
+<div class="clear"></div>
+</div>
+
+<!-- header end -->
+
+
+<b>Java Platform, Standard Edition Deployment Guide</b><br/>
+
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="mixed_code.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="exception_site_list.html">
+                Next</a><hr/><a id="CIHBCFAJ" name="CIHBCFAJ"/><a id="JSDPG926" name="JSDPG926"/>
+<h1><span>26</span> Deployment Rule Set</h1>
+<a id="JSDPG927" name="JSDPG927"/>
+<p>The Deployment Rule Set feature is for enterprises that manage their Java desktop environment directly, and provides a way for enterprises to continue using legacy business applications in an environment of ever-tightening Java applet and Java Web Start application security policies. This feature also provides the ability to control the version of the JRE that is used for specific applications.</p>
+<p>Java applets, Java Web Start Applications, and JavaFX applications embedded in a browser, known collectively as Rich Internet Applications (RIAs), are accessed from a web server through a browser. To protect the user and minimize the possibility that a RIA was compromised, security checks are performed when a RIA is started, and the user is prompted for permission to run the RIA. The Deployment Rule Set feature enables an enterprise to establish a whitelist of known applications. Applications on the whitelist can be run without most security prompts, however, the following prompts are not suppressed:</p>
+<ul>
+<li>
+<p>HTTPS security warnings</p>
+</li>
+<li>
+<p>Authentication dialogs that require the user to provide credentials to connect</p>
+</li>
+<li>
+<p>Security warnings from unsigned Java Web Start applications that want to perform such actions as creating a shortcut or an association</p>
+</li>
+</ul>
+<p>Rules for deployment are defined in an XML file and packaged in a signed JAR file. The rules are tested sequentially until one matches the RIA. Depending on the action assigned to the rule, the RIA is then run without security prompts, blocked from running, or run with default processing that shows any security prompts that are applicable. If no rules are matched, then default processing is used. The rules also provide the ability to specify the version of the JRE that is used to run the RIA and suppress the notification of out-of-date JREs.</p>
+<p>An active rule set that is installed on the system can be viewed from the Security tab of the Java Control Panel. See <a href="jcp.html#A1152831">Section 18.4, "Security"</a> in <a href="jcp.html#CEGJJDDJ">Chapter 18, "Java Control Panel"</a> for more information.</p>
+<p>The Deployment Rule Set feature requires the Java Plug-in from Java SE 6 Update 10 or later. If a deployment rule set is installed, usage of the plug-in from earlier releases is blocked for all RIAs.</p>
+<div align="center">
+<div><br/>
+<table border="1" cellpadding="3" cellspacing="0" frame="hsides" rules="groups" summary="" width="80%">
+<tbody>
+<tr>
+<td align="left">
+<p><b>Note:</b></p>
+<p>The Deployment Rule Set feature is optional and shall only be used internally in an organization with a controlled environment. If a JAR file that contains a rule set is distributed or made available publicly, then the certificate used to sign the rule set will be blacklisted and blocked in Java.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<br/></div>
+</div>
+<p>This topic contains the following sections:</p>
+<ul>
+<li>
+<p><a href="#A1149996">Section 26.1, "Create the Rule Set"</a></p>
+</li>
+<li>
+<p><a href="#CCJEDAAE">Section 26.2, "Package and Install the Rule Set"</a></p>
+</li>
+<li>
+<p><a href="#A1150376">Section 26.3, "Security Considerations"</a></p>
+</li>
+<li>
+<p><a href="#CCJEBDCJ">Section 26.4, "Examples"</a></p>
+</li>
+<li>
+<p><a href="#CIHBAJBB">Section 26.5, "Java Deployment Rule Set DTD"</a></p>
+</li>
+</ul>
+<a id="A1149996" name="A1149996"/><a id="JSDPG928" name="JSDPG928"/>
+<div>
+<h2><span>26.1</span> Create the Rule Set</h2>
+<p>The rule set is an XML file that must be named <code>ruleset.xml</code>. Use any text editor to create this file.</p>
+<a id="JSDPG929" name="JSDPG929"/>
+<div><a id="sthref402" name="sthref402"/>
+<h3><span>26.1.1</span> Define the Rules</h3>
+<p>Define the rules that you need to run or block RIAs for your organization. See <a href="#CIHBAJBB">Section 26.5, "Java Deployment Rule Set DTD"</a> for the syntax of the rule set. If unknown elements or attributes are included in the rule set, warnings are written to the Java Console. The following elements are valid:</p>
+<ul>
+<li>
+<p><code>&lt;ruleset&gt;</code></p>
+<p>Top-level element of the policy file.</p>
+<p>The valid child element is <code>rule</code>.</p>
+<p>The following attribute is required:</p>
+<dl>
+<dt>version</dt>
+<dd>
+<p>Minimum version of the Deployment Rule Set specification that is required to process this file. Use a plus sign (+) to indicate that later versions can also be used, for example <code>1.0+</code>. If your JRE does not support the version specified, all RIAs are blocked.</p>
+</dd>
+</dl>
+</li>
+<li>
+<p><code>&lt;rule&gt;</code></p>
+<p>Identifies a RIA or set of RIAs and the action taken. A <code>rule</code> element contains one <code>id</code> and one <code>action</code> element. Rules are processed sequentially until a rule is matched. When a match is found, no further rules are processed. If no rule is matched, then default processing is used, and any relevant security prompts or warnings are shown.</p>
+<p>When a RIA has artifacts that are signed with a different certificate or that are in a different location, ensure that the rule set contains rules for all artifacts of the RIA. For mixed code cases, which are calls between JAR files with different permission levels or calls from JavaScript code to privileged Java code, see <a href="#CCJIEEDJ">Set Up Rules for Mixed Code</a> for additional information.</p>
+<p>The valid parent element is <code>ruleset</code>. The valid child elements are <code>id</code> and <code>action</code>.</p>
+<p>This element has no attributes.</p>
+</li>
+<li>
+<p><code>&lt;id&gt;</code></p>
+<p>Identifies the RIA or set of RIAs to which the rule applies. To be considered a match, the RIA must match all attributes and child elements present.</p>
+<p>If no attributes or child elements are present, then the rule matches all RIAs. If the action for a rule is <code>run</code>, then at least one attribute or child element must be present.</p>
+<p>The valid parent element is <code>rule</code>. The valid child element is <code>certificate</code>.</p>
+<p>The following attributes are available:</p>
+<dl>
+<dt>location</dt>
+<dd>
+<p>URL of the source of the RIA. For RIAs that use JNLP, this value is matched to the location of the JNLP file, or the canonical home of the RIA if there is no JNLP file. For a JNLP extension, this value is matched to the location of the extension element in the resource element of the main artifact. For RIAs that do not use JNLP, this value is matched to the URL for the HTML file. The path is case sensitive and UTF-8 encoding is assumed.</p>
+<p>Use of the HTTPS protocol is strongly recommended to avoid potential man-in-the middle attacks.</p>
+<p>A location is matched based on the following guidelines:</p>
+<ul>
+<li>
+<p>If provided, then the protocols must match exactly.</p>
+</li>
+<li>
+<p>The host name can start with an asterisk followed by a dot (*.), which then matches any host that ends with the string provided after the dot. For example, <code>*.example.com</code> matches <code>host.example.com</code> and <code>host.test.example.com</code>. The host name cannot be just an asterisk.</p>
+</li>
+<li>
+<p>If provided, then the port numbers must match exactly.</p>
+</li>
+<li>
+<p>If provided, then the beginning of the paths must match exactly. If the <code>location</code> attribute does not contain a path, then all paths from the host are considered a match. For example, <code>host.example.com/samples</code> matches <code>host.example.com/samples</code> and <code>host.example.com/samples/test</code>, but does not match <code>host.example.com/test</code>. However, <code>host.example.com</code> matches <code>host.example.com/samples</code>, <code>host.example.com/samples/test</code>, and <code>host.example.com/test</code>.</p>
+</li>
+</ul>
+<p>If the <code>location</code> attribute is not present, or the value is null, then the location matches all RIAs.</p>
+</dd>
+<dt>title</dt>
+<dd>
+<p>String used in the title element of the JNLP file, or as used by the Java Plug-in. If the <code>title</code> attribute is present and the value is not null, then the value must match the title of the RIA exactly. If the <code>title</code> attribute is not present, or the value is null, then the title matches all RIAs.</p>
+<p>If the action for a rule is <code>run</code> or <code>default</code> and the <code>title</code> attribute is present, another <code>id</code> attribute or child element must be specified with the <code>title</code> attribute, otherwise the rule is invalid.</p>
+</dd>
+</dl>
+</li>
+<li>
+<p><code>&lt;certificate&gt;</code></p>
+<p>Identifies the certificate used to sign the RIA. The <code>hash</code> attribute is required.</p>
+<p>The valid parent element is <code>id</code>. The <code>certificate</code> element has no child elements.</p>
+<p>The following attributes are available:</p>
+<dl>
+<dt>algorithm</dt>
+<dd>
+<p>String that defines the hashing algorithm used to generate the value for the <code>hash</code> attribute. Currently, only security hash algorithm SHA-256 is supported. If the value is null, then SHA-256 is used.</p>
+</dd>
+<dt>hash</dt>
+<dd>
+<p>String of hexadecimal digits that represent the hash value of the code signing certificate. This attribute is required. The value is based on the hashing algorithm specified for the <code>algorithm</code> attribute. See <a href="#CIHHEHAD">Get the Certificate Hash</a> for information on getting the value to use.</p>
+</dd>
+</dl>
+</li>
+<li>
+<p><code>&lt;action&gt;</code></p>
+<p>Defines the action taken for any RIA that matches the rule.</p>
+<p>The valid parent element is <code>rule</code>. The valid child element is <code>message</code>.</p>
+<p>The following attributes are available:</p>
+<dl>
+<dt>permission</dt>
+<dd>
+<p>Action taken. The following values are valid:</p>
+<ul>
+<li>
+<p><code>run</code> - The following types of RIAs are allowed to run without prompts:</p>
+<ul>
+<li>
+<p>Signed with a valid certificate from a trusted certificate authority</p>
+</li>
+<li>
+<p>Signed with an expired certificate</p>
+</li>
+<li>
+<p>Self-signed</p>
+</li>
+<li>
+<p>Unsigned</p>
+</li>
+<li>
+<p>Missing required JAR file manifest attributes</p>
+</li>
+</ul>
+<p>Note that even if the action is set to <code>run</code>, a RIA is blocked if it is signed with a certificate that is blacklisted or known to be revoked.</p>
+</li>
+<li>
+<p><code>block</code> - RIA is not run. A message is shown to the user. To provide a custom message, include the <code>message</code> element.</p>
+</li>
+<li>
+<p><code>default</code> - RIA is run with default processing and any applicable security prompts are shown. See <a href="deployment_flow.html#BABEDHCC">Chapter 22, "Rich Internet Application Deployment Process"</a> for a description of this process.</p>
+</li>
+</ul>
+</dd>
+<dt>version</dt>
+<dd>
+<p>String that identifies the version of the JRE to use to run the RIA. This attribute applies only when the value for the <code>permission</code> attribute is <code>run</code>. Use the <code>version</code> attribute when an older JRE is needed for compatibility with specific RIAs. If the <code>version</code> attribute is not present, the RIA is run with the latest JRE available.</p>
+<p>The following values are valid:</p>
+<ul>
+<li>
+<p>Platform version, such as 1.6, 1.6+, 1.7. A platform version requests the use of any version of the specified platform, or the specified platform or later when a plus sign (+) follows the version.</p>
+</li>
+<li>
+<p>Implementation version, such as 1.6.0_60, 1.7.0_40. An implementation version requests the use of a specific version.</p>
+</li>
+<li>
+<p><code>SECURE</code>. The <code>SECURE</code> keyword requests the use of any version at or above the security baseline.</p>
+</li>
+<li>
+<p><code>SECURE-version</code>, where <code>version</code> is a valid platform version, such as <code>SECURE-1.7</code>. The <code>SECURE-version</code> keyword requests the use of any secure version of the specified platform, or the specified platform or later when a plus sign (+) follows the platform.</p>
+</li>
+</ul>
+<p>The version of the JRE that is used is determined by the following order of precedence:</p>
+<ol>
+<li>
+<p>The current version of the JRE is used if it is available and matches both the <code>version</code> attribute and the version requested by the RIA.</p>
+</li>
+<li>
+<p>The latest available version of the JRE is used if it matches both the <code>version</code> attribute and the version requested by the RIA.</p>
+</li>
+<li>
+<p>The current version of the JRE is used if it is available and matches the <code>version</code> attribute.</p>
+</li>
+<li>
+<p>The latest available version of the JRE is used if it matches the <code>version</code> attribute.</p>
+</li>
+</ol>
+<p>If no version is available that meets the criteria, then the RIA is blocked, and a message is shown to the user. To provide a custom message, include the <code>message</code> element.</p>
+</dd>
+<dt>force</dt>
+<dd>
+<p>Boolean that indicates if the JRE specified for the <code>version</code> attribute must be used to run the RIA. If this attribute is set to <code>true</code>, the JRE specified in the rule overrides any JRE requested by the RIA. If the JRE specified in the rule is not available, the RIA is blocked. The default is <code>false</code>.</p>
+<p>For example, if the RIA requests a JRE in the 1.7 family or later (1.7+) and you know that it does not run with JRE 8, you can create a rule that specifies SECURE-1.7 for the <code>version</code> attribute and set the <code>force</code> attribute to <code>true</code>. This rule forces the RIA to run only with a secure version from the 1.7 family.</p>
+<p>This attribute is available in 1.1 and later versions of the Deployment Rule Set.</p>
+</dd>
+</dl>
+</li>
+<li>
+<p><code>&lt;message&gt;</code></p>
+<p>Message shown to the user when the RIA is blocked. This message can be used to explain why the RIA is blocked. Only plain text is allowed, HTML tags and other special formatting are not supported. If this element is not present, then a default message is shown. To support multiple locales, include a <code>message</code> element for each locale.</p>
+<p>If the <code>locale</code> attribute is not specified, then the message is used for any locale for which a <code>message</code> element is not provided. If a <code>message</code> element for the user's locale is not provided and a <code>message</code> element without a locale is not present, then a default message is shown.</p>
+<p>To ensure that the dialog box that shows the message fits the screen, keep the message under 1024 characters and test for all locales provided.</p>
+<p>The valid parent element is <code>action</code>. The <code>message</code> element has no child elements.</p>
+<p>The following attribute is available:</p>
+<dl>
+<dt>locale</dt>
+<dd>
+<p>Locale to which the message applies.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>See <a href="#CCJEBDCJ">Examples</a> for some sample rule sets.</p>
+<p>If the rule set is invalid, then an error that describes the problem is shown and all RIAs are blocked. Either the <code>ruleset.xml</code> file must be corrected, or the <code>DeploymentRuleSet.jar</code> file must be removed from the deployment directory (see <a href="#CCJEDAAE">Package and Install the Rule Set</a> for the location of this directory) before RIAs can be run. If a rule set is reported as invalid, then check for the following problems based on the error you received:</p>
+<ul>
+<li>
+<p>The file is unreadable.</p>
+</li>
+<li>
+<p>The structure of the file is invalid.</p>
+</li>
+<li>
+<p>The rules are not properly defined.</p>
+</li>
+<li>
+<p>A rule with an action of <code>run</code> has no selection criteria provided and therefore matches all RIAs.</p>
+</li>
+<li>
+<p>The JAR file is not properly signed with a valid certificate.</p>
+</li>
+</ul>
+<p>If the <code>DeploymentRuleSet.jar</code> file is removed, RIAs are handled by the default deployment process. See <a href="deployment_flow.html#BABEDHCC">Chapter 22, "Rich Internet Application Deployment Process"</a> for a description of this process.</p>
+</div>
+
+<a id="JSDPG930" name="JSDPG930"/>
+<div><a id="sthref403" name="sthref403"/>
+<h3><span>26.1.2</span> Set Up Rules for Calls From JavaScript Code (LiveConnect)</h3>
+<p>If you need to make calls to your RIA from JavaScript code, then apply the following guidelines to prevent the calls from being blocked:</p>
+<ul>
+<li>
+<p>If the rule set contains a rule with the action of <code>run</code> that matches your RIA, then the rule set must also contain a rule with the action of <code>run</code> that matches the location of the JavaScript code.</p>
+</li>
+<li>
+<p>If the rule set contains a rule with the action of <code>default</code> that matches your RIA, or no rule matches your RIA so default processing is used, then one of the following must be true:</p>
+<ul>
+<li>
+<p>The rule set contains a rule with the action of <code>run</code> that matches the location of the JavaScript code.</p>
+</li>
+<li>
+<p>The rule set contains a rule with the action of <code>default</code> that matches the location of the JavaScript code.</p>
+</li>
+<li>
+<p>No rule matches the location of the JavaScript code, so default processing is used.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>If the JavaScript code is calling privileged code and you want to suppress mixed code warnings, see <a href="#CCJIEEDJ">Set Up Rules for Mixed Code</a>.</p>
+</div>
+
+<a id="CCJIEEDJ" name="CCJIEEDJ"/><a id="JSDPG931" name="JSDPG931"/>
+<div>
+<h3><span>26.1.3</span> Set Up Rules for Mixed Code</h3>
+<p>When you create your rule set, ensure that you have rules for all of the artifacts that are associated with the RIAs. Additional rules might be needed to suppress mixed code security warnings that are generated when calls are made between code with different permission levels, or from JavaScript code to privileged Java code. To suppress the mixed code security warnings, include rules in your rule set based on the following requirements of your RIA:</p>
+<ul>
+<li>
+<p>To make calls between Java code with different permission levels, add a rule with an action of <code>run</code> that matches the code being called.</p>
+<p>For example, the following rule suppresses the mixed code prompt for calls to privileged code located at <code>https://host.example.com/apps</code> from sandbox code:</p>
+<pre xml:space="preserve">
+&lt;rule&gt;
+ &lt;id location="https://host.example.com/apps"/&gt;
+ &lt;action permission="run"/&gt;
+ &lt;/rule&gt;
+</pre></li>
+<li>
+<p>To call privileged Java code from JavaScript code, add a rule with an action of <code>run</code> that matches the location of the JavaScript code.</p>
+<p>For example, the following rule suppresses the mixed code prompt for calls to privileged Java code from JavaScript code that is located in any page on <code>https://host.example.com</code>.</p>
+<pre xml:space="preserve">
+&lt;rule&gt;
+ &lt;id location="https://host.example.com/"/&gt;
+ &lt;action permission="run"/&gt;
+ &lt;/rule&gt;
+</pre>
+<p>If the rule set has no rule with an action of <code>run</code> or <code>default</code> that matches the location of the JavaScript code, then calls from JavaScript code are blocked. If you want any applicable security prompts to be shown for calls from JavaScript code, you must define a rule with an action of <code>default</code> that matches the location of the JavaScript code.</p>
+</li>
+</ul>
+<p>Be aware that the rules shown in this section for suppressing the mixed code prompt also suppress the other security prompts for any RIA that matches the rule. Make sure that your rules are defined in the order needed to provide the control that you want.</p>
+</div>
+
+<a id="CIHHEHAD" name="CIHHEHAD"/><a id="JSDPG932" name="JSDPG932"/>
+<div>
+<h3><span>26.1.4</span> Get the Certificate Hash</h3>
+<p>If you want to define a rule that uses the certificate hash to match RIAs, you need to obtain the correct string of hexadecimal digits. Follow these steps:</p>
+<ol>
+<li>
+<p>Use the following command to print out the certificate information for your JAR file, replacing <code>myjar.jar</code> with the name of your JAR file:</p>
+<pre xml:space="preserve">
+keytool -printcert -jarfile myjar.jar | more
+</pre></li>
+<li>
+<p>At the beginning of the output, find <code>Signer #1</code></p>
+</li>
+<li>
+<p>In the <code>Certificate fingerprints</code> section under <code>Signer #1</code>, find the line that begins with <code>SHA256</code>.</p>
+<p>The text that follows the <code>SHA256</code> identifier contains 32 pairs of hexadecimal numbers separated by colons.</p>
+</li>
+<li>
+<p>Copy the string that follows the <code>SHA256</code> identifier to a text editor and remove the colons.</p>
+<p>The string that you create by removing the colons is the hash value to use for the <code>hash</code> attribute of the <code>certificate</code> element.</p>
+</li>
+</ol>
+</div>
+</div>
+
+<a id="CCJEDAAE" name="CCJEDAAE"/><a id="JSDPG933" name="JSDPG933"/>
+<div>
+<h2><span>26.2</span> Package and Install the Rule Set</h2>
+<p>The rule set defined in the <code>ruleset.xml</code> file must be packaged in a signed JAR file named <code>DeploymentRuleSet.jar</code>. The JAR file must be signed with a valid certificate from a trusted certificate authority. For information about creating and signing a JAR file, see the lesson <a href="http://docs.oracle.com/javase/tutorial/deployment/jar/index.html">Packaging Programs in JAR Files</a> in the <a href="http://docs.oracle.com/javase/tutorial/">Java Tutorials</a>.</p>
+<p>Install the <code>DeploymentRuleSet.jar</code> file on your users' systems in the following directories:</p>
+<ul>
+<li>
+<p>On Windows platforms, install the file in the <code><span>&lt;Windows-directory&gt;</span></code><code>\Sun\Java\Deployment</code> directory, for example, <code>c:\Windows\Sun\Java\Deployment</code>.</p>
+</li>
+<li>
+<p>On Solaris and Linux platforms, install the file in the <code>/etc/.java/deployment</code> directory.</p>
+</li>
+<li>
+<p>On OS X platforms, install the file in the <code>/Library/Application Support/Oracle/Java/Deployment/</code> directory.</p>
+</li>
+</ul>
+<p>To view the active rule set, go to the Security tab of the Java Control Panel. See the <a href="jcp.html#A1152831">Section 18.4, "Security"</a> for information on this tab.</p>
+</div>
+
+<a id="A1150376" name="A1150376"/><a id="JSDPG934" name="JSDPG934"/>
+<div>
+<h2><span>26.3</span> Security Considerations</h2>
+<p>The Deployment Rule Set feature enables RIAs to run without notifying users of potential security risks. Review the following security considerations to be aware of the risks of using a rule set, and follow any recommendations provided:</p>
+<ul>
+<li>
+<p>The <code>location</code> attribute of the <code>id</code> element is compared to the location of the following files:</p>
+<ul>
+<li>
+<p>The HTML file, for applets that do not use JNLP</p>
+</li>
+<li>
+<p>The JNLP file, for Java Web Start applications and applets that do use JNLP</p>
+</li>
+</ul>
+<p>If matched, then all of the content in the HTML file or JNLP file is considered trusted. However, if the web site that hosts the file is vulnerable to cross-site scripting attacks, malicious content could be injected into the HTML file or JNLP file.</p>
+</li>
+<li>
+<p>For applets that use JNLP, the location of the HTML file is not checked, so the applet could potentially be started from anywhere.</p>
+</li>
+<li>
+<p>If the <code>location</code> attribute is not used to match a rule to a RIA, then the HTML file or JNLP file that is used to start the RIA could be compromised. Use of the <code>location</code> attribute is recommended.</p>
+</li>
+<li>
+<p>Only include a path in the <code>location</code> attribute for a rule with an action of run if you trust the entire server. Using a path in a run rule when other locations on the server might not be trusted could present a security risk and is not recommended.</p>
+</li>
+<li>
+<p>When a path is included in the <code>location</code> attribute, avoid using complex paths or multi-byte characters, if possible. The path is case sensitive and UTF-8 encoding is assumed. Security exceptions occur when any unsupported characters, decoding errors, or overlong encoding is encountered. If the web server, file system, or browser normalizes the path differently, a rule based on the <code>location</code> attribute could return unexpected results.</p>
+</li>
+<li>
+<p>A blocking rule for a specific URI is not intended to be a robust security enforcement mechanism. For example, a rule established with a domain name can be bypassed if a user uses the IP address instead. The recommended practice is to have a final rule in your rule set with no identifiers and an action of block. Define the rules that you need to run RIAs without security prompts or with default processing, and let all other RIAs be matched by the final rule, which blocks them from running.</p>
+</li>
+<li>
+<p>Use of the HTTPS protocol is recommended for all locations.</p>
+</li>
+<li>
+<p>The order of the rules in the deployment rule set is critical. Rules are processed sequentially from the beginning of the file. When a match is found, no further rules are processed. Review your final rule set and look at both positive and negative cases to ensure that the rules cover the RIAs that you plan to manage without allowing matches to unknown RIAs.</p>
+</li>
+<li>
+<p>Rules are required for all artifacts of the RIA, such as multiple JAR files and JNLP extensions. Be careful when defining a rule for an artifact so that you do not inadvertently allow other RIAs that match the rule to run.</p>
+</li>
+<li>
+<p>Deployment rules allow RIAs to run with old versions of the JRE when needed for compatibility, however, older versions might have known security issues. Use the latest JRE whenever possible, and set the <code>version</code> attribute to <code>SECURE</code> or <code>SECURE-version</code>. If an older version of the JRE must be used, make any rule that requests the old version as restrictive as possible to limit the RIAs that match the rule and run with the old version. Use of all of the identifiers-location, title, and certificate hash-is recommended in this case.</p>
+</li>
+<li>
+<p>If a rule with an action of <code>run</code> exists for the RIA, the RIA is run even if the certificate used to sign the RIA is expired.</p>
+</li>
+</ul>
+</div>
+
+<a id="CCJEBDCJ" name="CCJEBDCJ"/><a id="JSDPG935" name="JSDPG935"/>
+<div>
+<h2><span>26.4</span> Examples</h2>
+<p><a href="#CIHJEGED">Example 26-1</a> allows all RIAs from <code>https://host.example.com/</code> to run without security prompts. RIAs from other locations do not match the rule so default processing is used and security prompts are shown as applicable.</p>
+<div><a id="CIHJEGED" name="CIHJEGED"/><a id="JSDPG936" name="JSDPG936"/>
+<p>Example 26-1 Run RIAs from a Single Location</p>
+<pre xml:space="preserve">
+&lt;ruleset version="1.0+"&gt;
+  &lt;rule&gt;
+    &lt;id location="https://host.example.com" /&gt;
+    &lt;action permission="run" /&gt;
+  &lt;/rule&gt;
+&lt;/ruleset&gt;
+</pre></div>
+
+<p>To ensure that all RIAs are handled by the rule set, you can provide a final rule that matches any RIA that was not matched by a previous rule. The action for this rule must be either <code>block</code> or <code>default</code>. <a href="#CIHFGEBA">Example 26-2</a> allows all RIAs from <code>https://host.example.com:8080</code> to run without security prompts and blocks all other RIAs. The default message is shown when a RIA is blocked because no custom message is provided.</p>
+<div><a id="CIHFGEBA" name="CIHFGEBA"/><a id="JSDPG937" name="JSDPG937"/>
+<p>Example 26-2 Block Any RIAs Not Matched</p>
+<pre xml:space="preserve">
+&lt;ruleset version="1.0+"&gt;
+  &lt;rule&gt;
+    &lt;id location="https://host.example.com:8080" /&gt;
+    &lt;action permission="run" /&gt;
+  &lt;/rule&gt;
+
+  &lt;rule&gt;
+    &lt;id /&gt;
+    &lt;action permission="block" /&gt;
+  &lt;/rule&gt;
+&lt;/ruleset&gt;
+</pre></div>
+
+<p>Rules are processed in the order in which they appear in the rule set. Complex patterns can be defined for matching rules by placing the rules in the correct order. <a href="#CIHIAIIJ">Example 26-3</a> allows RIAs from <code>https://host.example.com</code> to run without security prompts using a secure version of the Java 1.7 platform, but uses default processing for RIAs from <code>https://host.example.com/games</code>, which shows applicable security prompts. RIAs from other locations do not match either rule, so default processing is used.</p>
+<div><a id="CIHIAIIJ" name="CIHIAIIJ"/><a id="JSDPG938" name="JSDPG938"/>
+<p>Example 26-3 Rule Order Matters</p>
+<pre xml:space="preserve">
+&lt;ruleset version="1.0+"&gt;
+  &lt;rule&gt;
+    &lt;id location="https://host.example.com/games" /&gt;
+    &lt;action permission="default" /&gt;
+  &lt;/rule&gt;
+
+  &lt;rule&gt;
+    &lt;id location="https://host.example.com" /&gt;
+    &lt;action permission="run" version="SECURE-1.7" /&gt;
+  &lt;/rule&gt;
+&lt;/ruleset&gt;
+</pre></div>
+
+<p><a href="#CIHDAABH">Example 26-4</a> modifies the previous rule set and requires only the RIA named <i>Solitaire</i> from <code>https://host.example.com/games</code> to run with default processing. Other RIAs from <code>https://host.example.com</code> are allowed to run without security prompts using a secure version of the Java 1.7 platform. All other RIAs are blocked, and a custom message is shown.</p>
+<div><a id="CIHDAABH" name="CIHDAABH"/><a id="JSDPG939" name="JSDPG939"/>
+<p>Example 26-4 Manage a Specific RIA</p>
+<pre xml:space="preserve">
+&lt;ruleset version="1.0+"&gt;
+  &lt;rule&gt;
+    &lt;id title="Solitaire" location="https://host.example.com/games" /&gt;
+    &lt;action permission="default" /&gt;
+  &lt;/rule&gt;
+
+  &lt;rule&gt;
+    &lt;id location="https://host.example.com" /&gt;
+    &lt;action permission="run" version="SECURE-1.7" /&gt;
+  &lt;/rule&gt;
+
+  &lt;rule&gt;
+    &lt;id /&gt; 
+    &lt;action permission="block"&gt;
+      &lt;message&gt;Blocked by corporate. Contact J. Smith, smith@host.example.com, if you need to run this app.&lt;/message&gt;
+    &lt;/action&gt;
+  &lt;/rule&gt;
+&lt;/ruleset&gt;
+</pre></div>
+
+<p>To allow multiple RIAs from multiple locations to run, and all RIAs are signed with the same certificate, you can use the <code>certificate</code> element to identify the RIAs with one rule instead of creating rules for each location and title. <a href="#CIHICEGG">Example 26-5</a> allows all RIAs that are signed with the certificate used by Oracle to run without security prompts using a secure version of the Java platform. RIAs from any host ending with <code>example.com</code> are allowed to run with default processing. All other RIAs are blocked, and a custom message is shown.</p>
+<div><a id="CIHICEGG" name="CIHICEGG"/><a id="JSDPG940" name="JSDPG940"/>
+<p>Example 26-5 Manage RIAs Based on Signing Certificate</p>
+<pre xml:space="preserve">
+&lt;ruleset version="1.0+"&gt;
+  &lt;rule&gt; &lt;!-- allow anything signed with company's public cert --&gt; 
+    &lt;id&gt;
+      &lt;certificate hash="794F53C746E2AA77D84B843BE942CAB4309F258FD946D62A6C4CCEAB8E1DB2C6" /&gt;
+    &lt;/id&gt;
+    &lt;action permission="run" version="SECURE" /&gt;
+  &lt;/rule&gt;
+
+  &lt;rule&gt;
+    &lt;id location="*.example.com" /&gt;
+    &lt;action permission="default" /&gt;
+  &lt;/rule&gt;
+
+  &lt;rule&gt;
+    &lt;id /&gt;
+    &lt;action permission="block"&gt;
+      &lt;message&gt;Blocked by corporate. Contact J. Smith, smith@host.example.com, if you need to run this app.&lt;/message&gt;
+    &lt;/action&gt;
+  &lt;/rule&gt;
+&lt;/ruleset&gt; 
+</pre></div>
+
+<p>To force the use of a specific JRE, use the <code>force</code> attribute of the action <code>element</code>. This attribute is introduced in the 1.1 version of the Deployment Rule Set. <a href="#CIHJBDDG">Example 26-6</a> allows RIAs from <code>https://host.example.com/apps</code> to run without security prompts using version 1.8_20 of the JRE. Any version requested by the RIA is ignored. If version 1.8_20 is not available, the RIA is blocked. All other RIAs are blocked, and a custom message is shown.</p>
+<div><a id="CIHJBDDG" name="CIHJBDDG"/><a id="JSDPG941" name="JSDPG941"/>
+<p>Example 26-6 Force the Use of a Specific JRE</p>
+<pre xml:space="preserve">
+&lt;ruleset version="1.1+"&gt;
+  &lt;rule&gt;
+    &lt;id location="https://host.example.com/apps" /&gt;
+    &lt;action permission="run" version="1.8_20" force="true" /&gt;
+  &lt;/rule&gt;
+
+  &lt;rule&gt;
+    &lt;id /&gt;
+    &lt;action permission="block"&gt;
+      &lt;message&gt;Blocked by corporate. Contact J. Smith, smith@host.example.com, if you need to run this app.&lt;/message&gt;
+    &lt;/action&gt;
+  &lt;/rule&gt;
+&lt;/ruleset&gt; 
+</pre></div>
+</div>
+
+<a id="CIHBAJBB" name="CIHBAJBB"/><a id="JSDPG942" name="JSDPG942"/>
+<div>
+<h2><span>26.5</span> Java Deployment Rule Set DTD</h2>
+<p>The following example shows the DTD for the version 1.1 of the Deployment Rule Set. Version 1.1 is supported by JRE 8u20 and higher. Version 1.0 is supported by JRE 7u40 and higher. Items introduced after version 1.0 are noted.</p>
+<pre xml:space="preserve">
+&lt;!ELEMENT ruleset (rule*)&gt;
+&lt;!ATTLIST ruleset version CDATA #REQUIRED&gt;
+ 
+&lt;!ELEMENT rule (id, action)&gt;
+ 
+&lt;!ELEMENT id (certificate?)&gt;
+&lt;!ATTLIST id title CDATA #IMPLIED&gt;
+&lt;!ATTLIST id location CDATA #IMPLIED&gt;
+ 
+&lt;!ELEMENT certificate EMPTY&gt;
+&lt;!ATTLIST certificate algorithm CDATA #IMPLIED&gt;
+&lt;!ATTLIST certificate hash CDATA #REQUIRED&gt;
+ 
+&lt;!ELEMENT action (message?)&gt;
+&lt;!ATTLIST action permission (run | block | default) #REQUIRED&gt;
+&lt;!ATTLIST action version CDATA #IMPLIED&gt;
+&lt;!ATTLIST action force (true|false) "false"&gt;       &lt;!-- introduced in 1.1 --&gt;
+ 
+&lt;!ELEMENT message (#PCDATA)&gt;
+&lt;!ATTLIST message locale CDATA #IMPLIED&gt;
+</pre></div>
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="mixed_code.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="exception_site_list.html">
+                Next</a><hr/>
+
+
+
+
+
+<!--  footer start -->
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<img id="oraclelogofooter" src=
+"../../../images/oraclelogo.gif" alt="Oracle and/or its affiliates"
+border="0" width="100" height="29" name=
+"oraclelogofooter" />
+
+<a href="../../../legal/cpyr.html">Copyright
+&#169;</a> 1993, 2014, Oracle and/or its affiliates. All rights
+reserved.</div>
+<div id="javasecontactus">
+<a href=
+"http://docs.oracle.com/javase/feedback.html">Contact
+Us</a>
+</div>
+</div>
+<!-- footer end -->
+
+<!-- STATIC FOOTER -->
+
+</body>
+</html>
